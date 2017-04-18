@@ -24,6 +24,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-redux@^4.4.38":
+  version "4.4.38"
+  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-4.4.38.tgz#771c9293fa835107eb5ac2e4ef8d52e54f2ed4ff"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
+
 "@types/react-textarea-autosize@^4.0.6":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/react-textarea-autosize/-/react-textarea-autosize-4.0.7.tgz#5989b32fefd5df35dc148435660c1322133e68c5"
@@ -33,6 +40,12 @@
 "@types/react@*", "@types/react@^15.0.22":
   version "15.0.22"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.22.tgz#50803cde8d89f60a9b034f2dd0d619bc5f0273b5"
+
+"@types/redux@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
+  dependencies:
+    redux "*"
 
 abbrev@1:
   version "1.1.0"
@@ -3636,7 +3649,7 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux@^3.6.0:
+redux@*, redux@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
   dependencies:
