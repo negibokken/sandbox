@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { connect, InferableComponentDecorator, Provider } from 'react-redux';
+import { connect, ComponentDecorator, Provider } from 'react-redux';
 import { createStore, Store } from 'redux';
 
 // Action
@@ -48,9 +48,8 @@ interface IProps {
   value: string;
 }
 
-interface IState {}
-
 class Index extends React.Component <IProps, IState> {
+// class Index extends React.Component <any, any> {
   constructor(props: IProps) {
     super(props);
   }
@@ -69,8 +68,29 @@ interface IFormInputProps {
   handleClick: Function;
 }
 
-class FormInput extends React.Component <IFormInputProps, void> {
+type Input  = {
+  value: string;
+};
 
+class FormInput extends React.Component <IFormInputProps, void> {
+  myInput: Input = { value: ''};
+  constructor() {
+    super();
+  }
+  send(e: any): void {
+    e.preventDefault();
+    this.props.handleClick(this.myInput.value.trim());
+    this.myInput.value = '';
+    return;
+  }
+  render(): JSX.Element {
+    return(
+      <form>
+        <input type='text' ref={(ref) => {this.myInput = ref; }} defaultValue='' />
+        <button onClick={(event) => this.send(event)}></button>
+      </form>
+    );
+  }
 }
 
 // ----------- FormDisplay ------------------
@@ -79,12 +99,18 @@ interface IFormDisplayProps {
 }
 
 class FormDisplay extends React.Component <IFormDisplayProps, void> {
-
+  render(): JSX.Element {
+    return (
+      <div>{this.props.data}</div>
+    );
+  }
 }
 
 // ------------ MapToProps ------------------
-function mapStateToProps(state: IState): void {
-  /* */
+function mapStateToProps(state: IState): any {
+  return {
+    value: state.value
+  };
 }
 
 // ------------ MapDispatchToProps------------------
@@ -99,12 +125,14 @@ function mapDispatchToProps(dispatch: any): ImapDispatchToProps {
   };
 }
 
-const AppContainer: InferableComponentDecorator = connect(
+const AppContainer: any = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Index);
 
 ReactDOM.render(
-  <Index />,
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>,
   document.getElementById('content')
 );
