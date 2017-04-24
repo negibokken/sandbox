@@ -82,7 +82,7 @@ class Index extends React.Component<IIndexProps, IState> {
 // Interfaces for component
 // class Index extends React.Component <any, any> {
 // Number Display
-interface INumberDisplayProps extends React.Props<any> {
+interface INumberDisplayProps {
   value: number;
 }
 
