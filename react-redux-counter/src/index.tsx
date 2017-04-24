@@ -38,7 +38,9 @@ interface IState {
 type Action = IIncrementAction | IDecrementAction;
 
 // ## Reducer
-function Reducer(state: IState, action: Action): IState { switch (action.type) { case 'INCREMENT':
+function Reducer(state: IState, action: Action): IState {
+   switch (action.type) {
+    case 'INCREMENT':
       return Object.assign({}, state, { value: state.value + action.value});
     case 'DECREMENT':
       return Object.assign({}, state, { value: state.value - action.value});
