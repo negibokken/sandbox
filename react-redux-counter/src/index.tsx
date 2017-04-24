@@ -4,135 +4,168 @@ import { connect, ComponentDecorator, Provider } from 'react-redux';
 import { createStore, Store } from 'redux';
 
 // Action
-const SEND: string = 'SEND';
+const Increment: string = 'INCREMENT';
+const Decrement: string = 'DECREMENT';
 
-// Action Creator
-interface ISendAction {
+// # Action Createor
+// ## Increment
+interface IIncrementAction {
   type: string;
-  value: string;
+  value: number;
 }
 
-function send(value: string): ISendAction {
-  return {
-    type: SEND,
-    value
-  };
+function increment(value: number): IIncrementAction {
+  return { type: Increment, value: value };
 }
 
+// ## Decrement
+interface IDecrementAction {
+  type: string;
+  value: number;
+}
+
+function decrement(value: number): IDecrementAction {
+  return { type: Decrement, value: value };
+}
+
+// # Reducer
+// ## State
 interface IState {
-  value: string;
+  value: number;
 }
 
-// Reducer
-function formReducer(state: IState, action: ISendAction): IState {
-  switch (action.type) {
-    case 'SEND':
-      return Object.assign({}, state, {
-        value: action.value,
-      });
+// ## Action type definition
+type Action = IIncrementAction | IDecrementAction;
+
+// ## Reducer
+function Reducer(state: IState, action: Action): IState { switch (action.type) { case 'INCREMENT':
+      return Object.assign({}, state, { value: state.value + action.value});
+    case 'DECREMENT':
+      return Object.assign({}, state, { value: state.value - action.value});
     default:
       return state;
   }
 }
 
+// ## initialState
 const initialState: IState = {
-  value: null,
+  value: 1
 };
 
-const store: Store<IState> = createStore(formReducer, initialState);
+// # Store
+const store: Store<IState> = createStore(Reducer, initialState);
 
 // ----------- Index ------------------
+// ## IProps
+interface IIndexProps {
+  onIncrement: Function;
+  onDecrement: Function;
+  value: number;
+};
+
+class Index extends React.Component<IIndexProps, IState> {
+  constructor(props: IIndexProps) {
+    super(props);
+  };
+  render(): JSX.Element {
+    return (
+      <div>
+        <NumberDisplay value={this.props.value} />
+        <IncrementButton onIncrement={this.props.onIncrement} />
+        <DecrementButton onDecrement={this.props.onDecrement} />
+      </div>
+    );
+  }
+}
 // Interfaces for component
-interface IProps {
-  onClick: Function;
-  value: string;
+// class Index extends React.Component <any, any> {
+// Number Display
+interface INumberDisplayProps extends React.Props<any> {
+  value: number;
 }
 
-class Index extends React.Component <IProps, IState> {
-// class Index extends React.Component <any, any> {
-  constructor(props: IProps) {
+class NumberDisplay extends React.Component<INumberDisplayProps, any> {
+  constructor(props: INumberDisplayProps) {
     super(props);
   }
   render(): JSX.Element {
     return (
       <div>
-        <FormInput handleClick={this.props.onClick} />
-        <FormDisplay data={this.props.value} />
+        {this.props.value}
       </div>
     );
   }
 }
 
-// ----------- FormInput ------------------
-interface IFormInputProps {
-  handleClick: Function;
-}
-
-type Input  = {
-  value: string;
+// Increment Button
+interface IIncrementButtonProps {
+  onIncrement: Function;
 };
 
-class FormInput extends React.Component <IFormInputProps, void> {
-  myInput: Input = { value: ''};
+class IncrementButton extends React.Component<IIncrementButtonProps, void> {
   constructor() {
     super();
   }
-  send(e: any): void {
-    e.preventDefault();
-    this.props.handleClick(this.myInput.value.trim());
-    this.myInput.value = '';
-    return;
+  onClick(): void {
+    this.props.onIncrement(1);
   }
   render(): JSX.Element {
-    return(
-      <form>
-        <input type='text' ref={(ref) => {this.myInput = ref; }} defaultValue='' />
-        <button onClick={(event) => this.send(event)}></button>
-      </form>
+    return (
+      <div>
+        <button onClick={this.onClick.bind(this)}>+</button>
+      </div>
     );
   }
 }
 
-// ----------- FormDisplay ------------------
-interface IFormDisplayProps {
-  data: string;
+// Decrement Button
+interface IDecrementButton {
+  onDecrement: Function;
 }
 
-class FormDisplay extends React.Component <IFormDisplayProps, void> {
+class DecrementButton extends React.Component<IDecrementButton, void> {
+  constructor() {
+    super();
+  }
+  onClick(): void {
+    this.props.onDecrement(1);
+  }
   render(): JSX.Element {
     return (
-      <div>{this.props.data}</div>
+      <div>
+        <button onClick={this.onClick.bind(this)}>-</button>
+      </div>
     );
   }
 }
 
 // ------------ MapToProps ------------------
 function mapStateToProps(state: IState): any {
-  return {
-    value: state.value
-  };
+  return { value: state.value };
 }
 
 // ------------ MapDispatchToProps------------------
-interface ImapDispatchToProps {
-  [key: string]: Function;
-}
-function mapDispatchToProps(dispatch: any): ImapDispatchToProps {
+function MapDispatchToProps(dispatch: any): any {
   return {
-    onClick(value: string): void {
-      dispatch(send(value));
+    onIncrement(value: number): void {
+      dispatch(increment(value));
     },
+    onDecrement(value: number): void {
+      dispatch(decrement(value));
+    }
   };
 }
 
+// Container
 const AppContainer: any = connect(
   mapStateToProps,
-  mapDispatchToProps
+  MapDispatchToProps
 )(Index);
 
+// Provider
 ReactDOM.render(
   <Provider store={store}>
     <AppContainer />
   </Provider>,
-  document.getElementById('content')
+  document.querySelector('#content')
 );

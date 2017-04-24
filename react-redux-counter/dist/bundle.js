@@ -58,77 +58,97 @@
 	const react_redux_1 = __webpack_require__(183);
 	const redux_1 = __webpack_require__(196);
 	// Action
-	const SEND = 'SEND';
-	function send(value) {
-	    return {
-	        type: SEND,
-	        value
-	    };
+	const Increment = 'INCREMENT';
+	const Decrement = 'DECREMENT';
+	function increment(value) {
+	    return { type: Increment, value: value };
 	}
-	// Reducer
-	function formReducer(state, action) {
+	function decrement(value) {
+	    return { type: Decrement, value: value };
+	}
+	// ## Reducer
+	function Reducer(state, action) {
 	    switch (action.type) {
-	        case 'SEND':
-	            return Object.assign({}, state, {
-	                value: action.value,
-	            });
+	        case 'INCREMENT':
+	            return Object.assign({}, state, { value: state.value + action.value });
+	        case 'DECREMENT':
+	            return Object.assign({}, state, { value: state.value - action.value });
 	        default:
 	            return state;
 	    }
 	}
+	// ## initialState
 	const initialState = {
-	    value: null,
+	    value: 1
 	};
-	const store = redux_1.createStore(formReducer, initialState);
+	// # Store
+	const store = redux_1.createStore(Reducer, initialState);
+	;
 	class Index extends React.Component {
-	    // class Index extends React.Component <any, any> {
+	    constructor(props) {
+	        super(props);
+	    }
+	    ;
+	    render() {
+	        return (React.createElement("div", null,
+	            React.createElement(NumberDisplay, { value: this.props.value }),
+	            React.createElement(IncrementButton, { onIncrement: this.props.onIncrement }),
+	            React.createElement(DecrementButton, { onDecrement: this.props.onDecrement })));
+	    }
+	}
+	class NumberDisplay extends React.Component {
 	    constructor(props) {
 	        super(props);
 	    }
 	    render() {
-	        return (React.createElement("div", null,
-	            React.createElement(FormInput, { handleClick: this.props.onClick }),
-	            React.createElement(FormDisplay, { data: this.props.value })));
+	        return (React.createElement("div", null, this.props.value));
 	    }
 	}
-	class FormInput extends React.Component {
+	;
+	class IncrementButton extends React.Component {
 	    constructor() {
 	        super();
-	        this.myInput = { value: '' };
 	    }
-	    send(e) {
-	        e.preventDefault();
-	        this.props.handleClick(this.myInput.value.trim());
-	        this.myInput.value = '';
-	        return;
+	    onClick() {
+	        this.props.onIncrement(1);
 	    }
 	    render() {
-	        return (React.createElement("form", null,
-	            React.createElement("input", { type: 'text', ref: (ref) => { this.myInput = ref; }, defaultValue: '' }),
-	            React.createElement("button", { onClick: (event) => this.send(event) })));
+	        return (React.createElement("div", null,
+	            React.createElement("button", { onClick: this.onClick.bind(this) }, "+")));
 	    }
 	}
-	class FormDisplay extends React.Component {
+	class DecrementButton extends React.Component {
+	    constructor() {
+	        super();
+	    }
+	    onClick() {
+	        this.props.onDecrement(1);
+	    }
 	    render() {
-	        return (React.createElement("div", null, this.props.data));
+	        return (React.createElement("div", null,
+	            React.createElement("button", { onClick: this.onClick.bind(this) }, "-")));
 	    }
 	}
 	// ------------ MapToProps ------------------
 	function mapStateToProps(state) {
-	    return {
-	        value: state.value
-	    };
+	    return { value: state.value };
 	}
-	function mapDispatchToProps(dispatch) {
+	// ------------ MapDispatchToProps------------------
+	function MapDispatchToProps(dispatch) {
 	    return {
-	        onClick(value) {
-	            dispatch(send(value));
+	        onIncrement(value) {
+	            dispatch(increment(value));
 	        },
+	        onDecrement(value) {
+	            dispatch(decrement(value));
+	        }
 	    };
 	}
-	const AppContainer = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Index);
+	// Container
+	const AppContainer = react_redux_1.connect(mapStateToProps, MapDispatchToProps)(Index);
+	// Provider
 	ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store },
-	    React.createElement(AppContainer, null)), document.getElementById('content'));
+	    React.createElement(AppContainer, null)), document.querySelector('#content'));
 
 
 /***/ },
