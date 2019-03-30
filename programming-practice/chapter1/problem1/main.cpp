@@ -5,7 +5,6 @@ using namespace std;
 bool HasDuplicatedChar(string str);
 
 int main(int argc, char *argv[]) {
-  string str = "hello world";
   if (argc <= 1) {
     cout << "./" << argv[0] << " <string>" << endl;
     exit(1);
