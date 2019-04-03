@@ -23,3 +23,4 @@ bool HasDuplicatedChar(string str) {
   }
   return false;
 }
+
