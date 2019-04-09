@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
   bool result = HasDuplicatedChar(argv[1]);
-  cout << "reulst: " << result << endl;
+  cout << "result: " << result << endl;
   ;
   return 0;
 }
