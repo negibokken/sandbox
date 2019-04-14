@@ -2,10 +2,12 @@
 
 try() {
   expected="$1"
-  actual=`cat - | ./main`
+  input=`cat -`
+
+  actual=`echo $input | ./main`
 
   if [ "$actual" = "$expected" ]; then
-    echo "$(cat -) => $actual"
+    echo "$input => $actual"
   else
     echo "$expected expected, but got $actual"
     exit 1
@@ -23,6 +25,8 @@ cat << EOF | try 8
 14 2
 11101010110011
 EOF
+
+# 11101010110011
 
 ## test case 3
 cat << EOF | try 1
