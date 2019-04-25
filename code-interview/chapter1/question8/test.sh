@@ -1,19 +1,70 @@
 #!/bin/bash
 
 try() {
-  input="$1"
-  expected="$2"
+  expected="$@"
+  input=`cat -`
 
   actual=`echo $input | ./main`
 
   if [ "$actual" = "$expected" ]; then
     echo "$input => $actual"
   else
-    echo "$expected expected, but got $actual"
+    echo "==="
+    echo "$input => $expected expected, but got $actual"
     exit 1
   fi
 }
 
-try "0,2,3\n4,5,6\n7,8,9" "0,0,0\n0,5,6\n0,8,9"
-try "0,3\n4,5" "0,0\n0,5"
+## test case 1
+cat << EOF | try 1 3 3 3 4 5 6
+7 7
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+EOF
 
+## test case 2
+cat << EOF | try  2 3 3 4
+4 4
+3 4 3 2
+3 4 3 2
+3 4 3 2
+3 4 3 2
+EOF
+
+## test case 2
+cat << EOF | try  2 3 3 4
+3 4
+3 4 3
+3 4 3
+3 4 3
+3 4 3
+EOF
+
+## test case 1
+cat << EOF | try 1 3 3 3 4 5 6
+7 7
+0 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+EOF
+
+## test case 1
+cat << EOF | try 1 3 3 3 4 5 6
+7 7
+0 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 0 1 3 4 3
+6 5 3 0 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 3
+6 5 3 1 3 4 0
+EOF
