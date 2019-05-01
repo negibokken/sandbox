@@ -8,9 +8,9 @@ int main(void) {
   int n;
   cin >> n;
 
-  long long minR = pow(10, 9);
-  long long maxR = pow(-10, 9);
-  long long cur;
+  int minR = pow(10, 9);
+  int maxR = pow(-10, 9);
+  int cur;
   for (int i = 0; i < n; i++) {
     cin >> cur;
     maxR = max(maxR, cur - minR);
