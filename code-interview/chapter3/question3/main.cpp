@@ -54,29 +54,60 @@ class SetOfStacks {
       --idx;
     }
   }
+  void popAt(int n)
+  {
+    // Index Error
+    if (n > idx || n < 0) {
+      return;
+    }
+    // Target Stack is already empty
+    if (stacks[n].size() <= 0) {
+      return;
+    }
+
+    stacks[n].pop_back();
+
+    // Stack is not empty
+    if (stacks[n].size() > 0) {
+      return;
+    }
+
+    // Stack is empty then
+    for (int i = n; i < idx; ++i) {
+      stacks[i] = stacks[i + 1];
+    }
+  }
   T peek()
   {
     if (idx < 0) {
       throw "SETOFSTACK_EMPTY_ERROR";
     }
+    if (stacks[idx].size() <= 0) {
+      throw "STACK_EMPTY_PEEK_ERROR";
+    };
     return stacks[idx].back();
   }
   int num() { return idx + 1; }
   ~SetOfStacks() {}
 };
 
-int main(void)
-{
+int main(void) try {
   SetOfStacks<int> s(5);
   cout << "#SetOfStack: " << s.num() << endl;
   for (int i = 0; i < 25; ++i) {
     s.push(i);
   }
+  cout << "exec popAt" << endl;
+  s.popAt(1);
   cout << "#SetOfStack: " << s.num() << endl;
   for (int i = 0; i < 25; ++i) {
     cout << s.peek() << endl;
     s.pop();
   }
   cout << "#SetOfStack: " << s.num() << endl;
+
   return 0;
+}
+catch (const char* e) {
+  cerr << e << endl;
 }
