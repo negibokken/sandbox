@@ -8,6 +8,7 @@ typedef struct Node {
   int data;
   Node *left;
   Node *right;
+  Node *parent;
 } Node;
 
 Node *buildBST(vector<int> arr, int start, int end)
@@ -20,7 +21,13 @@ Node *buildBST(vector<int> arr, int start, int end)
   Node *n = (Node *)malloc(sizeof(Node));
   n->data = arr[mid];
   n->left = buildBST(arr, start, mid - 1);
+  if (n->left != NULL) {
+    n->left->parent = n;
+  }
   n->right = buildBST(arr, mid + 1, end);
+  if (n->right != NULL) {
+    n->right->parent = n;
+  }
   return n;
 }
 
@@ -123,10 +130,110 @@ bool isBST(Node *head)
   return true;
 }
 
+Node *proceedLeft(Node *node)
+{
+  Node *next = NULL;
+  queue<Node *> q;
+  q.push(node);
+  while (!q.empty()) {
+    Node *n = q.front();
+    q.pop();
+    if (n->left == NULL) {
+      next = n;
+      return next;
+    }
+    q.push(n->left);
+  }
+  return next;
+}
+
+Node *findNextNode(Node *node)
+{
+  Node *next;
+
+  // 左の子 \ 右の子| あり | なし
+  //  あり          |   1  |  2
+  //  なし          |   3  |  4
+  //  1
+  if (node->left != NULL && node->right != NULL) {
+    // Find Node that doesn't have left child (NULL) from **right node (start is
+    // node->right)**
+    next = proceedLeft(node->right);
+    return next;
+  }
+  // 2
+  if (node->left != NULL && node->right == NULL) {
+    // Find Node that doesn't have left child (NULL) from **left node (start is
+    // node->left)**
+    next = proceedLeft(node->left);
+    return next;
+  }
+  // 3
+  if (node->left == NULL && node->right != NULL) {
+    // Find Node that doesn't have left child (NULL) from **right node (start is
+    // node->right)**
+    next = proceedLeft(node->right);
+    return next;
+  }
+  // 4
+  if (node->left == NULL && node->right == NULL) {
+    // Only root tree
+    if (node->parent == NULL) {
+      return NULL;
+    }
+    // If the node is left child for parent node then parent is next
+    if (node->parent->left == node) {
+      return node->parent;
+    }
+    // In the other hand, the node is right child for parent node then find
+    // parent node that has another right node
+    queue<Node *> q;
+    Node *prev;
+    q.push(node->parent);
+    while (!q.empty()) {
+      Node *n = q.front();
+      q.pop();
+      // parent が NULL ならそれを返す
+      if (n->parent == NULL) {
+        return n;
+      }
+      // 親が自分じゃない右のノードを持っていたらそのノード
+      if (n->parent->right != n) {
+        return n->parent;
+      }
+      q.push(n);
+    }
+  }
+  // 実際にはここにはこない
+  return NULL;
+}
+
+Node *findNode(Node *root, int target)
+{
+  Node *cur = root;
+  vector<Node *> s;
+  s.push_back(root);
+  while (!s.empty()) {
+    Node *n = s.back();
+    s.pop_back();
+    if (n->data == target) {
+      return n;
+    }
+    if (n->right != NULL) {
+      s.push_back(n->right);
+    }
+    if (n->left != NULL) {
+      s.push_back(n->left);
+    }
+  }
+  return NULL;
+}
+
 int main(void)
 {
-  int n;
+  int n, target;
   cin >> n;
+  cin >> target;
 
   vector<int> arr(n);
 
@@ -140,9 +247,13 @@ int main(void)
   int end = arr.size() - 1;
   root = buildBST(arr, start, end);
 
-  // createSameDepthList(root, l, 0);
-
-  bool result = isBST(root);
-  cout << (result ? "true" : "false") << endl;
+  Node *node = findNode(root, target);
+  Node *next = findNextNode(node);
+  if (next == NULL) {
+    cout << "NULL" << endl;
+  }
+  else {
+    cout << next->data << endl;
+  }
   return 0;
 }
