@@ -193,16 +193,16 @@ Node *findNextNode(Node *node)
     while (!q.empty()) {
       Node *n = q.front();
       q.pop();
-      // parent が NULL ならそれを返す
-      if (n->parent == NULL) {
-        return n;
-      }
       // 親が自分じゃない右のノードを持っていたらそのノード
-      if (n->parent->right != n) {
+      if (n->parent != NULL && n->parent->right != n) {
         return n->parent;
       }
-      q.push(n);
+      if (n->parent != NULL) {
+        q.push(n->parent);
+      }
     }
+    // 見つからなかった
+    return NULL;
   }
   // 実際にはここにはこない
   return NULL;
