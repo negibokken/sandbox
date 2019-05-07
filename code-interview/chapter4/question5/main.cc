@@ -231,9 +231,8 @@ Node *findNode(Node *root, int target)
 
 int main(void)
 {
-  int n, target;
+  int n;
   cin >> n;
-  cin >> target;
 
   vector<int> arr(n);
 
@@ -247,13 +246,8 @@ int main(void)
   int end = arr.size() - 1;
   root = buildBST(arr, start, end);
 
-  Node *node = findNode(root, target);
-  Node *next = findNextNode(node);
-  if (next == NULL) {
-    cout << "NULL" << endl;
-  }
-  else {
-    cout << next->data << endl;
-  }
+  bool result = isBST(root);
+  cout << (result ? "true" : "false") << endl;
+
   return 0;
 }
