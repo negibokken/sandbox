@@ -9,6 +9,21 @@ int n, W;
 int w[MAX_W], v[MAX_N];
 int dp[MAX_N][MAX_W];
 
+void solve2()
+{
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j <= W; ++j) {
+      if (j < w[i]) {
+        dp[i + 1][j] = dp[i][j];
+      }
+      else {
+        dp[i + 1][j] = max(dp[i][j], dp[i + 1][j - w[i]] + v[i]);
+      }
+    }
+  }
+  printf("%d\n", dp[n][W]);
+}
+
 void solve()
 {
   for (int i = 0; i < n; ++i) {
