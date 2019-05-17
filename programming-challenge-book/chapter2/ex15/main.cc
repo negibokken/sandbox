@@ -23,6 +23,7 @@ void solve()
   dp[0] = 0;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j <= K; ++j) {
+      // Study here
       if (dp[j] >= 0) {
         dp[j] = m[i];
       }
