@@ -36,6 +36,8 @@ void solve2()
     *lower_bound(dp, dp + n, a[i]) = a[i];
   }
   printf("%ld\n", lower_bound(dp, dp + n, INF) - dp);
+  // printf("%p %p %ld\n", lower_bound(dp, dp + n, INF), dp,
+  //        lower_bound(dp, dp + n, INF) - dp);
 }
 
 int main(void)
