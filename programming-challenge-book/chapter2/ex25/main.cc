@@ -20,9 +20,7 @@ int color[MAX_V];
 bool dfs(int v, int c)
 {
   color[v] = c;
-  cout << "G[v].size(): " << G[v].size() << endl;
   for (int i = 0; i < G[v].size(); ++i) {
-    cout << "G[v][i]: " << G[v][i] << endl;
     if (color[G[v][i]] == c) return false;
     if (color[G[v][i]] == 0 && !dfs(G[v][i], -c)) return false;
   }
@@ -40,9 +38,6 @@ void solve()
     }
   }
   printf("Yes\n");
-  for (int i = 0; i < V; ++i) {
-    cout << color[i] << endl;
-  }
 }
 
 int main(void)
@@ -51,7 +46,15 @@ int main(void)
   int v1, v2;
   for (int i = 0; i < E; ++i) {
     scanf("%d %d", &v1, &v2);
-    G[v1][v2] = 0;
+    // 空ならvectorを入れる
+    if (G[v1].empty()) {
+      vector<int> a;
+      a.push_back(v2);
+      G[v1] = a;
+    }
+    else {
+      G[v1].push_back(v2);
+    }
   }
   solve();
   return 0;
