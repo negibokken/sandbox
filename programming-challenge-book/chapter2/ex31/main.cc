@@ -51,6 +51,7 @@ int main(void)
     int v1, v2, c;
     cin >> v1 >> v2 >> c;
     cost[v1][v2] = c;
+    cost[v2][v1] = c;
   }
   int result = prim();
 
