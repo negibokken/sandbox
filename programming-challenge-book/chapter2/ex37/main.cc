@@ -28,6 +28,15 @@ vector<int> divisor(int n)
   for (int i = 1; i * i <= n; ++i) {
     if (n % i == 0) {
       res.push_back(i);
+      // ここはどういういみか
+      // i が n / i でないときはどんなときか
+      // i で割り切れるなら、i は約数
+      // もう一方の n / i もわり切れるはずなので追加する
+      // ただほかのイテレーションで追加されるのでは？
+      // => No : sqrt(n) までしかみないので
+      // n = 100 のとき、 10 までしかイテレーションされない
+      // このとき 100 や 50 も 約数だが、イテレーションされない
+      // しかし、 i = 1 や i = 2 のときに下記計算を行うことで追加できる
       if (i != n / i) res.push_back(n / i);
     }
   }
@@ -60,5 +69,9 @@ int main(void)
 {
   cin >> n;
   solve();
+  vector<int> a = divisor(n);
+  for (int i = 0; i < a.size(); ++i) {
+    cout << a[i] << (i == a.size() - 1 ? "" : " ");
+  }
   return 0;
 }
