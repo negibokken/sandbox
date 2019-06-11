@@ -19,17 +19,17 @@ int dp[MAX_N][MAX_N];
 // ときに最大となる w を算出する
 void solve()
 {
-  for (int i = n - 1; i >= 0; i--) {
+  for (int i = 0; i <= n; i++) {
     for (int j = 0; j <= W; j++) {
       if (j < w[i]) {
-        dp[i][j] = dp[i + 1][j];
+        dp[i + 1][j] = dp[i][j];
       }
       else {
-        dp[i][j] = max(dp[i + 1][j], dp[i + 1][j - w[i]] + v[i]);
+        dp[i + 1][j] = max(dp[i][j], dp[i][j - w[i]] + v[i]);
       }
     }
   }
-  cout << dp[0][W] << endl;
+  cout << dp[n][W] << endl;
 }
 
 int main(void)
