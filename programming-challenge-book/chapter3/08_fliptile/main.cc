@@ -88,7 +88,6 @@ void solve()
   else {
     for (int i = 0; i < M; i++) {
       for (int j = 0; j < N; j++) {
-        // printf("%d%c\n", opt[i][j], j + 1 == N ? '\n' : ' ');
         printf("%d%c", opt[i][j],
                (((i == M - 1) && (j == N - 1)) ? '\n' : ' '));
       }
