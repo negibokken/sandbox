@@ -16,8 +16,8 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> P;
 
-const int dx[5] = {-1, 0, 0, 0, 1};
-const int dy[5] = {0, -1, 0, 1, 0};
+const int dx[4] = {-1, 0, 0, 1};
+const int dy[4] = {0, -1, 1, 0};
 
 // Self settings
 // clang-format off
@@ -37,8 +37,8 @@ int compress(int *x1, int *x2, int w)
   for (int i = 0; i < N; i++) {
     for (int d = -1; d <= 1; d++) {
       int tx1 = x1[i] + d, tx2 = x2[i] + d;
-      if (1 <= tx1 && tx1 <= w) xs.push_back(tx1);
-      if (1 <= tx2 && tx2 <= w) xs.push_back(tx2);
+      if (1 <= tx1 && tx1 <= W) xs.push_back(tx1);
+      if (1 <= tx2 && tx2 <= W) xs.push_back(tx2);
     }
   }
   sort(xs.begin(), xs.end());
@@ -57,11 +57,6 @@ void solve()
   W = compress(X1, X2, W);
   H = compress(Y1, Y2, H);
 
-  REP(i, N) cout << X1[i] << " " << X2[i] << endl;
-  cout << endl;
-  REP(i, N) cout << Y1[i] << " " << Y2[i] << endl;
-  cout << endl;
-
   memset(fld, 0, sizeof(fld));
   for (int i = 0; i < N; i++) {
     for (int y = Y1[i]; y <= Y2[i]; y++) {
@@ -70,6 +65,7 @@ void solve()
       }
     }
   }
+
   // REP(i, H)
   // {
   //   REP(j, W) { cout << fld[i][j] << " "; }
