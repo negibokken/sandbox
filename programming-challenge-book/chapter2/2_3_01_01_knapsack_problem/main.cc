@@ -32,7 +32,7 @@ int dp[MAX_N][MAX_N];
 
 int rec(int i, int j)
 {
-  if (dp[i][j] > 0) {
+  if (dp[i][j] >= 0) {
     return dp[i][j];
   }
   int res;
@@ -48,7 +48,11 @@ int rec(int i, int j)
   return dp[i][j] = res;
 }
 
-void solve() { printf("%d\n", rec(0, W)); }
+void solve()
+{
+  memset(dp, -1, sizeof(dp));
+  printf("%d\n", rec(0, W));
+}
 
 int main(void)
 {
