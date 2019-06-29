@@ -28,8 +28,13 @@ const int dy[4] = {0, -1, 1, 0};
 int n, W;
 int w[MAX_N], v[MAX_N];
 
+int dp[MAX_N][MAX_N];
+
 int rec(int i, int j)
 {
+  if (dp[i][j] > 0) {
+    return dp[i][j];
+  }
   int res;
   if (i == n) {
     res = 0;
@@ -40,7 +45,7 @@ int rec(int i, int j)
   else {
     res = max(rec(i + 1, j), rec(i + 1, j - w[i]) + v[i]);
   }
-  return res;
+  return dp[i][j] = res;
 }
 
 void solve() { printf("%d\n", rec(0, W)); }
