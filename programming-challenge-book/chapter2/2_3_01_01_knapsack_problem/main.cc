@@ -21,37 +21,31 @@ const int dy[4] = {0, -1, 1, 0};
 
 // Self settings
 // clang-format off
-#define MAX_N 100000
+#define MAX_N 10000
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 // clang-format on
 
 int n, W;
 int w[MAX_N], v[MAX_N];
 
-int dp[MAX_N][MAX_N];
-
-int rec(int i, int j)
-{
-  if (dp[i][j] >= 0) {
-    return dp[i][j];
-  }
-  int res;
-  if (i == n) {
-    res = 0;
-  }
-  else if (j < w[i]) {
-    res = rec(i + 1, j);
-  }
-  else {
-    res = max(rec(i + 1, j), rec(i + 1, j - w[i]) + v[i]);
-  }
-  return dp[i][j] = res;
-}
+int dp[MAX_N + 1][MAX_N + 1];
 
 void solve()
 {
-  memset(dp, -1, sizeof(dp));
-  printf("%d\n", rec(0, W));
+  memset(dp, 0, sizeof(dp));
+  // i 番目のもの
+  for (int i = 0; i <= n; i++) {
+    for (int j = 0; j <= W; j++) {
+      if (j < w[i]) {
+        dp[i + 1][j] = dp[i][j];
+      }
+      else {
+        dp[i + 1][j] = max(dp[i][j], dp[i][j - w[i]] + v[i]);
+      }
+    }
+  }
+
+  printf("%d\n", dp[5][W]);
 }
 
 int main(void)
