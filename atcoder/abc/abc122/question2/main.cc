@@ -35,12 +35,11 @@ int main(void)
   int ans = 0;
   int cnt = 0;
   for (int i = 0; S[i] != '\0'; i++) {
-    if (C(S[i])) {
+    if (C(S[i]))
       cnt++;
-    }
-    else {
-      ans = max(ans, cnt);
-    }
+    else
+      cnt = 0;
+    ans = max(ans, cnt);
   }
   cout << ans << endl;
   return 0;
