@@ -27,30 +27,28 @@ const int dy[4] = {0, -1, 1, 0};
 
 int n, m;
 char s[MAX_N], t[MAX_N];
-int dp[MAX_N + 1][MAX_N + 1];
+int dp[MAX_N][MAX_N];
 
 void solve()
 {
-  REP(i, n) REP(j, m) dp[i][j] = 0;
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
+  for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= m; j++) {
       if (s[i] == t[j]) {
-        dp[i + 1][j + 1] = dp[i][j] + 1;
+        dp[i][j] = dp[i - 1][j] + 1;
       }
       else {
-        dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j]);
+        dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
       }
     }
   }
-
   printf("%d\n", dp[n][m]);
 }
 
 int main(void)
 {
   cin >> n >> m;
-  cin >> s >> t;
+  cin >> s;
+  cin >> t;
   solve();
   return 0;
 }
