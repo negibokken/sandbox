@@ -46,7 +46,7 @@ void solve()
   }
   int res = 0;
   for (int i = 0; i <= MAX_N * MAX_V; i++)
-    if (dp[n][i <= W]) res = i;
+    if (dp[n][i] <= W) res = i;
   cout << res << endl;
 }
 
