@@ -16,7 +16,7 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try ayb
+cat << EOF | try axb
 axyb
 abyxb
 EOF

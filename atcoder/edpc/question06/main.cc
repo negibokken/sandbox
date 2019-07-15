@@ -23,7 +23,7 @@ const int dy[4] = {0, -1, 1, 0};
 
 // Self settings
 // clang-format off
-#define MAX_N 3001
+#define MAX_N 3000
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 // clang-format on
 char s[MAX_N + 1], t[MAX_N + 1];
@@ -51,15 +51,19 @@ void solve()
     int cur = dp[sl][tl];
     int i = sl, j = tl;
     while (i > 0 && j > 0) {
-      if (dp[i][j] == cur && dp[i - 1][j - 1] == cur - 1) {
+      if (s[i - 1] == t[j - 1]) {
         ans += s[i - 1];
-        i--, j--, cur--;
+        cur--;
+        i--, j--;
       }
-      else if (dp[i][j] == cur && dp[i - 1][j] == cur) {
+      else if (i - 1 >= 0 && dp[i - 1][j] == cur) {
         i--;
       }
-      else if (dp[i][j] == cur && dp[i][j - 1] == cur) {
+      else if (j - 1 >= 0 && dp[i][j - 1] == cur) {
         j--;
+      }
+      else {
+        i--;
       }
     }
     reverse(ans.begin(), ans.end());
