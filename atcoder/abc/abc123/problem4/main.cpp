@@ -4,35 +4,41 @@
 #include <vector>
 using namespace std;
 
-void print(vector<long long> v) {
-  for (vector<long long>::iterator i = v.begin(); i != v.end(); i++) {
-    cout << *i;
-  }
-  cout << endl;
-}
+#define MAX_N 1000
+#define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 
-int main() {
+typedef long long ll;
+
+ll A[MAX_N + 1], B[MAX_N + 1], C[MAX_N + 1];
+ll AB[MAX_N * MAX_N + 1];
+ll ABC[MAX_N * 3000 + 1];
+
+int main()
+{
   int x, y, z, k;
   cin >> x >> y >> z >> k;
 
-  vector<long long> a(x), b(y), c(z);
-  for (int i = 0; i < x; i++) {
-    cin >> a[i];
-  }
-  for (int i = 0; i < y; i++) {
-    cin >> b[i];
-  }
-  for (int i = 0; i < z; i++) {
-    cin >> c[i];
-  }
+  REP(i, x) cin >> A[i];
+  REP(i, y) cin >> B[i];
+  REP(i, z) cin >> C[i];
 
-  // sort all cakes
-  sort(a.begin(), a.end());
-  sort(b.begin(), b.end());
-  sort(c.begin(), c.end());
-  print(a);
-  print(b);
-  print(c);
-  for ()
+  for (int i = 0; i < x; i++) {
+    for (int j = 0; j < y; j++) {
+      AB[i * y + j] = A[i] + B[j];
+    }
+  }
+  sort(AB, AB + (x * y), std::greater<ll>());
+  ll lab = min(x * y, k);
+  // AB だけ上位k個だけ
+  for (int i = 0; i < lab; i++) {
+    for (int j = 0; j < z; j++) {
+      ABC[i * z + j] = AB[i] + C[j];
+    }
+  }
+  sort(ABC, ABC + (lab * z), std::greater<ll>());
+  for (int i = 0; i < k; i++) {
+    cout << ABC[i] << endl;
+  }
+  return 0;
 }
 

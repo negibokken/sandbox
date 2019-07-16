@@ -1,3 +1,5 @@
-default:
-	g++ -o a.out main.cpp
-	cat test1.txt | ./a.out
+default: main.cpp
+	g++ -o main main.cpp
+
+test: main
+	./test.sh
