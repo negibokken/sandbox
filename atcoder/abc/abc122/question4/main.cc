@@ -66,12 +66,12 @@ mint pt[MAX_N + 1][MAX_N + 1];
 
 bool ok(string l4)
 {
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 4; i++) {
     string last4 = l4;
     if (i >= 1) {
       swap(last4[i - 1], last4[i]);
     }
-    if (last4 == "AGC") {
+    if (last4.find("AGC") != std::string::npos) {
       return false;
     }
   }
@@ -86,8 +86,8 @@ mint dfs(int cur, string last3)
   if (m[cur].count(last3) > 0) return m[cur][last3];
   if (cur == n) return 1;
   mint ret = 0;
-  char ACGT[5] = "ACGT";
-  for (int i = 0; i < 5; i++) {
+  string ACGT = "ACGT";
+  for (int i = 0; i < 4; i++) {
     char c = ACGT[i];
     string last4 = last3 + c;
     if (ok(last4)) {
