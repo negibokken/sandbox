@@ -21,7 +21,7 @@ const int dy[4] = {0, -1, 1, 0};
 
 // Self settings
 // clang-format off
-#define MAX_N 10
+#define MAX_N 100
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 // clang-format on
 
@@ -64,38 +64,41 @@ struct mint {
 
 mint pt[MAX_N + 1][MAX_N + 1];
 
-mint f(mint n) { return n * f(n - 1).x; }
-
-mint p(mint n, mint r) { return f(n).x / f(n - r).x; }
-
-mint powM(mint b, mint p)
+bool ok(string l4)
 {
-  mint n = 1;
-  for (int i = 0; i < p.x; i++) {
-    n *= b;
-  }
-  return n;
-}
-
-void init()
-{
-  memset(pt, 0, sizeof(pt));
-  pt[0][0] = 1;
-  for (int i = 0; i <= MAX_N; i++) {
-    for (int j = 0; j <= MAX_N; j++) {
-      pt[i + 1][j] += pt[i][j];
-      pt[i + 1][j + 1] += pt[i][j];
+  for (int i = 0; i < 3; i++) {
+    string last4 = l4;
+    if (i >= 1) {
+      swap(last4[i - 1], last4[i]);
+    }
+    if (last4 == "AGC") {
+      return false;
     }
   }
+  return true;
 }
 
 int n;
+map<string, mint> m[MAX_N];
+
+mint dfs(int cur, string last3)
+{
+  if (m[cur].count(last3) > 0) return m[cur][last3];
+  if (cur == n) return 1;
+  mint ret = 0;
+  char ACGT[5] = "ACGT";
+  for (int i = 0; i < 5; i++) {
+    char c = ACGT[i];
+    string last4 = last3 + c;
+    if (ok(last4)) {
+      ret = (ret + dfs(cur + 1, last3.substr(1, 2) + c));
+    }
+  }
+  m[cur][last3] = ret;
+  return ret;
+}
 int main(void)
 {
-  init();
   cin >> n;
-  // All
-  mint b = powM(4, n);
-  cout << (b.x - (n - 2) * 3) << endl;
-  return 0;
+  cout << dfs(0, "TTT").x << endl;
 }
