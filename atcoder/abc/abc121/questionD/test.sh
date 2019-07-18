@@ -36,7 +36,7 @@ cat << EOF | try 6
 EOF
 
 ## e e o
-cat << EOF | try 7
+cat << EOF | try 9
 2 8
 EOF
 
@@ -56,7 +56,7 @@ cat << EOF | try 11
 EOF
 
 # o e e
-cat << EOF | try 10
+cat << EOF | try 8
 3 10
 EOF
 
