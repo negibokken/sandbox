@@ -27,54 +27,43 @@ const int dy[4] = {0, -1, 1, 0};
 
 int N, M;
 int A[MAX_N], B[MAX_N];
-int sz[MAX_N];
-int par[MAX_N];
-int rnk[MAX_N];
 
-void init(int n) { REP(i, n) par[i] = i, rnk[i] = 0, sz[i] = 1; }
-
-int find(int x) { return (par[x] == x) ? x : par[x] = find(par[x]); }
-
-int size(int x)
-{
-  int p = find(x);
-  return sz[p];
-}
-
-void unite(int x, int y)
-{
-  x = find(x);
-  y = find(y);
-  if (x == y) return;
-  if (rnk[x] > rnk[y]) {
-    sz[y] += size(x);
-    par[x] = y;
+class UnionFind {
+  public:
+  vector<int> Parent;
+  UnionFind(int N) { Parent = vector<int>(N, -1); }
+  int root(int A)
+  {
+    if (Parent[A] < 0) return A;
+    return Parent[A] = root(Parent[A]);
   }
-  else {
-    sz[x] += size(y);
-    par[y] = x;
-    if (rnk[x] == rnk[y]) rnk[x]++;
+  int size(int A) { return -Parent[root(A)]; }
+  bool connect(int A, int B)
+  {
+    A = root(A);
+    B = root(B);
+    if (A == B) return false;
+    if (size(A) < size(B)) swap(A, B);
+    Parent[A] += Parent[B];
+    Parent[B] = A;
+    return true;
   }
-}
-
-bool same(int x, int y) { return find(x) == find(y); }
+};
 
 void solve()
 {
-  init(N);
+  UnionFind Uni(N);
   ll ans[MAX_N + 1];
-  ans[M] = (N * (N - 1)) / 2;
-  for (int i = M - 1; i >= 0; i--) {
+  ans[M - 1] = (ll)N * (N - 1) / 2;
+  for (int i = M - 1; i > 0; i--) {
     int u = A[i], v = B[i];
-    if (same(u, v)) {
-      ans[i] = ans[i + 1];
+    ans[i - 1] = ans[i];
+    if (Uni.root(u) != Uni.root(v)) {
+      ans[i - 1] -= (ll)Uni.size(u) * Uni.size(v);
+      Uni.connect(u, v);
     }
-    else {
-      ans[i] = ans[i + 1] - size(u) * size(v);
-    }
-    unite(u, v);
   }
-  REP(i, M) cout << ans[i + 1] << (i == M - 1 ? "\n" : " ");
+  REP(i, M) cout << ans[i] << (i == M - 1 ? "\n" : " ");
   // REP(i, M) cout << ans[i + 1] << endl;
 }
 
