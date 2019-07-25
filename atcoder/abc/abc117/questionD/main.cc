@@ -41,20 +41,9 @@ int main(void)
     orgsum += k ^ A[i];
   }
 
-  int cnt = 0;
   int bit = 1;
-  while (bit < (ll)K) {
-    int bitnum = 0;
-    for (int i = 0; i < N; i++) {
-      bitnum += bit & A[i];
-    }
-    bits[cnt] = bitnum;
-    bit <<= 1;
-    cnt++;
-  }
-
   ll ansK = 0;
-  while (bit < (ll)K) {
+  while ((ll)K >= bit) {
     ll sum = 0;
     for (int i = 0; i < N; i++) {
       sum += bit ^ A[i];
