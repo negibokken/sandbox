@@ -42,5 +42,6 @@ int main(void)
     while (s < N && h[s] == 0) s++;
   }
   cout << cnt << endl;
+  cout << cnt << endl;
   return 0;
 }
