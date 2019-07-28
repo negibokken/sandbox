@@ -1,0 +1,36 @@
+#!/bin/bash
+
+try() {
+  expected="$@"
+  input=`cat -`
+
+  actual=`echo $input | ./main`
+
+  if [ "$actual" = "$expected" ]; then
+    echo "$input => $actual"
+  else
+    echo "==="
+    echo "$input => $expected expected, but got $actual"
+    exit 1
+  fi
+}
+
+## test case 1
+cat << EOF | try 768
+??2??5
+EOF
+
+## test case 2
+cat << EOF | try 1
+?44
+EOF
+
+## test case 3
+cat << EOF | try 0
+7?4
+EOF
+
+## test case 4
+cat << EOF | try 153716888
+?6?42???8??2??06243????9??3???7258??5??7???????774????4?1??17???9?5?70???76???
+EOF
