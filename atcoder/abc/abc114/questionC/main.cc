@@ -26,43 +26,41 @@ const int dy[4] = {0, -1, 1, 0};
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 #define SLN(i,N) (i == N-1 ? "\n" : " ")
 // clang-format on
-
 int N;
-ll dp[100];
+int C753[] = {7, 5, 3};
 
-void solve()
+bool is753(ll s)
 {
-  stack<int> q;
-  int dig = 0;
-  int n = N;
-  while (n > 0) {
-    q.push(n % 10);
-    n /= 10;
-    dig++;
-  }
-
-  int i = 0;
-  while (!q.empty()) {
-    int a = q.top();
-    q.pop();
-    int cnt = 0;
-    if (a >= 7) cnt++;
-    if (a >= 5) cnt++;
-    if (a >= 3) cnt++;
-    if (cnt == 0) {
-      dp[i + 1] = dp[i];
-    }
-    else {
-      dp[i + 1] = dp[i] * cnt;
+  ll ss = s;
+  int cnt = 0;
+  for (int i = 0; i < 3; i++) {
+    ss = s;
+    while (ss > 0) {
+      if (ss % 10 == C753[i]) {
+        cnt++;
+        ss /= 10;
+        break;
+      }
+      ss /= 10;
     }
   }
-  if (dig <= 2) {
-    cout << 0 << endl;
-  }
-  else {
-    cout << dp[dig] << endl;
-  }
+  return cnt == 3;
 }
+
+int dfs(ll s)
+{
+  // cout << s << endl;
+  if (s > N) {
+    return 0;
+  }
+  ll ret = is753(s) ? 1 : 0;
+  for (int i = 0; i < 3; i++) {
+    ret += dfs(s * 10 + C753[i]);
+  }
+  return ret;
+}
+
+void solve() { cout << dfs(0) << endl; }
 
 int main(void)
 {
