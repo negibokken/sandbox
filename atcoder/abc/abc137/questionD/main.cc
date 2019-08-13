@@ -31,44 +31,30 @@ const int dy[4] = {0, -1, 1, 0};
 int N, M;
 int A[MAX_N], B[MAX_N];
 
-class comp {
-  public:
-  bool operator()(const P &i, const P &j)
-  {
-    if (i.first > j.first) {
-      return true;
-    }
-    if (i.first == j.first) {
-      if (i.second < j.second) {
-        return true;
-      }
-    }
-    return false;
-  }
-};
-
-void solve()
-{
-  priority_queue<P, vector<P>, comp> que;
-  REP(i, N) que.push(P(A[i], B[i]));
-  int i = 0;
-  ll ans = 0;
-  while (!que.empty()) {
-    P p = que.top();
-    que.pop();
-    cout << p.first << ":" << p.second << endl;
-    if (M - i - p.first < 0) continue;
-    ans += p.second;
-    i++;
-  }
-  cout << ans << endl;
-}
-
 int main(void)
 {
   cin >> N >> M;
-  REP(i, N) cin >> A[i] >> B[i];
+  vector<vector<int>> jobs(M);
+  REP(i, N)
+  {
+    int a, b;
+    cin >> a >> b;
+    if (a > M) continue;
+    jobs[M - a].push_back(b);
+  }
 
-  solve();
+  priority_queue<int> q;
+  ll ans = 0;
+  for (int i = M - 1; i >= 0; i--) {
+    for (int b : jobs[i]) {
+      q.push(b);
+    }
+    if (!q.empty()) {
+      ans += q.top();
+      q.pop();
+    }
+  }
+  cout << ans << endl;
+
   return 0;
 }
