@@ -1,56 +1,80 @@
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <functional>
 #include <iostream>
 #include <map>
+#include <queue>
+#include <set>
+#include <string>
 #include <vector>
 using namespace std;
 
-int gcda(vector<int> a, map<int, int> diffs)
-{
-  int maxn = 1;
-  for (int i = 0; i < a.size(); i++) {
-    vector<int> b = a;
-    b.erase(b.begin() + i);
-    for (auto v = diffs.begin(); v != diffs.end(); v++) {
-      bool flag = true;
-      for (auto bi = b.begin(); bi != b.end(); bi++) {
-        if (*bi % v->first != 0) {
-          flag = false;
-          break;
-        }
-      }
-      if (flag) {
-        maxn = max(v->first, maxn);
-      }
-    }
-  }
+typedef long long ll;
+typedef pair<int, int> P;
 
-  return maxn;
+const int dx[4] = {-1, 0, 0, 1};
+const int dy[4] = {0, -1, 1, 0};
+
+// Self settings
+// clang-format off
+#define MAX_N 100000
+#define REP(i, N) for (int i = 0; i < (int)(N); ++i)
+#define SLN(i,N) (i == N-1 ? "\n" : " ")
+// clang-format on
+
+int A[MAX_N];
+int L[MAX_N + 1];
+int R[MAX_N + 1];
+int M[MAX_N + 1];
+
+int gcdd(int a, int b)
+{
+  if (b == 0) {
+    return a;
+  }
+  return gcdd(b, a % b);
+}
+
+int gcd(int a, int b)
+{
+  if (a == 0) {
+    return b;
+  }
+  else if (b == 0) {
+    return a;
+  }
+  return gcdd(a, b);
 }
 
 int main(void)
 {
   std::ios_base::sync_with_stdio(false);
-  int n;
-  cin >> n;
+  int N;
+  cin >> N;
+  REP(i, N) cin >> A[i];
 
-  int ans;
-  vector<int> a(n);
-  map<int, int> diffs;
-  int maxa = 0;
-  for (int i = 0; i < n; i++) {
-    cin >> a[i];
-    if (maxa < a[i]) {
-      maxa = a[i];
-    }
-    for (int j = i - 1; j >= 0; --j) {
-      diffs[abs(a[j] - a[i])]++;
-    }
+  ll sum = 0;
+  L[0] = 0;
+  for (int i = 0; i < N; i++) {
+    L[i + 1] = gcd(L[i], A[i]);
   }
-  if (n == 2) {
-    cout << maxa << endl;
-    return 0;
+
+  R[N] = 0;
+  for (int i = N - 1; i >= 0; i--) {
+    R[i] = gcd(R[i + 1], A[i]);
   }
-  int maxn = gcda(a, diffs);
-  cout << maxn << endl;
+
+  for (int i = 0; i < N; i++) {
+    M[i] = gcd(L[i], R[i + 1]);
+  }
+
+  int ans = 0;
+  REP(i, N) { ans = max(ans, M[i]); }
+  cout << ans << endl;
 
   return 0;
 }
