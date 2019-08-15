@@ -16,14 +16,14 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "0\n0\n1"
+cat << EOF | try "0 0 1"
 3
 1 2 2
 2 3 1
 EOF
 
 ## test case 2
-cat << EOF | try  2 3 3 4
+cat << EOF | try  "1 0 1 0 1"
 5
 2 5 2
 2 3 10
