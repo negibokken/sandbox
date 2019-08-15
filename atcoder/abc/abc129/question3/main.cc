@@ -7,36 +7,47 @@ using namespace std;
 
 // Self settings
 // clang-format off
-#define MAX_N 1000000
-#define mo 1000000007
+#define MAX_N 100000
+#define mod 1000000007
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
+#define SLN(i,N) (i == N-1 ? "\n" : " ")
 // clang-format on
 
 typedef long long ll;
-int n, m;
-vector<int> a;
+int N, M;
+bool A[MAX_N];
+int dp[MAX_N + 1];
 
 int main(void)
 {
-  cin >> n >> m;
-  for (int i = 0; i < m; ++i) {
-    int x;
-    cin >> x;
-    a.push_back(x);
+  cin >> N >> M;
+  REP(i, N) A[i] = true;
+  REP(i, M)
+  {
+    int a;
+    cin >> a;
+    A[a] = false;
   }
-  a.push_back(n + 1);
-  ll ans = 0;
-  int cur = 0;
-  int cnt = 0;
-  for (int i = 0; i <= n + 1; ++i) {
-    if (binary_search(a.begin(), a.end(), i)) {
-      cnt = i - cur;
-      cur = i + 1;
-      cout << cnt - 0;
-      ans = ans * (ll)pow(2.0, (double)(cnt - 1)) % (ll)mo;
-      // cout << ans;
+  dp[N] = 1;
+  for (int i = N - 1; i >= 0; i--) {
+    // 壊れているならその階にはたどり着けないので0通りにする
+    if (!A[i]) {
+      dp[i] = 0;
+      continue;
     }
+
+    // 一個前か二個前からたどり着くための
+    // 方法は何通りあるか確認する
+    ll sum = 0;
+    for (int j = 1; j <= 2; j++) {
+      int idx = i + j;
+      if (idx > N) continue;
+      sum = (sum + dp[idx]) % mod;
+    }
+    dp[i] = sum;
   }
-  cout << ans << endl;
+
+  // REP(i, N + 1) cout << dp[i] << SLN(i, N + 1);
+  cout << dp[0] << endl;
   return 0;
 }
