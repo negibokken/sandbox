@@ -30,9 +30,9 @@ cat << EOF | try No
 3
 EOF
 
-# for i in {1..100}; do
-# cat << EOF | try
-# $i
-# EOF
-# done
+for i in {1..100}; do
+cat << EOF | try
+$i
+EOF
+done
 

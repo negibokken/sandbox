@@ -53,11 +53,5 @@ int main(void)
     cout << "No" << endl;
   }
 
-  // if ((N % 4 % 7) == 0 || (N % 7 % 4) == 0) {
-  //   cout << "Yes" << endl;
-  // }
-  // else {
-  //   cout << "No" << endl;
-  // }
   return 0;
 }
