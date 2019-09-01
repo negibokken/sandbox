@@ -40,12 +40,9 @@ int main(void)
   for (int i = 0; i <= N; i++) {
     int cc = 0;
     int t = i;
-    cout << t << endl;
     while (t > 0) cc += t % 6, t /= 6;
     t = N - i;
-    cout << t << endl;
     while (t > 0) cc += t % 9, t /= 9;
-    cout << t << endl;
     if (res > cc) res = cc;
   }
 
