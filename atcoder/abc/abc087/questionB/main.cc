@@ -43,8 +43,8 @@ int main(void)
   ios::sync_with_stdio(false);
   cin >> A >> B >> C >> X;
   vector<int> a(3);
-  const int coins[] = {500, 100, 50};
-  a[0] = A, a[1] = B, a[2] = C;
+  const int coins[] = {50, 100, 500};
+  a[2] = A, a[1] = B, a[0] = C;
 
   for (int i = 0; i <= 3; i++) {
     for (int j = 0; j <= 20000; j++) {
@@ -52,20 +52,19 @@ int main(void)
     }
   }
 
-  for (int i = 0; i < 4; i++) dp[i][0] = 0;
+  // for (int i = 0; i < 4; i++) dp[0][0] = 1;
+  // for (int i = 0; i < 4; i++) dp[i][0] = 1;
 
+  dp[0][0] = 1;
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j <= 20000; j++) {
       if (j - coins[i] < 0) {
+        if (j == 0) continue;
         dp[i + 1][j] = dp[i][j];
       }
       else {
-        if (a[i] <= 0) continue;
-        if (dp[i][j - coins[i]] != inf) dp[i + 1][j] = dp[i][j - coins[i]] + 1;
-        if (dp[i + 1][j - coins[i]] != inf) {
-          dp[i + 1][j] = (dp[i + 1][j] == inf ? 0 : dp[i + 1][j]) +
-                         dp[i + 1][j - coins[i]];
-        }
+        if (a[i] <= 0 || dp[i + 1][j - coins[i]] == inf) continue;
+        dp[i + 1][j] = dp[i + 1][j - coins[i]] + dp[i][j - coins[i]];
         a[i]--;
       }
     }
