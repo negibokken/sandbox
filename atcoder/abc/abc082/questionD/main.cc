@@ -41,22 +41,8 @@ const vector<int> dirs[] = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
 const int dx[4] = {1, 0, -1, 0};
 const int dy[4] = {0, 1, 0, -1};
 
-void operate(int _x, int _y, int dir, int cur, set<P> &st)
-{
-  if (s[cur] == '\0') {
-    st.insert(P(_x, _y));
-    return;
-  }
-  if (s[cur] == 'F') {
-    int nx = _x + dx[dir], ny = _y + dy[dir];
-    operate(nx, ny, dir, cur + 1, st);
-  }
-  else if (s[cur] == 'T') {
-    for (auto d : dirs[dir]) {
-      operate(_x, _y, d, cur + 1, st);
-    }
-  }
-}
+int dpx[8000 + 1][(8000 + 1) * 2];
+int dpy[8000 + 1][(8000 + 1) * 2];
 
 int main(void)
 {
@@ -65,10 +51,38 @@ int main(void)
   cin >> s;
   cin >> x >> y;
 
-  set<P> st;
-  operate(0, 0, 0, 0, st);
+  const int base = 8000;
+  bool isHorz = true;
+  int ns = s.size();
+  dpx[0][0 + base] = true;
+  for (int i = 0; i < ns; i++) {
+    if (s[i] == 'T') isHorz = !isHorz;
+    int dic = (s[i] == 'F' ? 1 : 0);
+    for (int j = 0; j < ns; j++) {
+      dpx[i + 1][j + dic + base] = dpx[i][j + base];
+      dpx[i + 1][j - dic + base] = dpx[i][j + base];
+    }
+  }
 
-  if (st.count(P(x, y)) > 0) {
+  bool isVert = false;
+  dpy[0][0 + base] = true;
+  for (int i = 0; i < ns; i++) {
+    if (s[i] == 'T') isVert = !isVert;
+    int dic = (s[i] == 'F' ? 1 : 0);
+    for (int j = 0; j < ns; j++) {
+      printf("%d %d\n", j + dic + base, j - dic + base);
+      dpy[i + 1][j + dic + base] = dpy[i][j + base];
+      dpy[i + 1][j - dic + base] = dpy[i][j + base];
+    }
+  }
+
+  cout << endl;
+  for (int i = 0; i <= ns; i++) {
+    for (int j = -5; j <= 5; j++) {
+      cout << dpx[i][j + base] << SLN(j, 6);
+    }
+  }
+  if (dpx[ns][x + base] && dpy[ns][y + base]) {
     cout << "Yes" << endl;
   }
   else {

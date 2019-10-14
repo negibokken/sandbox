@@ -22,6 +22,8 @@ FTFFTFFF
 4 2
 EOF
 
+exit
+
 ## test case 2
 cat << EOF | try Yes
 FTFFTFFF
