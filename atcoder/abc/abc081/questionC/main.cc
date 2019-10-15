@@ -49,6 +49,7 @@ int main(void)
 
   if (mp.size() <= K) {
     cout << 0 << endl;
+    return 0;
   }
 
   priority_queue<int, vector<int>, greater<int>> q;
@@ -61,8 +62,8 @@ int main(void)
   while (!q.empty() && sum > K) {
     int n = q.top();
     q.pop();
-    sum -= n;
-    ans++;
+    sum--;
+    ans += n;
   }
 
   cout << ans << endl;
