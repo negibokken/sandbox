@@ -65,12 +65,6 @@ int main(void)
   vector<int> odd = oddArr(n);
   vector<int> even = evenArr(n);
 
-  // for (auto o : odd) cout << o << endl;
-  // for (auto o : even) cout << o << endl;
-
-  // return 0;
-  // cout << "----" << endl;
-
   // Even
   if (n % 2 == 0) {
     if (even.size() > 1) reverse(even.begin(), even.end());
