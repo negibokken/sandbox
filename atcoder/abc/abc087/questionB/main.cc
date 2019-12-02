@@ -35,50 +35,31 @@ const int inf = 1 << 30;
 
 int A, B, C, X;
 
-int dp[4][50000];
-
-int main(void)
-{
+int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   cin >> A >> B >> C >> X;
-  vector<int> a(3);
-  const int coins[] = {50, 100, 500};
-  a[2] = A, a[1] = B, a[0] = C;
 
-  for (int i = 0; i <= 3; i++) {
-    for (int j = 0; j <= 20000; j++) {
-      dp[i][j] = inf;
+  ll ans = 0;
+  for (int i = 0; i <= A; i++) {
+    if (500 * i == X) {
+      ans++;
+      continue;
     }
-  }
-
-  // for (int i = 0; i < 4; i++) dp[0][0] = 1;
-  // for (int i = 0; i < 4; i++) dp[i][0] = 1;
-
-  dp[0][0] = 1;
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j <= 20000; j++) {
-      if (j - coins[i] < 0) {
-        if (j == 0) continue;
-        dp[i + 1][j] = dp[i][j];
+    for (int j = 0; j <= B; j++) {
+      if (500 * i + 100 * j == X) {
+        ans++;
+        break;
       }
-      else {
-        if (a[i] <= 0 || dp[i + 1][j - coins[i]] == inf) continue;
-        dp[i + 1][j] = dp[i + 1][j - coins[i]] + dp[i][j - coins[i]];
-        a[i]--;
+      for (int k = 0; k <= C; k++) {
+        if (500 * i + 100 * j + 50 * k == X) {
+          ans++;
+          break;
+        }
       }
     }
   }
-
-  cout << endl;
-  for (int i = 0; i <= 3; i++) {
-    for (int j = 0; j <= 100; j++) {
-      cout << (dp[i][j] == inf ? "*" : to_string(dp[i][j])) << " ";
-    }
-    cout << endl;
-  }
-
-  cout << (dp[3][X] == inf ? 0 : dp[3][X]) << endl;
+  cout << ans << endl;
 
   return 0;
 }
