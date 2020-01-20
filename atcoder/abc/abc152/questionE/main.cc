@@ -53,8 +53,6 @@ map<int, int> prime_factors(int nn, map<int, int> &lcmm) {
   }
   return mp;
 }
-//
-// ll modpow(ll a, ll n) {  // 64
 
 ll modpow(ll x, ll n) {
   const ll m = MOD;
@@ -67,23 +65,23 @@ ll modpow(ll x, ll n) {
   return res % m;
 }
 
-// a / b とする
-ll divmp(map<int, int> a, map<int, int> b) {
-  map<int, int> primes;
-  for (auto aa : a) {  // max(10^5)
-    // 各素数について a[prime] >= b[prime] なはず (lcmだから)。
-    // あとは単純に減算すればいい
-    primes[aa.first] = a[aa.first] - b[aa.first];
-  }
+// clang-format off
+const int mod = MOD;
+inline void normal(ll &a) { a %= mod; (a < 0) && (a += mod); }
+inline ll modMul(ll a, ll b) { a %= mod, b %= mod; normal(a), normal(b); return (a * b) % mod; }
+inline ll modAdd(ll a, ll b) { a %= mod, b %= mod; normal(a), normal(b); return (a + b) % mod; }
+inline ll modSub(ll a, ll b) { a %= mod, b %= mod; normal(a), normal(b); a -= b; normal(a); return a; }
+inline ll modPow(ll b, ll p) { ll r = 1; while (p) { if (p & 1LL) r = modMul(r, b); b = modMul(b, b); p >>= 1LL; } return r; }
+inline ll modInverse(ll a) { return modPow(a, mod - 2); }
+inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
+// clang-format on
 
-  ll ans = 1;
-  for (auto p : primes) {  // 64 * 10^5
-    // for (int i = 0; i < p.second; i++) {
-    // ans = (ans * (ll)p.first) % MOD;
-    ans = (ans * modpow(p.first, p.second)) % MOD;
-    // }
+ll modmul(map<int, int> mp) {
+  ll res = 0;
+  for (auto m : mp) {
+    res += modpow(m.first, m.second) % MOD;
   }
-  return ans;
+  return res;
 }
 
 map<int, int> aprimes[MAX_N];
@@ -102,9 +100,11 @@ int main(void) {
     aprimes[i] = prime_factors(A[i], lcmm);  // N * √A = 10^4 * 10^2 = 10^6
   }
 
+  ll L = modmul(lcmm);
+
   REP(i, N) {  //
     // lcmm と arpimes[i] をそれぞれ計算していけばよい
-    ans = (ans + divmp(lcmm, aprimes[i])) % MOD;  // 10^4 * divmp (10^5) = 10^9
+    ans = modAdd(ans, modDiv(L, A[i]));  // 10^4 * divmp (10^5) = 10^9
   }
   cout << ans << endl;
 
