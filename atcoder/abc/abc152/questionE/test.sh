@@ -26,7 +26,7 @@ cat << EOF | try 5
 5
 12 12 12 12 12
 EOF
-exit
+
 ## test case 2
 cat << EOF | try 3
 100000

@@ -77,14 +77,12 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 // clang-format on
 
 ll modmul(map<int, int> mp) {
-  ll res = 0;
+  ll res = 1;
   for (auto m : mp) {
-    res += modpow(m.first, m.second) % MOD;
+    res = modMul(res, modpow(m.first, m.second));
   }
   return res;
 }
-
-map<int, int> aprimes[MAX_N];
 
 int main(void) {
   cin.tie(0);
@@ -93,7 +91,7 @@ int main(void) {
   REP(i, N) cin >> A[i];
 
   map<int, int> lcmm;
-  // vector<map<int, int>> aprimes(N);
+  vector<map<int, int>> aprimes(N);
   ll lc = 1;
   ll ans = 0;
   REP(i, N) {                                // N = 10^4
