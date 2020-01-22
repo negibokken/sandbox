@@ -48,27 +48,16 @@ int main(void) {
   ios::sync_with_stdio(false);
   cin >> A >> B >> X;
 
-  ll x = 2;
-  ll v = 0;
-  while (v < X) {
-    v = A * x + B * d(x);
-    x *= 10;
-  }
-
   ll ans = 0;
-  ll left = 0, right = x;
-  while (left < right) {
-    ll mid = (left + right) / 2;
-    ll value = val(mid);
-    cout << left << ":" << right << endl;
-    if (value == X) {
-      cout << mid << endl;
-      return 0;
-    } else if (value < X) {
+  ll left = 0, right = 1e9;
+  while (left <= right) {
+    ll mid = (right + left) / 2;
+    ll price = val(mid);
+    if (price > X) {
+      right = mid - 1;
+    } else {
       ans = max(ans, mid);
       left = mid + 1;
-    } else {
-      right = mid - 1;
     }
   }
   cout << ans << endl;
