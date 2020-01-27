@@ -40,6 +40,11 @@ int main(void) {
   ios::sync_with_stdio(false);
   cin >> s >> k;
 
+  set<int> se;
+  se.insert(1);
+  cout << ">" << *se.end() << "<" << endl;
+  return 0;
+
   int n = s.length();
   set<string> S;
   for (int i = 0; i < n; ++i) {
