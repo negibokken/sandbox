@@ -33,85 +33,28 @@ const ll INF = 1LL << 60;
 const int inf = 1 << 30;
 // clang-format on
 
-int H, W;
+int h, w;
 
 int ans;
 int maze[50][50];
 bool visited[50][50];
 char S[50][50];
 
-void print() {
-  cout << endl;
-  for (int i = 0; i < H; i++) {
-    for (int j = 0; j < W; j++) {
-      if (maze[i][j] == inf)
-        cout << "*";
-      else
-        cout << maze[i][j];
-    }
-    cout << endl;
-  }
-}
-
-void init() {
-  for (int i = 0; i < 50; i++) {
-    for (int j = 0; j < 50; j++) {
-      maze[i][j] = inf;
-      visited[i][j] = false;
-    }
-  }
-}
-
-void search(int xx, int yy, int dist) {
-  queue<P> q;
-  q.push(P(yy, xx));
-
-  while (!q.empty()) {
-    P p = q.front();
-    q.pop();
-    int x = p.second, y = p.first;
-    visited[y][x] = true;
-    REP(i, 4) {
-      int ny = y + dy[i], nx = x + dx[i];
-      if (ny < 0 || ny >= H) continue;
-      if (nx < 0 || nx >= W) continue;
-      if (S[ny][nx] == '#') continue;
-      if (visited[ny][nx]) continue;
-      q.push(P(ny, nx));
-      maze[ny][nx] = min(maze[ny][nx], maze[y][x] + 1);
-      // 更新があったとき visited を false にする
-      // if (maze[ny][nx] > maze[y][x] + 1) {
-      //   maze[ny][nx] = maze[y][x] + 1;
-      //   visited[ny][nx] = false;
-      // } else {
-      //   maze[ny][nx] = maze[ny][nx];
-      // }
-    }
-  }
-}
-
-void solve(P start) {
-  init();
-  maze[start.first][start.second] = 0;
-  search(start.second, start.first, 0);
-}
-
 // first が y, second が x
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  cin >> H >> W;
-
-  REP(i, H) REP(j, W) { cin >> S[i][j]; }
-
+  cin >> h >> w;
+  vector<string> s(h);
+  REP(i, h) cin >> s[i];
   int ans = 0;
-  REP(si, H) REP(sj, W) {
-    if (S[si][sj] == '#') continue;
-    vector<vector<int>> dist(H, vector<int>(W, inf));
+  REP(si, h) REP(sj, w) {
+    if (s[si][sj] == '#') continue;
+    vector<vector<int>> dist(h, vector<int>(w, inf));
     queue<P> q;
     auto update = [&](int i, int j, int x) {
       if (dist[i][j] != inf) return;
-      maze[i][j] = x;
+      dist[i][j] = x;
       q.push(P(i, j));
     };
     update(si, sj, 0);
@@ -121,14 +64,14 @@ int main(void) {
       q.pop();
       REP(dir, 4) {
         int ni = i + dy[dir], nj = j + dx[dir];
-        if (ni < 0 || ni >= H || nj < 0 || nj >= W) continue;
-        if (S[ni][nj] == '#') continue;
+        if (ni < 0 || ni >= h || nj < 0 || nj >= w) continue;
+        if (s[ni][nj] == '#') continue;
         update(ni, nj, dist[i][j] + 1);
       }
-    }
-    REP(i, H) REP(j, W) {
-      if (dist[i][j] == inf) continue;
-      ans = max(ans, dist[i][j]);
+      REP(i, h) REP(j, w) {
+        if (dist[i][j] == inf) continue;
+        ans = max(ans, dist[i][j]);
+      }
     }
   }
 

@@ -64,7 +64,7 @@ cat << EOF | try 23
 EOF
 
 ## test case 1
-cat << EOF | try 40
+cat << EOF | try 38
 20 20
 ....................
 ....................
