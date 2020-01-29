@@ -44,7 +44,7 @@ int main(void) {
 
   int ans = 0;
   int left = 0, right = n;
-  while (right - left > 1) {
+  while (left < right) {
     int mid = (left + right) / 2;
     if (a[mid] >= k) {
       right = mid;
