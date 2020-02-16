@@ -38,55 +38,41 @@ struct Node {
   Node *next, *prev;
 };
 
-Node *nil;
+class List {
+ public:
+  List() { head = nullptr; }
+  void insert(int key) {
+    if (head == nullptr) {
+      head = (Node *)malloc(sizeof(Node));
+      head->key = key;
+      return;
+    }
 
-Node *listSearch(int key) {
-  Node *cur = nil->next;
-  while (cur != nil && cur->key != key) {
-    cur = cur->next;
+    Node *n = (Node *)malloc(sizeof(Node));
+    n->key = key;
+
+    Node *cur = head;
+    while (cur->next != nullptr) cur = cur->next;
+    cur->next = n;
+    n->prev = cur;
+    return;
   }
-  return cur;
-}
 
-void init() {
-  nil = (Node *)malloc(sizeof(Node));
-  nil->next = nil;
-  nil->prev = nil;
-}
-
-void printList() {
-  Node *cur = nil->next;
-  int isf = 0;
-  while (1) {
-    if (cur == nil) break;
-    if (isf++ > 0) printf(" ");
-    printf("%d", cur->key);
-    cur = cur->next;
+  void deleteKey(int key) {
+    if (head == nullptr) return;
+    Node *cur = head;
+    while (cur->next != nullptr && cur->key == key) cur = cur->next;
+    if (cur->key == key) {
+      if (cur->prev != nullptr) cur->prev->next = cur->next;
+      if (cur->next != nullptr) cur->next->prev = cur->prev;
+      free(cur);
+      return;
+    }
   }
-  putchar('\n');
-}
 
-void deleteNode(Node *t) {
-  if (t == nil) return;
-  t->prev->next = t->next;
-  t->next->prev = t->prev;
-  free(t);
-}
-
-void deleteFirst() { deleteNode(nil->next); }
-
-void deleteLast() { deleteNode(nil->prev); }
-
-void deleteKey(int key) { deleteNode(listSearch(key)); }
-
-void insert(int key) {
-  Node *x = (Node *)malloc(sizeof(Node));
-  x->key = key;
-  x->next = nil->next;
-  nil->next->prev = x;
-  nil->next = x;
-  x->prev = nil;
-}
+ private:
+  Node *head;
+};
 
 int main(void) {
   cin.tie(0);
@@ -97,15 +83,15 @@ int main(void) {
   string order;
   int key;
 
-  init();
+  List *l = new List();
+
   REP(i, n) {
     cin >> order >> key;
     if (order == "insert") {
-      // cout << "insert " << key << endl;
-      insert(key);
+      l->insert(key);
     } else if (order == "delete") {
       // cout << "delete " << key << endl;
-      deleteKey(key);
+      l->deleteKey(key);
     }
   }
 
