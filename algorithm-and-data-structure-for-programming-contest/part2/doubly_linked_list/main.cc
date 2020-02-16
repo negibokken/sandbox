@@ -50,24 +50,61 @@ class List {
 
     Node *n = (Node *)malloc(sizeof(Node));
     n->key = key;
-
-    Node *cur = head;
-    while (cur->next != nullptr) cur = cur->next;
-    cur->next = n;
-    n->prev = cur;
+    n->prev = nullptr, n->next = head;
+    head->prev = n;
+    head = n;
     return;
   }
 
   void deleteKey(int key) {
+    // printList();
     if (head == nullptr) return;
     Node *cur = head;
-    while (cur->next != nullptr && cur->key == key) cur = cur->next;
+    while (cur->next != nullptr) {
+      if (cur->key == key) break;
+      cur = cur->next;
+    }
+
+    // printAtomic(cur);
+
     if (cur->key == key) {
-      if (cur->prev != nullptr) cur->prev->next = cur->next;
-      if (cur->next != nullptr) cur->next->prev = cur->prev;
+      Node *next = cur->next;
+      Node *prev = cur->prev;
+
+      // prev->next = next;
+      // next->prev = prev;
+      if (prev != nullptr)
+        prev->next = next;
+      else
+        head = next;
+      if (next != nullptr) next->prev = prev;
       free(cur);
+      // printList();
       return;
     }
+  }
+
+  void printAtomic(Node *n) { cout << n->key << " "; }
+  void printAtomicDetail(Node *n) {
+    cout << n->key << " "
+         << "(" << n << ") ";
+    if (n->prev != nullptr)
+      cout << "(" << n->prev << ", ";
+    else
+      cout << "(null, ";
+    if (n->next != nullptr)
+      cout << n->next << ")" << endl;
+    else
+      cout << "null)" << endl;
+  }
+
+  void printList() {
+    if (head == nullptr) return;
+    for (Node *cur = head; cur != nullptr; cur = cur->next) {
+      printAtomic(cur);
+      // printAtomicDetail(cur);
+    }
+    cout << endl;
   }
 
  private:
@@ -90,11 +127,10 @@ int main(void) {
     if (order == "insert") {
       l->insert(key);
     } else if (order == "delete") {
-      // cout << "delete " << key << endl;
       l->deleteKey(key);
     }
   }
 
-  printList();
+  l->printList();
   return 0;
 }

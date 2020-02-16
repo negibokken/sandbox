@@ -16,8 +16,19 @@ try() {
   fi
 }
 
+# ## test case 1
+# cat << EOF | try "5 2 3 1 6 "
+# 5
+# insert 5
+# insert 2
+# insert 3
+# insert 1
+# insert 6
+# EOF
+# exit
+
 ## test case 1
-cat << EOF | try "6 1 2"
+cat << EOF | try "6 1 2 "
 7
 insert 5
 insert 2
