@@ -39,6 +39,7 @@ int main(void) {
   ios::sync_with_stdio(false);
 
   stack<int> S1;
+  stack<P> S2;
 
   int sum = 0;
   char c;
@@ -49,9 +50,27 @@ int main(void) {
       S1.pop();
       sum += i - j;
       int a = i - j;
+      while (S2.size() > 0 && S2.top().first > j) {
+        a += S2.top().second;
+        S2.pop();
+      }
+      S2.push(P(j, a));
     }
   }
+
+  vector<int> ans;
+  while (!S2.empty()) {
+    ans.push_back(S2.top().second);
+    S2.pop();
+  }
+  reverse(ans.begin(), ans.end());
   cout << sum << endl;
+  cout << ans.size();
+  REP(i, ans.size()) {
+    cout << " ";
+    cout << ans[i];
+  }
+  cout << endl;
 
   return 0;
 }
