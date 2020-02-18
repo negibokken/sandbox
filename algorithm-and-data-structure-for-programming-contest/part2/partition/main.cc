@@ -35,15 +35,15 @@ const int inf = 1000100011;
 
 int partition(vector<int> &A, int p, int r) {
   int x = A[r];
-  int i = p - 1;
-  for (int j = 0; j < r; j++) {
-    if (A[j] <= x) {
-      i++;
+  int i = 0;
+  for (int j = 1; j < r; j++) {
+    if (A[j] < x) {
       swap(A[i], A[j]);
+      i++;
     }
   }
-  swap(A[i + 1], A[r]);
-  return i + 1;
+  swap(A[i], A[r]);
+  return i;
 }
 
 int main(void) {
