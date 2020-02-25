@@ -34,34 +34,23 @@ const int inf = 1000100011;
 // clang-format on
 
 typedef struct {
-  int id;
-  int parent;
-  int depth;
-  int num;
-  string type;
-  vector<int> child;
+  int id, parent, depth;
+  string nodeType;
+  vector<int> children;
 } Node;
 
-void printNode(Node *n) {
-  printf("node %d: parent = %d, depth = %d, %s, ", n->id, n->parent, n->depth,
-         n->type.c_str());
-  printf("[");
-  REP(i, n->num) {
-    printf("%c", n->child[i]);
-    if (i != n->num - 1) printf(",");
-  }
-  printf("]\n");
-}
+void dfs(int id, vector<Node*> nodes, int depth) {
+  nodes[id]->depth = depth;
 
-void dfs(int v, int depth, Node *nodes[]) {
-  nodes[v]->depth = depth;
-  if (nodes[v]->num == 0)
-    nodes[v]->type = "leaf";
-  else if (nodes[v]->num != 0 && nodes[v]->parent != -1) {
-    nodes[v]->type = "internal node";
-  }
-  for (auto child : nodes[v]->child) {
-    dfs(child, depth + 1, nodes);
+  if (nodes[id]->children.size() == 0)
+    nodes[id]->nodeType = "leaf";
+  else if (depth == 0)
+    nodes[id]->nodeType = "root";
+  else
+    nodes[id]->nodeType = "internal node";
+
+  for (auto child : nodes[id]->children) {
+    dfs(child, nodes, depth + 1);
   }
 }
 
@@ -70,35 +59,44 @@ int main(void) {
   ios::sync_with_stdio(false);
   int n;
   cin >> n;
-  Node *nodes[n];
-  REP(i, n) nodes[i] = (Node *)malloc(sizeof(Node));
+  vector<Node*> nodes(n);
+
+  REP(i, n) nodes[i] = (Node*)malloc(sizeof(Node));
   REP(i, n) {
+    int id;
+    cin >> id;
+    nodes[i]->id = id;
     nodes[i]->parent = -1;
     nodes[i]->depth = 0;
-    int id, num;
-    cin >> id >> num;
-    nodes[i]->id = id;
-    nodes[i]->num = num;
-
-    int c;
-    REP(j, nodes[i]->num) {
-      cin >> c;
-      nodes[i]->child.push_back(c);
-      nodes[c]->parent = i;
+    nodes[i]->nodeType = "";
+    int num, child;
+    cin >> num;
+    REP(j, num) {
+      cin >> child;
+      nodes[i]->children.push_back(child);
+      nodes[child]->parent = i;
     }
   }
-  printNode(nodes[0]);
-  printNode(nodes[1]);
-  // depth と type を求める必要がある
-  // root を探す
   int root = 0;
-  REP(i, n) if (nodes[i]->parent == -1) root = i;
-  nodes[root]->type = "root";
-  nodes[root]->depth = 0;
+  REP(i, n) {
+    if (nodes[i]->parent == -1) {
+      root = i;
+      break;
+    }
+  }
 
-  dfs(root, 0, nodes);
+  dfs(root, nodes, 0);
 
-  REP(i, n) printNode(nodes[i]);
+  REP(i, n) {
+    printf("node: %d: parent = %d, depth = %d, %s,", nodes[i]->id,
+           nodes[i]->parent, nodes[i]->depth, nodes[i]->nodeType.c_str());
+    printf("[");
+    REP(j, nodes[i]->children.size()) {
+      printf("%d", nodes[i]->children[j]);
+      if (j != nodes[i]->children.size() - 1) printf(", ");
+    }
+    printf("]\n");
+  }
 
   return 0;
 }
