@@ -33,76 +33,44 @@ const ll MOD = 1e9+7;
 const ll INF = 1LL << 60;
 const int inf = 1000100011;
 // clang-format on
+int pos, n;
+vector<int> pre, in, post;
 
-typedef struct Node {
-  int id;
-  Node *left, *right;
-} Node;
-
-int searchIndex(vector<int> arr, int num) {
-  for (int i = 0; i < arr.size(); i++) {
-    if (arr[i] == num) return i;
-  }
-  return arr.size();
+void rec(int l, int r) {
+  if (l >= r) return;
+  int root = pre[pos++];
+  int m = distance(in.begin(), find(in.begin(), in.end(), root));
+  rec(l, m);
+  rec(m + 1, r);
+  post.push_back(root);
 }
 
-bool isLeft(vector<int> arr, int right, int num) {
-  for (int i = right; i >= 0; i--) {
-    if (arr[i] == num) return true;
+void solve() {
+  pos = 0;
+  rec(0, pre.size());
+  for (int i = 0; i < n; i++) {
+    if (i) cout << " ";
+    cout << post[i];
   }
-  return false;
-}
-
-void postorder(Node* v) {
-  if (v->right != nullptr) postorder(v->right);
-  if (v->left != nullptr) postorder(v->left);
-  cout << v->id << " ";
+  cout << endl;
 }
 
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  int n;
   cin >> n;
-  vector<int> preorders(n), inorders(n);
-  vector<bool> pused(n), iused(n);
-  vector<Node*> nodes(n);
-  REP(i, n) cin >> preorders[i];
-  REP(i, n) cin >> inorders[i];
   REP(i, n) {
-    nodes[i] = (Node*)malloc(sizeof(Node));
-    nodes[i]->left = nodes[i]->right = nullptr;
+    int d;
+    cin >> d;
+    pre.push_back(d);
+  }
+  REP(i, n) {
+    int d;
+    cin >> d;
+    in.push_back(d);
   }
 
-  stack<Node*> st;
-
-  for (int i = 0; i < n; i++) {
-    nodes[i]->id = preorders[i];
-    st.push(nodes[i]);
-
-    // cout << i << endl;
-    if (i + 1 > n) break;
-    Node* current = nodes[i + 1];
-    current->id = preorders[i + 1];
-
-    while (!st.empty()) {
-      Node* node = st.top();
-      st.pop();
-      cout << node->id << "," << current->id << endl;
-      int p = searchIndex(inorders, node->id);
-      if (isLeft(inorders, p - 1, current->id)) {
-        node->left = current;
-        st.push(node);
-        break;
-      }
-      if (st.empty()) node->right = current;
-    }
-    if (i + 2 < n) st.push(current);
-  }
-  cout << "end" << endl;
-
-  int root = preorders[0];
-  postorder(nodes[root]);
+  solve();
 
   return 0;
 }
