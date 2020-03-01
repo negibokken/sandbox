@@ -4,7 +4,7 @@ try() {
   expected="$@"
   input=`cat -`
 
-  actual=`echo "$input" | ./main`
+  actual=`echo "$input" | ./validate`
 
   #actual=`echo $actual`
   #expected=`echo $expected`
@@ -20,17 +20,12 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "3 4 2 5 1"
-5
-1 2 3 4 5
-3 2 4 1 5
-EOF
-
-
-## test case 1
-cat << EOF | try "3 5 4 2 7 6 1"
+cat << EOF | try "3 4 2 5 1 "
 7
-1 2 3 4 5 6 7
-3 2 4 5 1 7 6
+1 2 l
+2 3 l
+2 4 r
+4 5 r
+1 6 r
+6 7 l
 EOF
-
