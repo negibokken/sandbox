@@ -38,135 +38,107 @@ typedef struct Node {
   Node *right, *left, *parent;
 } Node;
 
-Node *root, *NIL;
+class BinaryTree {
+  Node *head;
 
-Node *treeMinimum(Node *x) {
-  while (x->left != NIL) x = x->left;
-  return x;
-}
-
-Node *find(Node *u, int k) {
-  while (u != NIL && u->key != k) {
-    if (k < u->key)
-      u = u->left;
-    else
-      u = u->right;
+ public:
+  BinaryTree() { head = nullptr; }
+  Node *getRoot() { return head; }
+  Node *find(int v) {
+    Node *current = head;
+    while (current != nullptr && current->key != v) {
+      if (v < current->key)
+        current = current->left;
+      else
+        current = current->right;
+    }
+    return current;
   }
-  return u;
-}
-
-Node *treeSuccessor(Node *x) {
-  if (x->right != NIL) return treeMinimum(x->right);
-  Node *y = x->parent;
-  while (y != NIL && x == y->right) {
-    x = y;
-    y = y->parent;
+  Node *createNode(int v) {
+    Node *n = (Node *)malloc(sizeof(Node));
+    n->key = v, n->left = n->right = n->parent = nullptr;
+    return n;
   }
-  return y;
-}
-
-void treeDelete(Node *z) {
-  Node *y;
-  Node *x;
-
-  if (z->left == NIL || z->right == NIL) {
-    y = z;
-  } else {
-    y = treeSuccessor(z);
+  void insert(int v) {
+    Node *current = head;
+    Node *parent = nullptr;
+    while (current != nullptr) {
+      parent = current;
+      if (v <= current->key) {
+        current = current->left;
+        if (current->left == nullptr) {
+          current->left = createNode(v);
+          current->left->parent = parent;
+          break;
+        }
+      } else {
+        current = current->right;
+        if (current->right == nullptr) {
+          current->right = createNode(v);
+          current->right->parent = parent;
+          break;
+        }
+      }
+    }
+    head = createNode(v);
   }
+  void deleteNode(Node *z) {
+    bool isLeft = false;
+    if (z->parent->left == z)
+      isLeft = true;
+    else if (z->parent->right == z)
+      isLeft = false;
 
-  if (y->left != NIL)
-    x = y->left;
-  else
-    x = y->right;
+    // 両方とも子がなければ
+    if (z->left == nullptr && z->right == nullptr) {
+      // 左の子
+      if (isLeft)
+        z->parent->left = nullptr;
+      else
+        z->parent->right = nullptr;
+      free(z);
+      return;
+    }
 
-  if (x != NIL) x->parent = y->parent;
+    // どちらか子があるときには子をzの位置にする
+    if (z->left == nullptr || z->right == nullptr) {
+      if (z->left == nullptr) {
+        if (isLeft)
+          z->parent->left = z->right;
+        else
+          z->parent->right = z->right;
+      } else if (z->right == nullptr) {
+        if (z->left == nullptr) {
+          if (isLeft)
+            z->parent->left = z->left;
+          else
+            z->parent->right = z->left;
+        }
+        free(z);
+        return;
+      }
 
-  if (y->parent == NIL) {
-    root = x;
-  } else {
-    if (y == y->parent->left) {
-      y->parent->left = x;
-    } else {
-      y->parent->right = x;
+      // どちらも子があるとき
+      // 左の子のうちで、右がnullptrな右の子を探す
+      Node *current = z->left;
+      Node *parent = nullptr;
+      while (current->right != nullptr) {
+        parent = current;
+        current = current->right;
+      }
+      parent->right = nullptr;
+
+      if (isLeft)
+        z->parent->left = current;
+      else
+        z->parent->right = current;
+      free(z);
     }
   }
-  if (y != z) {
-    z->key = y->key;
-  }
-  free(y);
-}
-
-void insert(int k) {
-  Node *y = NIL;
-  Node *x = root;
-  Node *z;
-
-  z = (Node *)malloc(sizeof(Node));
-  z->key = k;
-  z->left = NIL;
-  z->right = NIL;
-
-  while (x != NIL) {
-    y = x;
-    if (z->key < x->key) {
-      x = x->left;
-    } else {
-      x = x->right;
-    }
-  }
-  z->parent = y;
-  if (y == NIL) {
-    root = z;
-  } else {
-    if (z->key < y->key) {
-      y->left = z;
-    } else {
-      y->right = z;
-    }
-  }
-}
-
-void inorder(Node *u) {
-  if (u == NIL) return;
-  inorder(u->left);
-  printf(" %d\n", u->key);
-  inorder(u->right);
-}
-
-void preorder(Node *u) {
-  if (u == NIL) return;
-  printf(" %d\n", u->key);
-  preorder(u->left);
-  preorder(u->right);
-}
+};
 
 int main() {
   int n, i, x;
   string com;
-
-  scanf("%d", &n);
-
-  for (i = 0; i < n; i++) {
-    cin >> com;
-    if (com[0] == 'f') {
-      scanf("%d", &x);
-      Node *t = find(root, x);
-      if (t != NIL)
-        printf("yes\n");
-      else
-        printf("no\n");
-    } else if (com == "insert") {
-      scanf("%d", &x);
-      insert(x);
-    } else if (com == "print") {
-      inorder(root);
-      printf("\n");
-      preorder(root);
-      printf("\n");
-    } else if (com == "delete") {
-      scanf("%d", &x);
-      treeDelete(find(root, x));
-    }
-  }
+  BinaryTree *b = new BinaryTree();
 }
