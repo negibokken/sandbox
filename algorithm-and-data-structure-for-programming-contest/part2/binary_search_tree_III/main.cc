@@ -65,26 +65,28 @@ class BinaryTree {
     while (current != nullptr) {
       parent = current;
       if (v <= current->key) {
-        current = current->left;
         if (current->left == nullptr) {
           current->left = createNode(v);
           current->left->parent = parent;
-          break;
+          return;
         }
+        current = current->left;
       } else {
-        current = current->right;
         if (current->right == nullptr) {
           current->right = createNode(v);
           current->right->parent = parent;
-          break;
+          return;
         }
+        current = current->right;
       }
     }
     head = createNode(v);
   }
   void deleteNode(Node *z) {
-    bool isLeft = false;
-    if (z->parent->left == z)
+    bool isLeft = false, isRoot = false;
+    if (z->parent == nullptr) {
+      isRoot = true;
+    } else if (z->parent->left == z)
       isLeft = true;
     else if (z->parent->right == z)
       isLeft = false;
@@ -92,6 +94,7 @@ class BinaryTree {
     // 両方とも子がなければ
     if (z->left == nullptr && z->right == nullptr) {
       // 左の子
+      if (isRoot) head = nullptr;
       if (isLeft)
         z->parent->left = nullptr;
       else
@@ -103,42 +106,95 @@ class BinaryTree {
     // どちらか子があるときには子をzの位置にする
     if (z->left == nullptr || z->right == nullptr) {
       if (z->left == nullptr) {
-        if (isLeft)
+        if (isRoot) {
+          head = z->right;
+        } else if (isLeft) {
           z->parent->left = z->right;
-        else
+        } else {
           z->parent->right = z->right;
+        }
+        if (!isRoot) z->right->parent = z->parent;
+        free(z);
+        return;
       } else if (z->right == nullptr) {
         if (z->left == nullptr) {
-          if (isLeft)
+          if (isRoot) {
+            head = z->left;
+          } else if (isLeft)
             z->parent->left = z->left;
           else
             z->parent->right = z->left;
         }
+        if (!isRoot) z->left->parent = z->parent;
         free(z);
         return;
       }
-
-      // どちらも子があるとき
-      // 左の子のうちで、右がnullptrな右の子を探す
-      Node *current = z->left;
-      Node *parent = nullptr;
-      while (current->right != nullptr) {
-        parent = current;
-        current = current->right;
-      }
-      parent->right = nullptr;
-
-      if (isLeft)
-        z->parent->left = current;
-      else
-        z->parent->right = current;
-      free(z);
     }
+
+    // どちらも子があるとき
+    // 左の子のうちで、右がnullptrな右の子を探す
+    Node *current = z->left;
+    Node *parent = nullptr;
+    while (current->right != nullptr) {
+      parent = current;
+      current = current->right;
+    }
+    if (parent != nullptr) parent->right = nullptr;
+
+    if (isRoot) {
+      head = current;
+      head->right = z->right;
+    } else if (isLeft) {
+      z->parent->left = current;
+    } else {
+      z->parent->right = current;
+    }
+    if (!isRoot) current->parent = z->parent;
+    free(z);
+  }
+
+  void print() {
+    printInorder(head);
+    cout << endl;
+    printPreorder(head);
+    cout << endl;
+  }
+
+ private:
+  void printInorder(Node *v) {
+    if (v == nullptr) return;
+    printInorder(v->left);
+    cout << v->key << " ";
+    printInorder(v->right);
+  }
+  void printPreorder(Node *v) {
+    if (v == nullptr) return;
+    cout << v->key << " ";
+    printPreorder(v->left);
+    printPreorder(v->right);
   }
 };
 
 int main() {
-  int n, i, x;
+  int n;
   string com;
-  BinaryTree *b = new BinaryTree();
+  BinaryTree *bt = new BinaryTree();
+  cin >> n;
+  int num;
+  string order;
+  REP(i, n) {
+    cin >> order;
+    if (order == "insert") {
+      cin >> num;
+      bt->insert(num);
+    } else if (order == "find") {
+      cin >> num;
+      cout << (bt->find(num) ? "yes" : "no") << endl;
+    } else if (order == "print") {
+      bt->print();
+    } else if (order == "delete") {
+      cin >> num;
+      bt->deleteNode(bt->find(num));
+    }
+  }
 }

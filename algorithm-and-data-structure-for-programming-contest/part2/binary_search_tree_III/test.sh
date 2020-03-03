@@ -6,8 +6,8 @@ try() {
 
   actual=`echo "$input" | ./main`
 
-  actual=`echo $actual`
-  expected=`echo $expected`
+  # actual=`echo $actual`
+  # expected=`echo $expected`
 
   if [ "$actual" = "$expected" ]; then
     # echo "$input => $actual"
@@ -21,7 +21,7 @@ try() {
 
 ## test case 1
 cat << EOF | try "yes yes yes no no no yes yes 1 2 3 7 8 22 8 2 1 3 7 22 1 2 8 22 8 2 1 22"
-18
+20
 insert 8
 insert 2
 insert 3
@@ -39,6 +39,8 @@ find 8
 print
 delete 3
 delete 7
+print
+delete 8
 print
 EOF
 
