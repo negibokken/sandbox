@@ -97,11 +97,49 @@ void treeDelete(Node *z) {
   free(y);
 }
 
-void insert(int k) {}
+void insert(int k) {
+  Node *y = NIL;
+  Node *x = root;
+  Node *z;
 
-void inorder(Node *u) {}
+  z = (Node *)malloc(sizeof(Node));
+  z->key = k;
+  z->left = NIL;
+  z->right = NIL;
 
-void preorder(Node *u) {}
+  while (x != NIL) {
+    y = x;
+    if (z->key < x->key) {
+      x = x->left;
+    } else {
+      x = x->right;
+    }
+  }
+  z->parent = y;
+  if (y == NIL) {
+    root = z;
+  } else {
+    if (z->key < y->key) {
+      y->left = z;
+    } else {
+      y->right = z;
+    }
+  }
+}
+
+void inorder(Node *u) {
+  if (u == NIL) return;
+  inorder(u->left);
+  printf(" %d\n", u->key);
+  inorder(u->right);
+}
+
+void preorder(Node *u) {
+  if (u == NIL) return;
+  printf(" %d\n", u->key);
+  preorder(u->left);
+  preorder(u->right);
+}
 
 int main() {
   int n, i, x;

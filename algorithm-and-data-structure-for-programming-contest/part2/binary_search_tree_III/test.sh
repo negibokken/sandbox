@@ -20,7 +20,7 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "yes yes yes no no no yes yes 1 2 3 7 8 22 8 2 1 3 7 22 1 2 8 22"
+cat << EOF | try "yes yes yes no no no yes yes 1 2 3 7 8 22 8 2 1 3 7 22 1 2 8 22 8 2 1 22"
 18
 insert 8
 insert 2
