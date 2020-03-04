@@ -32,26 +32,26 @@ const ll MOD = 1e9+7;
 const ll INF = 1LL << 60;
 const int inf = 1000100011;
 // clang-format on
+int H, A[MAX_N];
 
-int parent(int i) { return i / 2; }
-int left(int i) { return 2 * i; }
-int right(int i) { return 2 * i + 1; }
-int H;
-
-int A[MAX_N];
+// 0-indexed
+int left(int i) { return 2 * i + 1; }
+int right(int i) { return 2 * i + 2; }
 
 void maxHeapify(int i) {
   int l = left(i);
   int r = right(i);
+
   int largest;
-  if (l <= H && A[l] > A[i]) {
+  if (l < H && A[l] > A[i]) {
     largest = l;
   } else {
     largest = i;
   }
-  if (r <= H && A[r] > A[largest]) {
+  if (r < H && A[r] > A[largest]) {
     largest = r;
   }
+
   if (largest != i) {
     swap(A[i], A[largest]);
     maxHeapify(largest);
@@ -59,7 +59,7 @@ void maxHeapify(int i) {
 }
 
 void buildMaxHeap() {
-  for (int i = H / 2; i >= 1; i--) {
+  for (int i = H / 2 - 1; i >= 0; i--) {
     maxHeapify(i);
   }
 }
@@ -68,9 +68,9 @@ int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   cin >> H;
-  for (int i = 1; i <= H; i++) cin >> A[i];
+  for (int i = 0; i < H; i++) cin >> A[i];
   buildMaxHeap();
-  for (int i = 1; i <= H; i++) {
+  for (int i = 0; i < H; i++) {
     if (i) cout << " ";
     cout << A[i];
   }
