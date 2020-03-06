@@ -41,7 +41,6 @@ int right(int i) { return 2 * i + 1; }
 void maxHeapify(int i) {
   int l = left(i);
   int r = right(i);
-
   int largest;
   if (l <= H && A[l] > A[i]) {
     largest = l;
@@ -51,17 +50,17 @@ void maxHeapify(int i) {
   if (r <= H && A[r] > A[largest]) {
     largest = r;
   }
-
-  if (largest != i) {
+  if (i != largest) {
     swap(A[i], A[largest]);
     maxHeapify(largest);
   }
 }
 
-void heapIncreaseKey(int i, int key) {
-  if (key < A[i]) {
+void heapIncreaseKey(int i, int k) {
+  if (k < A[i]) {
+    return;
   }
-  A[i] = key;
+  A[i] = k;
   while (i > 1 && A[parent(i)] < A[i]) {
     swap(A[i], A[parent(i)]);
     i = parent(i);
@@ -75,12 +74,12 @@ void insert(int k) {
 }
 
 int extractMax() {
-  if (H < 1) throw "error";
-  int m = A[1];
-  A[1] = A[H];
-  H--;
+  int maxv;
+  if (H < 1) return -inf;
+  maxv = A[1];
+  A[1] = A[H--];
   maxHeapify(1);
-  return m;
+  return maxv;
 }
 
 int main(void) {
