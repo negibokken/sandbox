@@ -60,9 +60,9 @@ int main(void) {
     st.pop();
     visited[v] = true;
     d[v] = t++;
-    for (auto u = G[v].rbegin(); u != G[v].rend(); u++) {
-      if (visited[*u]) continue;
-      st.push(*u);
+    for (auto u : G[v]) {
+      if (visited[u]) continue;
+      st.push(u);
     }
     f[v] = t;
   }
