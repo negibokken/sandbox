@@ -37,16 +37,14 @@ const int inf = 1000100011;
 int t = 1;
 int N;
 vector<int> G[MAX_N + 1];
-int visited[MAX_N + 1], d[MAX_N + 1], f[MAX_N + 1];
+int visited[MAX_N + 1], d[MAX_N + 1], f[MAX_N + 1], idx[MAX_N + 1];
 
-void dfs(int v) {
-  visited[v] = true;
-  d[v] = t++;
-  for (auto u : G[v]) {
-    if (visited[u]) continue;
-    dfs(u);
+int next(int v) {
+  for (int i = 0; i < G[v].size(); i++) {
+    if (visited[G[v][i]]) continue;
+    return G[v][i];
   }
-  f[v] = t++;
+  return -1;
 }
 
 int main(void) {
@@ -64,7 +62,24 @@ int main(void) {
     }
   }
 
-  dfs(1);
+  int t = 1;
+  stack<int> st;
+  st.push(1);
+  while (!st.empty()) {
+    int v = st.top();
+    if (!visited[v]) d[v] = t++;
+    visited[v] = true;
+    int u = v;
+    while ((u = next(u)) != -1) {
+      if (visited[u]) continue;
+      st.push(u);
+      visited[u] = true;
+      d[u] = t++;
+    }
+    int finished = st.top();
+    st.pop();
+    f[finished] = t++;
+  }
 
   for (int i = 1; i <= N; i++) {
     printf("%d %d %d\n", i, d[i], f[i]);

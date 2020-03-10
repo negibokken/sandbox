@@ -6,8 +6,8 @@ try() {
 
   actual=`echo "$input" | ./main`
 
-   actual=`echo $actual`
-   expected=`echo $expected`
+   #actual=`echo $actual`
+   #expected=`echo $expected`
 
   if [ "$actual" = "$expected" ]; then
     # echo "$input => $actual"
