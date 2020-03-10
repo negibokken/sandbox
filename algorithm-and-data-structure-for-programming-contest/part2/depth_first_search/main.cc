@@ -34,13 +34,25 @@ const ll INF = 1LL << 60;
 const int inf = 1000100011;
 // clang-format on
 
+int t = 1;
+int N;
+vector<int> G[MAX_N + 1];
+int visited[MAX_N + 1], d[MAX_N + 1], f[MAX_N + 1];
+
+void dfs(int v) {
+  visited[v] = true;
+  d[v] = t++;
+  for (auto u : G[v]) {
+    if (visited[u]) continue;
+    dfs(u);
+  }
+  f[v] = t++;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  int N;
   cin >> N;
-  vector<int> G[N + 1];
-  vector<int> visited(N + 1), d(N + 1), f(N + 1);
 
   int id, e, v;
   REP(i, N) {
@@ -52,20 +64,7 @@ int main(void) {
     }
   }
 
-  int t = 1;
-  stack<int> st;
-  st.push(1);
-  while (!st.empty()) {
-    int v = st.top();
-    st.pop();
-    visited[v] = true;
-    d[v] = t++;
-    for (auto u : G[v]) {
-      if (visited[u]) continue;
-      st.push(u);
-    }
-    f[v] = t;
-  }
+  dfs(1);
 
   for (int i = 1; i <= N; i++) {
     printf("%d %d %d\n", i, d[i], f[i]);
