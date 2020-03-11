@@ -62,6 +62,7 @@ int main(void) {
     que.pop();
     int u = p.second, dist = p.first;
     visited[u] = true;
+    if (d[u] < dist) continue;
     for (Edge e : G[u]) {
       if (!visited[e.to] || p.first + e.cost < d[e.to]) {
         que.push(P(p.first + e.cost, e.to));
