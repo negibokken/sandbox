@@ -41,37 +41,28 @@ const int BLACK = 2;
 int n, a[MAX_N][MAX_N];
 
 int prim() {
-  int u, minv;
-  int d[MAX_N], p[MAX_N], color[MAX_N];
-  REP(i, n) { d[i] = INFTY, p[i] = -1, color[i] = WHITE; }
-  d[0] = 0;
+  int root = 0;
+  vector<int> d(n), visited(n);
+  REP(i, n) d[i] = INFTY;
+  priority_queue<P, vector<P>, greater<P>> que;
+  que.push(P(0, root));
 
-  while (1) {
-    minv = INFTY;
-    u = -1;
-    REP(i, n) {
-      if (minv > d[i] && color[i] != BLACK) {
-        u = i;
-        minv = d[i];
+  int res = 0;
+  while (!que.empty()) {
+    P p = que.top();
+    que.pop();
+    int dd = p.first, v = p.second;
+    visited[v] = true;
+    for (int i = 0; i < n; i++) {
+      if (a[v][i] != INFTY && !visited[i]) {
+        que.push(P(a[v][i], i));
       }
     }
-    if (u == -1) break;
-    color[u] = BLACK;
-    REP(v, n) {
-      if (color[v] != BLACK && a[u][v] != INFTY) {
-        if (d[v] > a[u][v]) {
-          d[v] = a[u][v];
-          p[v] = u;
-          color[v] = GRAY;
-        }
-      }
+    if (!visited[que.top().second]) {
+      res += que.top().first;
     }
   }
-  int sum = 0;
-  for (int i = 0; i < n; i++) {
-    if (p[i] != -1) sum += a[i][p[i]];
-  }
-  return sum;
+  return res;
 }
 
 int main(void) {
