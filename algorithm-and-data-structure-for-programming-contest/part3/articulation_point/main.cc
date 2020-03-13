@@ -32,7 +32,6 @@ const ll MOD = 1e9+7;
 const ll INF = 1LL << 60;
 const int inf = 1000100011;
 // clang-format on
-int V, E;
 
 #define MAX 10000
 int N;
@@ -66,7 +65,7 @@ void art_points() {
 
   set<int> ap;
   int np = 0;
-  REP(i, N) {
+  for (int i = 1; i < N; i++) {
     int p = parent[i];
     if (p == 0)
       np++;
