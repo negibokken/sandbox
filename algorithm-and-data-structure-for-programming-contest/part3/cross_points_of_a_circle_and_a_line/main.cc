@@ -104,7 +104,7 @@ int main(void) {
     Point p1 = p.first, p2 = p.second;
     if (p1.x > p2.x)
       swap(p1, p2);
-    else if (p1.y > p2.y)
+    else if (p1.x >= p2.x && p1.y > p2.y)
       swap(p1, p2);
     printf("%.6f %.6f %.6f %.6f\n", p1.x, p1.y, p2.x, p2.y);
   }
