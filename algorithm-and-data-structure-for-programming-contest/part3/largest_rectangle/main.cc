@@ -55,6 +55,7 @@ int getLargestRectangle(int size, int buffer[]) {
   int maxv = 0;
   buffer[size] = 0;
 
+  // W だけ試す
   for (int i = 0; i <= size; i++) {
     Rectangle rect;
     rect.height = buffer[i];
