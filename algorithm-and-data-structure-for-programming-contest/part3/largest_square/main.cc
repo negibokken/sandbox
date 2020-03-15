@@ -53,17 +53,21 @@ int getLargestSquare(int H, int W) {
   int maxWidth = 0;
   for (int i = 0; i < H; i++) {
     for (int j = 0; j < W; j++) {
+      // G[i][j] = 0 (きれいなタイル) なら 1 にする
       dp[i][j] = (G[i][j] + 1) % 2;
+      // 一つでも 1 があれば maxWidth を 1 とし、そうでなければ 0 とする
       maxWidth |= dp[i][j];
     }
   }
 
   for (int i = 1; i < H; i++) {
     for (int j = 1; j < W; j++) {
+      // タイルが 1 なら dp[i][j] を 0 とする (リセットする)
       if (G[i][j]) {
         dp[i][j] = 0;
       } else {
-        dp[i][j] = min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1])) + 1;
+        // 左上、右上、左の中で一番小さいもの + 1 が ij における正方形の大きさ
+        dp[i][j] = min({dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]}) + 1;
         maxWidth = max(maxWidth, dp[i][j]);
       }
     }
@@ -79,6 +83,13 @@ int main(void) {
   REP(i, H) REP(j, W) cin >> G[i][j];
 
   cout << getLargestSquare(H, W) << endl;
+  // REP(i, H + 1) {
+  //   REP(j, W + 1) {
+  //     if (j) cout << " ";
+  //     cout << dp[i][j];
+  //   }
+  //   cout << endl;
+  // }
 
   return 0;
 }
