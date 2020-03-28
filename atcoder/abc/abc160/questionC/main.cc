@@ -54,13 +54,14 @@ int main(void) {
   ios::sync_with_stdio(false);
   int N, K;
   cin >> K >> N;
-  vector<int> A(N);
+  vector<int> A(N + 1);
+  A[0] = 0;
   REP(i, N) cin >> A[i];
   A.push_back(K);
 
   ll d = 0;
   ll sum = 0;
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i <= N; i++) {
     sum += (A[i + 1] - A[i]);
     d = max<int>(d, A[i + 1] - A[i]);
   }
