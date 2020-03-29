@@ -56,14 +56,16 @@ int main(void) {
   string S;
   cin >> S;
 
-  set<char> st;
+  int alphaNums[26];
+  REP(i, 26) alphaNums[i] = 0;
+
   for (int i = 0; i < S.size(); i++) {
     char c = S[i];
-    if (st.count(c)) {
+    if (alphaNums[c - '0'] > 0) {
       cout << "No" << endl;
       return 0;
     }
-    st.insert(c);
+    alphaNums[c - '0']++;
   }
   cout << "Yes" << endl;
 
