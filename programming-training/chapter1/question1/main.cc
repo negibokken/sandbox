@@ -61,11 +61,11 @@ int main(void) {
 
   for (int i = 0; i < S.size(); i++) {
     char c = S[i];
-    if (alphaNums[c - '0'] > 0) {
+    if (alphaNums[c - 'a'] > 0) {
       cout << "No" << endl;
       return 0;
     }
-    alphaNums[c - '0']++;
+    alphaNums[c - 'a']++;
   }
   cout << "Yes" << endl;
 
