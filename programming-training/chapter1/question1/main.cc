@@ -56,16 +56,13 @@ int main(void) {
   string S;
   cin >> S;
 
-  int alphaNums[26];
-  REP(i, 26) alphaNums[i] = 0;
-
   for (int i = 0; i < S.size(); i++) {
-    char c = S[i];
-    if (alphaNums[c - 'a'] > 0) {
-      cout << "No" << endl;
-      return 0;
+    for (int j = i + 1; j < S.size(); j++) {
+      if (S[i] == S[j]) {
+        cout << "No" << endl;
+        return 0;
+      }
     }
-    alphaNums[c - 'a']++;
   }
   cout << "Yes" << endl;
 
