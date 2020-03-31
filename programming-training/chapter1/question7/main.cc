@@ -49,6 +49,24 @@ struct Segment { Point p1, p2; };
 typedef Segment Line;
 // clang-format on
 
+bool rotate(vector<vector<int>>& img) {
+  if (img.size() == 0 || img.size() != img[0].size()) return false;
+  int n = img.size();
+  for (int layer = 0; layer < n / 2; layer++) {
+    int first = layer;
+    int last = n - 1 - layer;
+    for (int i = first; i < last; i++) {
+      int offset = i - first;
+      int top = img[first][i];
+      img[first][i] = img[last - offset][first];
+      img[last - offset][first] = img[last][last - offset];
+      img[last][last - offset] = img[i][last];
+      img[i][last] = top;
+    }
+  }
+  return true;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -57,12 +75,13 @@ int main(void) {
   vector<vector<int>> img(N, vector<int>(N));
   REP(i, N) REP(j, N) cin >> img[i][j];
 
-  // REP(i, N) {
-  //   REP(j, N) {
-  //     if (j) cout << " ";
-  //     cout << img[i][j];
-  //   }
-  //   cout << endl;
-  // }
+  rotate(img);
+  REP(i, N) {
+    REP(j, N) {
+      if (j) cout << " ";
+      cout << img[i][j];
+    }
+    cout << endl;
+  }
   return 0;
 }
