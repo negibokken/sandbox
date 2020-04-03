@@ -48,10 +48,52 @@ double cross(Vector a, Vector b) { return a.x * b.y - a.y * b.x; }
 struct Segment { Point p1, p2; };
 typedef Segment Line;
 // clang-format on
+struct Node {
+  int val;
+  Node* next;
+  Node(int val) : val(val), next(NULL){};
+};
+
+void deleteNode(Node* delNode) {
+  if (delNode->next == NULL) {
+    return;
+  }
+  delNode->val = delNode->next->val;
+  delNode->next = delNode->next->next;
+  free(delNode->next);
+}
 
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
+
+  Node *head = NULL, *prev = NULL;
+  Node* delNode = NULL;
+  int a, N, K;
+  cin >> N >> K;
+  REP(i, N) {
+    cin >> a;
+    Node* node = new Node(a);
+    if (head == NULL) {
+      head = node;
+      prev = node;
+    } else {
+      prev->next = node;
+      prev = node;
+    }
+    if (i == K) {
+      delNode = node;
+    }
+  }
+
+  deleteNode(delNode);
+
+  Node* cur = head;
+  while (cur != NULL) {
+    cout << cur->val << " ";
+    cur = cur->next;
+  }
+  cout << endl;
 
   return 0;
 }
