@@ -55,7 +55,7 @@ struct Node {
 };
 
 void deleteNode(Node* delNode) {
-  if (delNode->next == NULL) {
+  if (delNode == NULL || delNode->next == NULL) {
     return;
   }
   delNode->val = delNode->next->val;
