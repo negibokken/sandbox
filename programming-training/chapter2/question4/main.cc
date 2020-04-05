@@ -54,6 +54,46 @@ struct Node {
   Node(int val) : val(val), next(NULL) {}
 };
 
+Node* divideList(Node* head, int k) {
+  Node *big = NULL, *small = NULL;
+  if (head == NULL) {
+    return NULL;
+  }
+
+  // 振り分ける
+  Node *cur = head, *cbig = NULL, *csmall = NULL;
+  while (cur != NULL) {
+    if (cur->val >= k) {
+      if (big == NULL) {
+        big = cur;
+      } else {
+        cbig->next = cur;
+      }
+      cbig = cur;
+    } else {
+      if (small == NULL) {
+        small = cur;
+      } else {
+        csmall->next = cur;
+      }
+      csmall = cur;
+    }
+    cur = cur->next;
+  }
+  if (cbig != NULL) cbig->next = NULL;
+  if (csmall != NULL) csmall->next = NULL;
+
+  // 結合する
+  if (big == NULL) {
+    return small;
+  } else if (small == NULL) {
+    return big;
+  } else {
+    csmall->next = big;
+    return small;
+  }
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -72,24 +112,7 @@ int main(void) {
     prev = node;
   }
 
-  Node *div = NULL, *divPrev = NULL, *cur = head;
-  prev = NULL;
-  while (cur != NULL) {
-    if (div == NULL && cur->val == K) {
-      div = cur;
-      divPrev = prev;
-    }
-    if (divPrev != NULL && div != NULL && cur->val < K) {
-      Node* next = cur->next;
-      divPrev->next = cur;
-      cur->next = div;
-      divPrev = cur;
-      cur = next;
-    } else {
-      prev = cur;
-      cur = cur->next;
-    }
-  }
+  Node* cur = divideList(head, K);
 
   while (cur != NULL) {
     cout << cur->val << " ";
