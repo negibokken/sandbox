@@ -108,6 +108,16 @@ bool isBinarySearchTree(Node* head) {
   return true;
 }
 
+int last_printed = -inf;
+bool checkBST(Node* n) {
+  if (n == NULL) return true;
+  if (!checkBST(n->left)) return false;
+  if (last_printed != -inf && n->val <= last_printed) return false;
+  last_printed = n->val;
+  if (!checkBST(n->right)) return false;
+  return true;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -163,7 +173,7 @@ int main(void) {
     cout << "No" << endl;
   }
 
-  if (isBinarySearchTree(notBalancedTree)) {
+  if (checkBST(notBalancedTree)) {
     cout << "Yes" << endl;
   } else {
     cout << "No" << endl;
