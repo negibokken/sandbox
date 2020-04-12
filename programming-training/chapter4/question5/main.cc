@@ -118,6 +118,20 @@ bool checkBST(Node* n) {
   return true;
 }
 
+bool checkBST2(Node* n, int mn, int mx) {
+  if (n == NULL) return true;
+  if ((mn != -inf && n->val <= mn) || (mx != -inf && n->val > mx)) {
+    return false;
+  }
+
+  if (!checkBST2(n->left, mn, n->val) || !checkBST2(n->right, n->val, mx)) {
+    return false;
+  }
+  return true;
+}
+
+bool checkBST2(Node* n) { return checkBST2(n, -inf, -inf); }
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -179,5 +193,10 @@ int main(void) {
     cout << "No" << endl;
   }
 
+  if (checkBST2(notBalancedTree)) {
+    cout << "Yes" << endl;
+  } else {
+    cout << "No" << endl;
+  }
   return 0;
 }
