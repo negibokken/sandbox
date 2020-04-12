@@ -52,7 +52,7 @@ typedef Segment Line;
 struct Node {
   int val;
   Node *left, *right;
-  Node(int val) : val(val) {}
+  Node(int val) : val(val), left(NULL), right(NULL) {}
 };
 
 Node* rec(int l, int r, vector<int> a) {
@@ -129,6 +129,8 @@ int main(void) {
   } else {
     cout << "No" << endl;
   }
+
+  cout << "balanced" << endl;
 
   Node* notBalancedTree = new Node(10);
   notBalancedTree->left = new Node(5);
