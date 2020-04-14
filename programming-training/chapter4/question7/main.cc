@@ -82,7 +82,7 @@ void tsort(vector<vector<int>> v, vector<int> &deg, vector<bool> &visited,
   }
   for (int i = 0; i < ans.size(); i++) {
     if (i) cout << " ";
-    cout << (char)ans[i] + 'a';
+    cout << (char)(ans[i] + 'a');
   }
   cout << endl;
 }
