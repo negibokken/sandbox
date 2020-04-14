@@ -82,7 +82,7 @@ void tsort(vector<vector<int>> v, vector<int> &deg, vector<bool> &visited,
   }
 
   for (int i = 0; i < N; i++) {
-    if (visited[i] || deg[i] > 0) {
+    if (!visited[i] || deg[i] > 0) {
       cout << "error" << endl;
       return;
     }
