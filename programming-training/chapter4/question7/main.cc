@@ -80,6 +80,14 @@ void tsort(vector<vector<int>> v, vector<int> &deg, vector<bool> &visited,
   for (int u = 0; u < N; u++) {
     if (deg[u] == 0 && !visited[u]) bfs(u, v, deg, visited, ans);
   }
+
+  for (int i = 0; i < N; i++) {
+    if (visited[i] || deg[i] > 0) {
+      cout << "error" << endl;
+      return;
+    }
+  }
+
   for (int i = 0; i < ans.size(); i++) {
     if (i) cout << " ";
     cout << (char)(ans[i] + 'a');
