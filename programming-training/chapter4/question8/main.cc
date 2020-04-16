@@ -6,7 +6,6 @@
 #include <cstring>
 #include <functional>
 #include <iostream>
-#include <list>
 #include <map>
 #include <queue>
 #include <set>
@@ -51,84 +50,94 @@ typedef Segment Line;
 // clang-format on
 
 struct Node {
-  int data;
-  Node *left, *right;
-  Node(int data) : data(data), left(NULL), right(NULL) {}
+  int val;
+  Node *left, *right, *parent;
+  Node(int val) : val(val), left(NULL), right(NULL), parent(NULL) {}
 };
 
-void weaveLists(list<int>& first, list<int>& second, vector<list<int>>& results,
-                list<int>& prefix) {
-  if (first.size() == 0 || second.size() == 0) {
-    list<int> result = list<int>(prefix);
-    result.insert(result.end(), first.begin(), first.end());
-    result.insert(result.end(), second.begin(), second.end());
-    results.push_back(result);
-    return;
+int depth(Node* node) {
+  int depth = 0;
+  while (node != NULL) {
+    node = node->parent;
+    depth++;
   }
-
-  int headFirst = *first.begin();
-  first.pop_front();
-  prefix.push_back(headFirst);
-  weaveLists(first, second, results, prefix);
-
-  prefix.pop_back();
-  first.push_front(headFirst);
-
-  int headSecond = *second.begin();
-  second.pop_front();
-  prefix.push_back(headSecond);
-  weaveLists(first, second, results, prefix);
-  prefix.pop_back();
-  second.push_front(headSecond);
+  return depth;
 }
 
-vector<list<int>> allsequences(Node* node) {
-  vector<list<int>> result = vector<list<int>>();
-  if (node == NULL) {
-    result.push_back(list<int>());
-    return result;
+Node* goUpBy(Node* node, int delta) {
+  while (delta > 0 && node != NULL) {
+    node = node->parent;
+    delta--;
   }
-  list<int> prefix = list<int>();
-  prefix.push_back(node->data);
-
-  vector<list<int>> leftSeq = allsequences(node->left);
-  vector<list<int>> rightSeq = allsequences(node->right);
-
-  for (list<int> left : leftSeq) {
-    for (list<int> right : rightSeq) {
-      vector<list<int>> weaved = vector<list<int>>();
-      weaveLists(left, right, weaved, prefix);
-      result.insert(result.end(), weaved.begin(), weaved.end());
-    }
-  }
-  return result;
+  return node;
 }
 
-Node* make_tree() {
-  Node* head = new Node(2);
-  head->left = new Node(1);
-  head->right = new Node(3);
+Node* commonAncestor(Node* p, Node* q) {
+  int delta = depth(p) - depth(q);
+  Node* first = delta > 0 ? q : p;
+  Node* second = delta > 0 ? p : q;
+  second = goUpBy(second, abs(delta));
+
+  while (first != second && first != NULL && second != NULL) {
+    first = first->parent;
+    second = second = second->parent;
+  }
+  return first == NULL || second == NULL ? NULL : first;
+}
+
+void setChild(Node* n, int left, int right) {
+  n->left = new Node(left);
+  n->left->parent = n;
+
+  n->right = new Node(right);
+  n->right->parent = n;
+}
+
+void setChild(Node* n, int val, char c) {
+  if (c == 'r') {
+    n->right = new Node(val);
+    n->right->parent = n;
+  } else if (c == 'l') {
+    n->left = new Node(val);
+    n->left->parent = n;
+  }
+}
+
+Node* rec(Node* n, int val) {
+  if (n == NULL) return NULL;
+  if (n->val == val) {
+    return n;
+  } else {
+    Node* left = rec(n->left, val);
+    Node* right = rec(n->right, val);
+    if (left == NULL && right == NULL)
+      return NULL;
+    else if (left == NULL)
+      return right;
+    else
+      return left;
+  }
+}
+
+Node* makeBinaryTree() {
+  Node* head = new Node(20);
+  setChild(head, 10, 30);
+  setChild(head->left, 5, 15);
+  setChild(head->left->right, 17, 'r');
+  setChild(head->left->left, 3, 7);
   return head;
 }
 
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  Node* head = makeBinaryTree();
 
-  Node* root = make_tree();
-  vector<list<int>> results = allsequences(root);
+  Node* p = rec(head, 7);
+  Node* q = rec(head, 17);
+  Node* ans = commonAncestor(p, q);
 
-  int cnt = 0;
-  for (auto result : results) {
-    if (cnt++) cout << ",";
-    cout << "{";
-    int i = 0;
-    for (auto r : result) {
-      if (i++) cout << ",";
-      cout << r;
-    }
-    cout << "}";
-  }
+  cout << ans->val << endl;
 
   return 0;
 }
