@@ -25,7 +25,12 @@ cat << EOF | try .101
 EOF
 
 ## test case 1
-cat << EOF | try .101
+cat << EOF | try ERROR
 1
+EOF
+
+## test case 1
+cat << EOF | try ERROR
+0
 EOF
 
