@@ -75,48 +75,47 @@ bool myassert(T act, T exp) {
   return act == exp;
 }
 
-void test() {
-  string exp180[8] = {"D", "LD", "L", "LU", "U", "RU", "R", "RD"};
-  REP(i, 8) { assert(myassert(turn180(dir8[i]), exp180[i])); }
-  string expLR[8] = {"U", "LU", "L", "LD", "D", "RD", "R", "RU"};
-  REP(i, 8) { assert(myassert(turnLR(dir8[i]), expLR[i])); }
-  string expTB[8] = {"D", "RD", "R", "RU", "U", "LU", "L", "LD"};
-  REP(i, 8) { assert(myassert(turnTB(dir8[i]), expTB[i])); }
-  bool expisWSk[8] = {0, 1, 0, 1, 0, 1, 0, 1};
-  REP(i, 8) { assert(myassert(isWSk(dir8[i]), expisWSk[i])); }
-  bool expisWSt[8] = {1, 0, 1, 0, 1, 0, 1, 0};
-  REP(i, 8) { assert(myassert(isWSt(dir8[i]), expisWSt[i])); }
-  bool expisLR[9] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
-  REP(i, 9) { assert(myassert(isLR(i, i), expisLR[i])); }
-  bool expisTB[9] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
-  REP(i, 9) { assert(myassert(isTB(i, i), expisTB[i])); }
-  bool expisOver[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
-  FOR(i, -1, 10) { assert(myassert(isOver(i, i), expisOver[i + 1])); }
-  bool expisCorner[] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
-  REP(i, 9) { assert(myassert(isCorner(i, i), expisCorner[i])); }
-  REP(i, 8) { assert(myassert(w2i(dir8[i]), i)); }
-
-  // const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
-  for (auto w : dir8) {
-    vector<vector<string>> expNext(9, vector<string>(9, w));
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
-        if (isWSt(w)) {
-          expNext[i][j] = turn180(expNext[i][j]);
-        } else {
-          if (isCorner(i, j)) {
-            expNext[i][j] = turn180(expNext[i][j]);
-          } else if (isLR(i, j)) {
-            expNext[i][j] = turnLR(expNext[i][j]);
-          } else {
-            expNext[i][j] = turnTB(expNext[i][j]);
-          }
-        }
-        assert(myassert(next(i, j, w), expNext[i][j]));
-      }
-    }
-  }
-}
+// void test() {
+//   string exp180[8] = {"D", "LD", "L", "LU", "U", "RU", "R", "RD"};
+//   REP(i, 8) { assert(myassert(turn180(dir8[i]), exp180[i])); }
+//   string expLR[8] = {"U", "LU", "L", "LD", "D", "RD", "R", "RU"};
+//   REP(i, 8) { assert(myassert(turnLR(dir8[i]), expLR[i])); }
+//   string expTB[8] = {"D", "RD", "R", "RU", "U", "LU", "L", "LD"};
+//   REP(i, 8) { assert(myassert(turnTB(dir8[i]), expTB[i])); }
+//   bool expisWSk[8] = {0, 1, 0, 1, 0, 1, 0, 1};
+//   REP(i, 8) { assert(myassert(isWSk(dir8[i]), expisWSk[i])); }
+//   bool expisWSt[8] = {1, 0, 1, 0, 1, 0, 1, 0};
+//   REP(i, 8) { assert(myassert(isWSt(dir8[i]), expisWSt[i])); }
+//   bool expisLR[9] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
+//   REP(i, 9) { assert(myassert(isLR(i, i), expisLR[i])); }
+//   bool expisTB[9] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
+//   REP(i, 9) { assert(myassert(isTB(i, i), expisTB[i])); }
+//   bool expisOver[] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+//   FOR(i, -1, 10) { assert(myassert(isOver(i, i), expisOver[i + 1])); }
+//   bool expisCorner[] = {1, 0, 0, 0, 0, 0, 0, 0, 1};
+//   REP(i, 9) { assert(myassert(isCorner(i, i), expisCorner[i])); }
+//   REP(i, 8) { assert(myassert(w2i(dir8[i]), i)); }
+//
+//   // const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
+//   vector<tuple<int, int, string, string>> testCases = {
+//       {0, 0, "U", "D"}, {0, 0, "LU", "RD"}, {0, 0, "L", "R"},
+//       {0, 1, "U", "U"}, {0, 1, "LU", "RU"}, {0, 1, "L", "R"},
+//       {0, 1, "U", "U"}, {0, 1, "L", "R"},   {0, 1, "R", "R"},
+//       {8, 0, "U", "D"}, {8, 0, "RU", "LD"}, {8, 0, "R", "L"},
+//       {8, 1, "U", "U"}, {8, 1, "RU", "LU"}, {8, 1, "R", "L"},
+//       {0, 8, "D", "U"}, {0, 8, "LD", "RU"}, {0, 8, "L", "R"},
+//       {1, 8, "D", "U"}, {1, 8, "LD", "LU"}, {1, 8, "L", "L"},
+//       {1, 8, "U", "U"}, {1, 8, "RD", "RU"}, {1, 8, "RU", "RU"},
+//       {8, 8, "D", "U"}, {8, 8, "RD", "LU"}, {8, 8, "R", "L"},
+//       {7, 8, "D", "U"}, {7, 8, "RD", "RU"}, {7, 8, "R", "R"},
+//   };
+//   for (auto t : testCases) {
+//     int x = get<0>(t), y = get<1>(t);
+//     string w = get<2>(t), exp = get<3>(t);
+//     string act = next(x, y, w);
+//     assert(myassert(act, exp));
+//   }
+// }
 
 int main(void) {
   cin.tie(0);
@@ -129,16 +128,28 @@ int main(void) {
   x--, y--;
   REP(i, 9) cin >> a[i];
 
-  test();
-  return 0;
+  int dx = 0, dy = 0;
+  if (W.find("R") != string::npos) dx = 1;
+  if (W.find("L") != string::npos) dx = -1;
+  if (W.find("U") != string::npos) dy = -1;
+  if (W.find("D") != string::npos) dy = 1;
 
   string ans;
   for (int i = 0; i < 4; i++) {
-    ans += a[y][x];
-    int di = w2i(W);
-    W = next(x, y, W);
-    di = w2i(W);
-    x = x + dx8[di], y = y + dy8[di];
+    cout << a[y][x];
+    if (x == 0 && dx == -1) {
+      dx = 1;
+    }
+    if (x == 8 && dx == 1) {
+      dx = -1;
+    }
+    if (y == 0 && dy == -1) {
+      dy = 1;
+    }
+    if (y == 8 && dy == 1) {
+      dy = -1;
+    }
+    x += dx, y += dy;
   }
   cout << ans << endl;
 
