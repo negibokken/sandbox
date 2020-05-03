@@ -54,27 +54,40 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+int N, M, Q;
+void rec(vector<int> A) {}
+vector<int> a, b, c, d;
+int ans;
+
+void dfs(vector<int> A) {
+  if (A.size() == N + 1) {
+    int now = 0;
+    REP(i, Q) {
+      if (A[b[i]] - A[a[i]] == c[i]) now += d[i];
+    }
+    ans = max(ans, now);
+    return;
+  }
+
+  A.push_back(A.back());
+  while (A.back() <= M) {
+    dfs(A);
+    A.back()++;
+  }
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  ll N, M, Q;
   cin >> N >> M >> Q;
-  vector<tuple<int, int, int, int>> q;
+  a = b = c = d = vector<int>(Q);
   REP(i, Q) {
-    int a, b, c, d;
-    cin >> a >> b >> c >> d;
-    a--, b--;
-    q.push_back(tuple<int, int, int, int>({d, a, b, c}));
+    cin >> a[i] >> b[i] >> c[i] >> d[i];
+    a[i], b[i];
   }
-  sort(q.begin(), q.end());
-  reverse(q.begin(), q.end());
-
-  vector<int> ans(N, inf);
-
-  for (auto qq : q) {
-    int d = get<0>(qq), a = get<1>(qq), b = get<2>(qq), c = get<3>(qq);
-  }
+  dfs(vector<int>(1, 1));
+  cout << ans << endl;
 
   return 0;
 }
