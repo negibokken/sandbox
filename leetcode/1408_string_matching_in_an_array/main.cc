@@ -55,34 +55,20 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 vector<string> stringMatching(vector<string>& words) {
-  vector<string> results;
-  set<string> st;
+  vector<string> res;
+  sort(words.begin(), words.end(), [&words](string_view s1, string_view s2) {
+    return s1.size() < s2.size();
+  });
   for (int i = 0; i < words.size(); i++) {
+    string tmp = words[i];
     for (int j = i + 1; j < words.size(); j++) {
-      string longs =
-          words[i].length() > words[j].length() ? words[i] : words[j];
-      string shorts =
-          words[i].length() > words[j].length() ? words[j] : words[i];
-      for (int k = 0; k < longs.size(); k++) {
-        bool flag = false;
-        if (longs[k] == shorts[0]) {
-          for (int l = 0; l < shorts.size(); l++) {
-            if (longs[k + l] != shorts[l]) {
-              flag = false;
-              break;
-            }
-            flag = true;
-          }
-        }
-        if (flag) {
-          st.insert(shorts);
-          break;
-        }
+      if (words[j].find(tmp) != string::npos) {
+        res.push_back(tmp);
+        break;
       }
     }
   }
-  for (auto s : st) results.push_back(s);
-  return results;
+  return res;
 }
 
 int main(void) {
