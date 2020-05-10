@@ -55,9 +55,15 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 bool containsNearbyDuplicate(vector<int>& nums, int k) {
+  map<int, vector<int>> mp;
   for (int i = 0; i < nums.size(); i++) {
-    for (int j = i + 1; j < min(i + 1 + k, (int)nums.size()); j++) {
-      if (nums[i] == nums[j]) return true;
+    mp[nums[i]].push_back(i);
+  }
+  for (auto m : mp) {
+    for (int i = 0; i < m.second.size() - 1; i++) {
+      if (m.second[i + 1] - m.second[i] <= k) {
+        return true;
+      }
     }
   }
   return false;
