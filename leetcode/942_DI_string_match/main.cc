@@ -55,11 +55,19 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 vector<int> diStringMatch(string S) {
-  vector<int> result;
-  if (S.size() < 1) return result;
+  int N = S.size();
+  vector<int> result(N + 1);
   bool asc = S[0] == 'I';
-  for (int i = 0; i <= S.size(); i++) result.push_back(i);
-  if (!asc) sort(result.begin(), result.end());
+  int lo = 0, hi = N;
+  for (int i = 0; i < N; ++i) {
+    if (S[i] == 'I') {
+      result[i] = lo++;
+    } else {
+      result[i] = hi--;
+    }
+  }
+  result[N] = lo;
+  return result;
 }
 
 int main(void) {

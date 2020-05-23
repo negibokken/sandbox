@@ -21,7 +21,7 @@ try() {
 
 ## test case 1
 cat << EOF | try 0 4 1 3 2
-IIDD
+IDID
 EOF
 
 ## test case 2
