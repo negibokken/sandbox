@@ -55,13 +55,11 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int findSpecialInteger(vector<int>& arr) {
-  int N = arr.size();
-  for (auto a : arr) {
-    int n = upper_bound(arr.begin(), arr.end(), a) -
-            lower_bound(arr.begin(), arr.end(), a);
-    if (n > N / 4) {
-      return a;
-    }
+  int N = arr.size() / 4;
+  map<int, int> mp;
+  for (auto a : arr) mp[a]++;
+  for (auto m : mp) {
+    if (m.second > N) return m.first;
   }
   return INT_MIN;
 }
