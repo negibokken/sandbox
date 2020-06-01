@@ -70,11 +70,14 @@ class Node {
 int getImportance(vector<Employee*> employees, int id) {
   int maxid = 0;
   for (auto employee : employees) {
-    cout << employee->id << endl;
     maxid = max(maxid, employee->id);
   }
-  vector<Node*> nodes = vector<Node*>(maxid + 1, new Node());
-  for (auto employee : employees) {
+  vector<Node*> nodes = vector<Node*>(maxid + 1);
+  for (int i = 0; i <= maxid; i++) {
+    nodes[i] = new Node();
+  }
+  for (int i = 0; i < employees.size(); i++) {
+    Employee* employee = employees[i];
     int eid = employee->id;
     nodes[eid]->id = employee->id;
     nodes[eid]->value = employee->importance;
@@ -85,14 +88,11 @@ int getImportance(vector<Employee*> employees, int id) {
   }
   Node* root = nullptr;
   for (auto node : nodes) {
-    cout << node->id << endl;
     if (node != nullptr && node->id == id) {
       root = node;
       break;
     }
   }
-  cout << root->id << endl;
-
   int total = 0;
   queue<int> q;
   q.push(root->id);
