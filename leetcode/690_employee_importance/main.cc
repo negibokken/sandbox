@@ -70,6 +70,7 @@ class Node {
 int getImportance(vector<Employee*> employees, int id) {
   int maxid = 0;
   for (auto employee : employees) {
+    cout << employee->id << endl;
     maxid = max(maxid, employee->id);
   }
   vector<Node*> nodes = vector<Node*>(maxid + 1, new Node());
