@@ -27,3 +27,9 @@ cat << EOF | try 2334
 4
 3 4 3 2
 EOF
+
+## test case 2
+cat << EOF | try 43201
+5
+4 3 2 1 0
+EOF

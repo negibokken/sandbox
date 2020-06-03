@@ -33,47 +33,46 @@ const ll INF = 1LL << 60;
 const int inf = 1000000;
 // clang-format on
 
-int heap[MAX_N], sz = 0;
-
-void push(int x) {
-  int i = sz++;
-  while (i > 0) {
-    int p = (i - 1) / 2;
-    if (heap[p] <= x) break;
-
-    heap[i] = heap[p];
-    i = p;
-  }
-  heap[i] = x;
-}
-
-int pop() {
-  int ret = heap[0];
-  int x = heap[--sz];
-
-  int i = 0;
-  while (i * 2 + 1 < sz) {
-    int a = i * 2 + 1, b = i * 2 + 2;
-    if (b < sz && heap[b] < heap[a]) a = b;
-    if (heap[a] >= x) break;
-
-    heap[i] = heap[a];
-    i = a;
-  }
-  heap[i] = x;
-  return ret;
-}
-
 int N;
 int a[MAX_N];
+
+void heapify(int A[], int idx, int max) {
+  int largest = idx;
+  int left = 2 * idx + 1;
+  int right = 2 * idx + 2;
+
+  if (left < max && A[left] > A[idx]) {
+    largest = left;
+  }
+  if (right < max && A[right] > A[largest]) {
+    largest = right;
+  }
+  if (largest != idx) {
+    swap(A[idx], A[largest]);
+    heapify(A, largest, max);
+  }
+}
+
+void buildHeap(int A[]) {
+  for (int i = N / 2 - 1; i >= 0; i--) {
+    heapify(A, i, N);
+  }
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   cin >> N;
   REP(i, N) cin >> a[i];
 
-  REP(i, N) push(a[i]);
-  REP(i, N) cout << pop();
+  buildHeap(a);
+  for (int i = N - 1; i >= 1; i--) {
+    swap(a[0], a[i]);
+    heapify(a, 0, i);
+  }
+
+  REP(i, N) cout << a[i];
+  cout << endl;
 
   return 0;
 }
