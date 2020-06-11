@@ -63,16 +63,9 @@ struct ListNode {
 };
 
 ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-  ListNode* list = new ListNode(0);
-  ListNode* cur = list;
-  while (l1 != nullptr || l2 != nullptr) {
-    if (l1 == nullptr) {
-      cur->next = l2;
-      l2 = l2->next;
-    } else if (l2 == nullptr) {
-      cur->next = l1;
-      l1 = l1->next;
-    } else if (l1->val < l2->val) {
+  ListNode* cur = new ListNode(0);
+  while (l1 && l2) {
+    if (l1->val < l2->val) {
       cur->next = l1;
       l1 = l1->next;
     } else {
@@ -81,9 +74,8 @@ ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     }
     cur = cur->next;
   }
-  cur = list->next;
-  delete list;
-  return cur;
+  cur->next = l1 ? l1 : l2;
+  return cur->next;
 }
 
 ListNode* CinList(int n) {
