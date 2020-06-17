@@ -66,7 +66,6 @@ bool buddyStrings(string A, string B) {
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  std::cout << std::fixed << std::setprecision(15);
   string A, B;
   cin >> A >> B;
   if (A == "null") {
