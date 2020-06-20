@@ -53,13 +53,6 @@ struct Segment { Point p1, p2; };
 typedef Segment Line;
 // clang-format on
 
-class Node {
- public:
-  int val;
-  vector<Node*> children;
-  Node(int val) : val(val) { children = vector<Node*>(0); }
-};
-
 vector<string> subdomainVisits(vector<string>& cpdomains) {
   unordered_map<string, int> c;
   for (auto cd : cpdomains) {
