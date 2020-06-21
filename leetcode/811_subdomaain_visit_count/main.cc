@@ -53,18 +53,78 @@ struct Segment { Point p1, p2; };
 typedef Segment Line;
 // clang-format on
 
-vector<string> subdomainVisits(vector<string>& cpdomains) {
-  unordered_map<string, int> c;
-  for (auto cd : cpdomains) {
-    int i = cd.find(" ");
-    int n = stoi(cd.substr(0, i));
-    string s = cd.substr(i + 1);
-    for (int i = 0; i < s.size(); ++i)
-      if (s[i] == '.') c[s.substr(i + 1)] += n;
-    c[s] += n;
+class Node {
+ public:
+  int val;
+  string name;
+  vector<Node*> children;
+  Node(string name, int val) : name(name), val(val) {}
+  Node* findChild(string name) {
+    for (auto child : children) {
+      if (child->name == name) return child;
+    }
+    return nullptr;
   }
+  void addChild(Node* node) { children.push_back(node); }
+};
+
+vector<string> splitHostName(string s) {
   vector<string> res;
-  for (auto k : c) res.push_back(to_string(k.second) + " " + k.first);
+  int i = 0, j = 0;
+  for (i = 0; i < s.size(); i++) {
+    if (s[i] == '.') {
+      res.push_back(s.substr(j, (i - j)));
+      j = i + 1;
+    }
+  }
+  res.push_back(s.substr(j, (res.size() - j) + 1));
+  reverse(res.begin(), res.end());
+  return res;
+}
+
+void dfs(Node* node, string name, vector<string>& res) {
+  if (name != "")
+    name = node->name + "." + name;
+  else
+    name = node->name;
+  res.push_back(to_string(node->val) + " " + name);
+  for (auto child : node->children) {
+    dfs(child, name, res);
+  }
+}
+
+vector<string> subdomainVisits(vector<string>& cpdomains) {
+  unordered_map<string, Node*> mp;
+  for (auto cpdomain : cpdomains) {
+    int idx = cpdomain.find(" ");
+    int cnt = stoi(cpdomain.substr(0, idx));
+    string host = cpdomain.substr(idx + 1);
+    vector<string> names = splitHostName(host);
+    Node* parent = nullptr;
+
+    if (!mp.count(names[0])) {
+      parent = new Node(names[0], cnt);
+      mp[names[0]] = parent;
+    } else {
+      parent = mp[names[0]];
+      parent->val += cnt;
+    }
+    for (int i = 1; i < names.size(); i++) {
+      Node* child = parent->findChild(names[i]);
+      if (child == nullptr) {
+        child = new Node(names[i], 0);
+        parent->addChild(child);
+      }
+      child->val += cnt;
+      parent = child;
+    }
+  }
+
+  vector<string> res;
+  for (auto m : mp) {
+    Node* root = m.second;
+    dfs(root, "", res);
+  }
   return res;
 }
 
