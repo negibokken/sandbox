@@ -55,6 +55,7 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 bool isPalindrome(int x) {
+  // Negative is never palindrome
   if (x < 0) return false;
   string s = to_string(x);
   const int L = s.size();
