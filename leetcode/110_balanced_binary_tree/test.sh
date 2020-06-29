@@ -31,9 +31,8 @@ cat << EOF | try false
 1 2 2 3 3 -1 -1 4 4
 EOF
 
-
 ## test case 1
 cat << EOF | try false
-11
-1 2 2 3 -1 -1 3 4 -1 -1 4
+15
+1 2 2 3 -1 -1 3 4 -1 -1 -1 -1 -1 -1 4
 EOF
