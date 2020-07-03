@@ -55,23 +55,36 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 vector<int> findErrorNums(vector<int>& nums) {
-  vector<int> arr(nums.size() + 1);
+  vector<int> res(2);
+  for (int i : nums) {
+    if (nums[abs(i) - 1] < 0) {
+      res[0] = abs(i);
+    } else
+      nums[abs(i) - 1] *= -1;
+  }
   for (int i = 0; i < nums.size(); ++i) {
-    arr[nums[i]]++;
+    if (nums[i] > 0) res[1] = i + 1;
   }
-  int copied, deleted;
-  for (int i = 1; i < arr.size(); ++i) {
-    if (arr[i] == 0) {
-      deleted = i;
-    } else if (arr[i] == 2) {
-      copied = i;
-    }
-  }
-  vector<int> res;
-  res.push_back(copied);
-  res.push_back(deleted);
   return res;
 }
+// vector<int> findErrorNums(vector<int>& nums) {
+//   vector<int> arr(nums.size() + 1);
+//   for (int i = 0; i < nums.size(); ++i) {
+//     arr[nums[i]]++;
+//   }
+//   int copied, deleted;
+//   for (int i = 1; i < arr.size(); ++i) {
+//     if (arr[i] == 0) {
+//       deleted = i;
+//     } else if (arr[i] == 2) {
+//       copied = i;
+//     }
+//   }
+//   vector<int> res;
+//   res.push_back(copied);
+//   res.push_back(deleted);
+//   return res;
+// }
 
 int main(void) {
   cin.tie(0);
