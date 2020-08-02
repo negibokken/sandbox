@@ -54,7 +54,7 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-int d[50];
+long long int d[50];
 int climbStairs(int n) {
   d[0] = 1, d[1] = 1;
   for (int i = 1; i <= n; ++i) {
