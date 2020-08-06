@@ -68,7 +68,7 @@ vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
   cout << diff << endl;
   for (auto a : A) {
     if (setb.count(a - (diff / 2))) {
-      return {a, a - diff / 2};
+      return {a, a - (diff / 2)};
     }
   }
   return {0, 0};
