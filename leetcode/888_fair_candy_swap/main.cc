@@ -64,13 +64,13 @@ vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
     sumb += b;
     setb.insert(b);
   }
-  int diff = suma - sumb;
-  cout << diff << endl;
   for (auto a : A) {
-    if (setb.count(a - (diff / 2))) {
-      return {a, a - (diff / 2)};
+    int bc = a - (suma - sumb) / 2;
+    if (setb.count((bc))) {
+      return {a, bc};
     }
   }
+
   return {0, 0};
 }
 
@@ -78,9 +78,11 @@ int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  vector<int> a(2), b(2);
-  REP(i, 2) cin >> a[i];
-  REP(i, 2) cin >> b[i];
+  int n, m;
+  cin >> n >> m;
+  vector<int> a(n), b(m);
+  REP(i, n) cin >> a[i];
+  REP(i, m) cin >> b[i];
   vector<int> ans = fairCandySwap(a, b);
   int i = 0;
   for (auto an : ans) {
