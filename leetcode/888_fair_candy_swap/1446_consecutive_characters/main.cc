@@ -55,28 +55,46 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int maxPower(string s) {
-  int ans = 1, cnt = 1;
-  char prev = s[0];
-  for (int i = 1; i < s.size(); ++i) {
-    if (prev == s[i]) {
-      cnt++;
+  // ans will store the final ans and now will store the current answer
+  int ans = INT_MIN, now = 1;
+
+  for (int i = 0; i < s.length(); i++) {
+    // if the current char is the same as the next char then increase now
+    if (i + 1 < s.length() && s[i] == s[i + 1]) {
+      now++;
     } else {
-      ans = max(ans, cnt);
-      cnt = 1;
+      // if the 2 consecutive characters are not same then update ans
+      ans = max(ans, now);
+      // assign 1 to now to store the count for the next consecutive chars
+      now = 1;
     }
-    ans = max(ans, cnt);
-    prev = s[i];
   }
+  // return ans as the final answer
   return ans;
-}
 
-int main(void) {
-  cin.tie(0);
-  ios::sync_with_stdio(false);
-  std::cout << std::fixed << std::setprecision(15);
-  string s;
-  cin >> s;
-  cout << maxPower(s) << endl;
+  int maxPower2(string s) {
+    int ans = 1, cnt = 1;
+    char prev = s[0];
+    for (int i = 1; i < s.size(); ++i) {
+      if (prev == s[i]) {
+        cnt++;
+      } else {
+        ans = max(ans, cnt);
+        cnt = 1;
+      }
+      ans = max(ans, cnt);
+      prev = s[i];
+    }
+    return ans;
+  }
 
-  return 0;
-}
+  int main(void) {
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+    std::cout << std::fixed << std::setprecision(15);
+    string s;
+    cin >> s;
+    cout << maxPower(s) << endl;
+
+    return 0;
+  }

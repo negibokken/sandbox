@@ -48,3 +48,8 @@ EOF
 cat << EOF | try 1
 j
 EOF
+
+## test case 2
+cat << EOF | try 6
+jjjjjj
+EOF
