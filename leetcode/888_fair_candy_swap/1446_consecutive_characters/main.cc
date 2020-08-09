@@ -54,7 +54,7 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-int maxPower2(string s) {
+int maxPower(string s) {
   int ans = 1, cnt = 1;
   char prev = s[0];
   for (int i = 1; i < s.size(); ++i) {
