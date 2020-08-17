@@ -36,6 +36,7 @@ const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
 #define FOR(i,a,b) for(int i=(a);i<(b);++i)
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 #define SLN(i,N) (i == N-1 ? "\n" : " ")
+#define arrin(arr,N) REP(i,(N)) { cin >> arr[i]; }
 ll fact(ll n) { ll res = 1; for(ll i=2;i<=n;++i) res = res * i; return res;}
 ll nCr(ll n, ll r) {return (fact(n)/fact(n-r)*fact(r)) ;}
 ll gcd(ll a,ll b){if(b==0)return a;return gcd(b,a%b);}
@@ -55,21 +56,21 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 bool checkPossibility(vector<int>& nums) {
-  int cnt = 0, prev = INT_MIN;
-  for (int i = 0; i < nums.size(); i++) {
-    if (prev > nums[i]) {
-      cnt++;
-    } else {
-      prev = nums[i];
+  int modified = false;
+  for (int i = 1; i < nums.size(); i++) {
+    if (nums[i] < nums[i - 1]) {
+      if (modified++)
+        return false;
+      (i - 2 < 0 || nums[i - 2] <= nums[i]) ? nums[i - 1] = nums[i]
+                                            : nums[i] = nums[i - 1];
     }
   }
-  return cnt <= 1;
+  return true;
 }
 
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  std::cout << std::fixed << std::setprecision(15);
   int N;
   cin >> N;
   vector<int> arr(N);
