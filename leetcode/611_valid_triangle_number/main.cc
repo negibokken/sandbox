@@ -58,6 +58,8 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 int triangleNumber(vector<int>& nums) {
   int ans = 0;
   sort(nums.rbegin(), nums.rend());
+  REP(i, nums.size()) cout << nums[i] << " ";
+  cout << endl;
   for (int i = 0; i < nums.size() - 2; i++) {
     for (int j = i + 1; j < nums.size() - 1; j++) {
       int sum = nums[i] + nums[j];
