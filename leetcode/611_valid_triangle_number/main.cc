@@ -57,18 +57,15 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 int triangleNumber(vector<int>& nums) {
   int ans = 0;
-  sort(nums.rbegin(), nums.rend());
-  REP(i, nums.size()) cout << nums[i] << " ";
-  cout << endl;
-  for (int i = 0; i < nums.size() - 2; i++) {
-    for (int j = i + 1; j < nums.size() - 1; j++) {
-      int sum = nums[i] + nums[j];
-      int idx =
-          upper_bound(nums.rbegin(), nums.rend(), sum) - nums.rbegin() - 1;
-      cout << idx << endl;
-      int sub = nums.size() - idx;
-      if (sub < 0) continue;
-      ans += sub;
+  sort(nums.begin(), nums.end());
+  for (int k = nums.size() - 1; k > 1; k--) {
+    for (int i = 0, j = k - 1; i < j;) {
+      if (nums[i] + nums[j] > nums[k]) {
+        ans += j - i;
+        j--;
+      } else {
+        i++;
+      }
     }
   }
   return ans;
