@@ -8,10 +8,10 @@
 #include <iomanip>
 #include <iostream>
 #include <queue>
+#include <set>
 #include <stack>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 using namespace std;
 
@@ -60,7 +60,7 @@ int findPairs(vector<int>& nums, int k) {
   int ans = 0;
   unordered_map<int, int> mp;
   for (auto n : nums) mp[n]++;
-  unordered_set<pair<int, int>> st;
+  set<pair<int, int>> st;
   int a, b;
   for (int i = 0; i < nums.size(); i++) {
     mp[nums[i]]--;
