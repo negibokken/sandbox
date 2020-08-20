@@ -7,11 +7,11 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
-#include <map>
 #include <queue>
-#include <set>
 #include <stack>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 using namespace std;
 
@@ -58,9 +58,9 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 int findPairs(vector<int>& nums, int k) {
   if (k < 0) return 0;
   int ans = 0;
-  map<int, int> mp;
+  unordered_map<int, int> mp;
   for (auto n : nums) mp[n]++;
-  set<pair<int, int>> st;
+  unordered_set<pair<int, int>> st;
   int a, b;
   for (int i = 0; i < nums.size(); i++) {
     mp[nums[i]]--;
