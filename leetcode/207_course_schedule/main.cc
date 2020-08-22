@@ -55,14 +55,46 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+vector<int> findStartPoint(vector<int> indeg) {
+  vector<int> res;
+  for (int i = 0; i < indeg.size(); i++) {
+    if (indeg[i] == 0) res.push_back(i);
+  }
+  return res;
+}
+
 bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
   vector<vector<int>> G(numCourses);
+  vector<int> indeg(numCourses);
+  vector<bool> visited(numCourses);
   for (int i = 0; i < prerequisites.size(); i++) {
     int v1 = prerequisites[i][0], v2 = prerequisites[i][1];
     G[v1].push_back(v2);
+    indeg[v2]++;
   }
-  for (int v = 0; v < numCourses; v++) {
+  vector<int> starts = findStartPoint(indeg);
+  if (starts.size() == 0) {
+    return false;
   }
+  queue<int> q;
+  for (auto s : starts) {
+    q.push(s);
+    visited[s] = true;
+  }
+  while (!q.empty()) {
+    int v = q.front();
+    q.pop();
+    for (auto u : G[v]) {
+      indeg[u]--;
+      if (indeg[u] == 0 && !visited[u]) {
+        q.push(u);
+      }
+    }
+  }
+  for (auto i : indeg) {
+    if (i != 0) return false;
+  }
+  return true;
 }
 
 int main(void) {

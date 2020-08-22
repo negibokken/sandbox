@@ -31,3 +31,17 @@ cat << EOF | try false
 1 0
 0 1
 EOF
+
+## test case 2
+cat << EOF | try true
+3 2
+2 0
+2 1
+EOF
+
+## test case 2
+cat << EOF | try true
+3 2
+1 0
+2 0
+EOF
