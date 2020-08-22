@@ -55,10 +55,30 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+  vector<vector<int>> G(numCourses);
+  for (int i = 0; i < prerequisites.size(); i++) {
+    int v1 = prerequisites[i][0], v2 = prerequisites[i][1];
+    G[v1].push_back(v2);
+  }
+  for (int v = 0; v < numCourses; v++) {
+  }
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
+  int numCourses, n;
+  cin >> numCourses >> n;
+  vector<vector<int>> prerequisites;
+  REP(i, n) {
+    vector<int> a(2);
+    REP(j, 2) { cin >> a[j]; }
+    prerequisites.push_back(a);
+  }
+
+  cout << (canFinish(numCourses, prerequisites) ? "true" : "false") << endl;
 
   return 0;
 }
