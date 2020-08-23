@@ -56,29 +56,16 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int countTriplets(vector<int>& arr) {
-  vector<vector<bool>> d(arr.size(), vector<bool>(32, 0));
-
-  for (int j = 0; j < 32; j++) {
-    d[0][j] = (arr[0] & (1 << j));
-  }
+  vector<int> d(arr.size());
+  d[0] = arr[0];
   for (int i = 1; i < arr.size(); i++) {
-    for (int j = 0; j < 32; j++) {
-      d[i][j] = (bool)(arr[i] & (1 << j)) ^ d[i - 1][j];
-    }
+    d[i] = arr[i] ^ d[i - 1];
   }
   int ans = 0;
-  // calc
   for (int i = 0; i < arr.size() - 1; i++) {
     for (int j = i + 1; j < arr.size(); j++) {
       for (int k = j; k < arr.size(); k++) {
-        bool res = true;
-        for (int l = 0; l < 32; l++) {
-          res &= ((bool)(arr[i] & (1 << l)) ^ d[i][l] ^ d[j - 1][l]) ==
-                 ((bool)(arr[j] & (1 << l)) ^ d[j][l] ^ d[k][l]);
-          if (!res) {
-            break;
-          }
-        }
+        bool res = (arr[i] ^ d[i] ^ d[j - 1]) == (arr[j] ^ d[j] ^ d[k]);
         if (res) ans++;
       }
     }
