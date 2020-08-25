@@ -7,11 +7,11 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
-#include <map>
 #include <queue>
 #include <set>
 #include <stack>
 #include <string>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
@@ -56,7 +56,7 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C,
                  vector<int>& D) {
-  map<int, int> mp;
+  unordered_map<int, int> mp;
   for (int i = 0; i < A.size(); i++) {
     for (int j = 0; j < B.size(); j++) {
       mp[A[i] + B[j]]++;
