@@ -57,20 +57,17 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 bool validMountainArray(vector<int>& A) {
   if (A.size() < 3) return false;
-  int prev = A[0];
   int i = 1;
-  while (i < A.size() && prev < A[i]) {
-    if (prev == A[i]) return false;
-    prev = A[i];
+  while (i < A.size() && A[i - 1] < A[i]) {
+    if (A[i - 1] == A[i]) return false;
     i++;
   }
   if (i == A.size() || i == 1) return false;
-  while (i < A.size()) {
-    if (prev <= A[i]) return false;
-    prev = A[i];
+  while (i < A.size() && A[i - 1] > A[i]) {
+    if (A[i - 1] <= A[i]) return false;
     i++;
   }
-  return true;
+  return i == A.size();
 }
 
 int main(void) {
