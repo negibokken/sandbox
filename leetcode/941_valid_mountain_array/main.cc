@@ -59,11 +59,8 @@ bool validMountainArray(vector<int>& A) {
   if (A.size() < 3) return false;
   int prev = A[0];
   int i = 1;
-  while (i < A.size()) {
-    if (prev > A[i])
-      break;
-    else if (prev == A[i])
-      return false;
+  while (i < A.size() && prev < A[i]) {
+    if (prev == A[i]) return false;
     prev = A[i];
     i++;
   }
