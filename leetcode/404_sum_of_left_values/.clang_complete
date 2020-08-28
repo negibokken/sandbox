@@ -1,0 +1,4 @@
+-DDEBUG
+-I/usr/local/Cellar/llvm/9.0.0/include/c++/v1
+-I/Users/bokken/blib/include
+-L/Users/bokken/blib/lib
