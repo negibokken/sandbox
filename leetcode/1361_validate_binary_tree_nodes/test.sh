@@ -20,13 +20,35 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try 1 3 3 3 4 5 6
-7
-6 5 3 1 3 4 3
+cat << EOF | try true
+4
+1 -1 3 -1
+2 -1 -1 -1
 EOF
 
 ## test case 2
-cat << EOF | try 2 3 3 4
+cat << EOF | try false
 4
-3 4 3 2
+1 -1 3 -1
+2 3 -1 -1
+EOF
+
+## test case 2
+cat << EOF | try false
+2
+1 0
+-1 -1
+EOF
+
+## test case 2
+cat << EOF | try false
+6
+1 -1 -1 4 -1 -1
+2 -1 -1 5 -1 -1
+EOF
+
+cat << EOF | try true
+4
+3 -1 1 -1
+-1 -1 0 -1
 EOF

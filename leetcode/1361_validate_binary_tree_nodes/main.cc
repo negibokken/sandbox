@@ -56,13 +56,72 @@ double dot(Vector a, Vector b) { return a.x * b.x + a.y * b.y; }
 double cross(Vector a, Vector b) { return a.x * b.y - a.y * b.x; }
 struct Segment { Point p1, p2; };
 typedef Segment Line;
-struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
+
+struct Node {
+  int data;
+  Node *left, *right;
+  Node(int data) : data(data), left(nullptr), right(nullptr) {}
+};
+
+bool validateBinaryTreeNodes(int n, vector<int>& leftChild,
+                             vector<int>& rightChild) {
+  vector<Node*> arr(n);
+  vector<int> indeg(n);
+  for (int i = 0; i < n; ++i) arr[i] = new Node(i);
+  for (int i = 0; i < n; ++i) {
+    if (leftChild[i] != -1) {
+      arr[i]->left = arr[leftChild[i]];
+      indeg[leftChild[i]]++;
+    }
+    if (rightChild[i] != -1) {
+      arr[i]->right = arr[rightChild[i]];
+      indeg[rightChild[i]]++;
+    }
+  }
+
+  int root = -1;
+  for (int i = 0; i < n; i++) {
+    if (indeg[i] == 0) {
+      root = i;
+      break;
+    }
+  }
+  if (root == -1) return false;
+
+  vector<bool> visited(n, false);
+  queue<Node*> q;
+  q.push(arr[root]);
+  while (!q.empty()) {
+    Node* node = q.front();
+    q.pop();
+    if (visited[node->data]) return false;
+    visited[node->data] = true;
+    if ((node->left && visited[node->left->data]) ||
+        (node->right && visited[node->right->data])) {
+      return false;
+    }
+    if (node->left) q.push(node->left);
+    if (node->right) q.push(node->right);
+  }
+  for (int i = 0; i < n; ++i) {
+    if (!visited[i]) return false;
+  }
+  return true;
+}
 
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
+  int n;
+  cin >> n;
+  vector<int> l(n), r(n);
+
+  REP(i, n) cin >> l[i];
+  REP(i, n) cin >> r[i];
+
+  cout << (validateBinaryTreeNodes(n, l, r) ? "true" : "false") << endl;
 
   return 0;
 }
