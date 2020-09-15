@@ -61,15 +61,26 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 using namespace bokken;
 
 vector<int> postorderTraversal(TreeNode* root) {
-  if (!root) return {};
-  vector<int> v, v2;
-  v2 = postorderTraversal(root->left);
-  v.insert(v.end(), v2.begin(), v2.end());
-  v2 = postorderTraversal(root->right);
-  v.insert(v.end(), v2.begin(), v2.end());
-  v.push_back(root->val);
-  return v;
+  vector<int> ans;
+  stack<TreeNode*> st;
+  st.push(root);
+  while (!st.empty()) {
+    TreeNode* cur = st.top();
+    st.pop();
+    if (cur->left) st.push(cur->left);
+    if (cur->right) st.push(cur->right);
+  }
 }
+// vector<int> postorderTraversal(TreeNode* root) {
+//   if (!root) return {};
+//   vector<int> v, v2;
+//   v2 = postorderTraversal(root->left);
+//   v.insert(v.end(), v2.begin(), v2.end());
+//   v2 = postorderTraversal(root->right);
+//   v.insert(v.end(), v2.begin(), v2.end());
+//   v.push_back(root->val);
+//   return v;
+// }
 
 int main(void) {
   cin.tie(0);
