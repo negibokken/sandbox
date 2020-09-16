@@ -81,7 +81,7 @@ class UnionFind {
     if (d[i] == i) {
       return i;
     } else {
-      return d[i] = find(i);
+      return d[i] = find(d[i]);
     }
   }
   void unite(int i, int j) {
