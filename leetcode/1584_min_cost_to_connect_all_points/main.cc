@@ -60,64 +60,92 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-typedef tuple<int, int, int> T;
-struct comp {
-  bool operator()(const T& lhs, const T& rhs) const {
-    return get<0>(lhs) > get<0>(rhs);
-  }
-};
-
-class UnionFind {
-  vector<int> d;
-  vector<int> rnk;
-
- public:
-  UnionFind(int n) {
-    d.resize(n), rnk.resize(n, 0);
-    for (int i = 0; i < n; i++) d[i] = i;
-  }
-  bool same(int i, int j) { return find(i) == find(j); }
-  int find(int i) {
-    if (d[i] == i) {
-      return i;
-    } else {
-      return d[i] = find(d[i]);
+// typedef array<int, 3> T;
+// struct comp {
+//   bool operator()(const T& lhs, const T& rhs) const {
+//     return get<0>(lhs) > get<0>(rhs);
+//   }
+// };
+//
+// class UnionFind {
+//   vector<int> d;
+//   vector<int> rnk;
+//
+//  public:
+//   UnionFind(int n) {
+//     d.resize(n), rnk.resize(n, 0);
+//     for (int i = 0; i < n; i++) d[i] = i;
+//   }
+//   bool same(int i, int j) { return find(i) == find(j); }
+//   int find(int i) {
+//     if (d[i] == i) {
+//       return i;
+//     } else {
+//       return d[i] = find(d[i]);
+//     }
+//   }
+//   void unite(int i, int j) {
+//     int x = find(i);
+//     int y = find(j);
+//     if (x == y) return;
+//     if (rnk[x] < rnk[y]) {
+//       d[x] = y;
+//     } else {
+//       d[y] = x;
+//       if (rnk[x] == rnk[y]) rnk[x]++;
+//     }
+//   }
+// };
+//
+// int minCostConnectPoints(vector<vector<int>>& points) {
+//   UnionFind uf(points.size());
+//   priority_queue<T, vector<T>, comp> pq;
+//   for (int i = 0; i < points.size(); i++) {
+//     for (int j = i + 1; j < points.size(); j++) {
+//       int cost =
+//           abs(points[i][0] - points[j][0]) + abs(points[i][1] -
+//           points[j][1]);
+//       pq.push({cost, i, j});
+//     }
+//   }
+//   long long ans = 0;
+//   while (!pq.empty()) {
+//     array<int, 3> a = pq.top();
+//     a[0];
+//     if (!uf.same(u, v)) {
+//       ans += cost;
+//       uf.unite(u, v);
+//     }
+//     pq.pop();
+//   }
+//   return ans;
+// }
+int find(vector<int>& ds, int i) {
+  return ds[i] < 0 ? i : ds[i] = find(ds, ds[i]);
+}
+int minCostConnectPoints(vector<vector<int>>& ps) {
+  int n = ps.size(), res = 0;
+  vector<int> ds(n, -1);
+  vector<array<int, 3>> arr;
+  for (auto i = 0; i < n; ++i)
+    for (auto j = i + 1; j < n; ++j) {
+      arr.push_back(std::array<int, 3>{
+          {abs(ps[i][0] - ps[j][0]) + abs(ps[i][1] - ps[j][1]), i, j}});
+    }
+  make_heap(begin(arr), end(arr), greater<array<int, 3>>());
+  while (!arr.empty()) {
+    pop_heap(begin(arr), end(arr), greater<array<int, 3>>());
+    array<int, 3> a = arr.back();
+    arr.pop_back();
+    i = find(ds, i), j = find(ds, j);
+    if (i != j) {
+      res += dist;
+      ds[i] += ds[j];
+      ds[j] = i;
+      if (ds[i] == -n) break;
     }
   }
-  void unite(int i, int j) {
-    int x = find(i);
-    int y = find(j);
-    if (x == y) return;
-    if (rnk[x] < rnk[y]) {
-      d[x] = y;
-    } else {
-      d[y] = x;
-      if (rnk[x] == rnk[y]) rnk[x]++;
-    }
-  }
-};
-
-int minCostConnectPoints(vector<vector<int>>& points) {
-  UnionFind uf(points.size());
-  priority_queue<T, vector<T>, comp> pq;
-  for (int i = 0; i < points.size(); i++) {
-    for (int j = i + 1; j < points.size(); j++) {
-      int cost =
-          abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]);
-      pq.push({cost, i, j});
-    }
-  }
-  long long ans = 0;
-  while (!pq.empty()) {
-    tuple<int, int, int> tp = pq.top();
-    int u = get<1>(tp), v = get<2>(tp), cost = get<0>(tp);
-    if (!uf.same(u, v)) {
-      ans += cost;
-      uf.unite(u, v);
-    }
-    pq.pop();
-  }
-  return ans;
+  return res;
 }
 
 int main(void) {
