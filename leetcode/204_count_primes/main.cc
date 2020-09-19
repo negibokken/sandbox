@@ -61,7 +61,8 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 int countPrimes(int n) {
   int ans = 0;
-  vector<bool> vec(n, true);
+  vector<bool> vec(n + 1);
+  for (int i = 0; i < n; i++) vec[i] = true;
   vec[0] = vec[1] = false;
   for (int i = 2; i < n; i++) {
     if (vec[i]) {
