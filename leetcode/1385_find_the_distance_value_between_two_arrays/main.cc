@@ -19,17 +19,6 @@
 #include "bokken.h"
 using namespace std;
 
-typedef long long ll;
-typedef pair<int, int> P;
-typedef pair<int, char> Pc;
-typedef pair<int, string> Ps;
-
-const int dx[4] = {-1, 0, 0, 1};
-const int dy[4] = {0, -1, 1, 0};
-const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
-const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
-const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
-
 // Self settings
 // clang-format off
 #define MAX_N 100000
