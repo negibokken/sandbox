@@ -12,7 +12,11 @@
 #include <set>
 #include <stack>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
+
+#include "bokken.h"
 using namespace std;
 
 typedef long long ll;
@@ -36,6 +40,7 @@ const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
 #define FOR(i,a,b) for(int i=(a);i<(b);++i)
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 #define SLN(i,N) (i == N-1 ? "\n" : " ")
+#define arrin(arr,N) REP(i,(N)) { cin >> arr[i]; }
 ll fact(ll n) { ll res = 1; for(ll i=2;i<=n;++i) res = res * i; return res;}
 ll nCr(ll n, ll r) {return (fact(n)/fact(n-r)*fact(r)) ;}
 ll gcd(ll a,ll b){if(b==0)return a;return gcd(b,a%b);}
@@ -56,17 +61,13 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) {
   int ans = 0;
-  int l = arr2.size();
   sort(arr2.begin(), arr2.end());
-  for (int i = 0; i < arr1.size(); i++) {
-    int j = lower_bound(arr2.begin(), arr2.end(), arr1[i]) - arr2.begin();
-    if (abs(arr1[i] - arr2[j]) > d) {
-      if (j - 1 > 0)
-        if (abs(arr1[i] - arr2[j - 1]) <= d) continue;
-      if (j + 1 < l)
-        if (abs(arr1[i] - arr2[j + 1]) <= d) continue;
+  for (auto a : arr1) {
+    int l = lower_bound(arr2.begin(), arr2.end(), a - d) - arr2.begin();
+    int r = upper_bound(arr2.begin(), arr2.end(), a + d) - arr2.begin() - 1;
+    if (r < 0 || r < l) {
       ans++;
-    }
+    };
   }
   return ans;
 }
@@ -77,10 +78,11 @@ int main(void) {
   std::cout << std::fixed << std::setprecision(15);
   int n, m, d;
   cin >> n >> m >> d;
-  vector<int> arr1(n), arr2(m);
-  REP(i, n) cin >> arr1[i];
+  vector<int> arr(n), arr2(m);
+  REP(i, n) cin >> arr[i];
   REP(i, m) cin >> arr2[i];
-  cout << findTheDistanceValue(arr1, arr2, d) << endl;
+
+  cout << findTheDistanceValue(arr, arr2, d) << endl;
 
   return 0;
 }
