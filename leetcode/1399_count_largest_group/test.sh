@@ -20,13 +20,16 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try 1 3 3 3 4 5 6
-7
-6 5 3 1 3 4 3
+cat << EOF | try 4
+13
 EOF
 
 ## test case 2
-cat << EOF | try 2 3 3 4
-4
-3 4 3 2
+cat << EOF | try 6
+15
+EOF
+
+## test case 2
+cat << EOF | try 5
+24
 EOF

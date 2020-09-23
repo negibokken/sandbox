@@ -59,12 +59,38 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+int sumDigit(int n) {
+  int sum = 0;
+  while (n > 0) {
+    sum += (n % 10);
+    n /= 10;
+  }
+  return sum;
+}
+
+int countLargestGroup(int n) {
+  unordered_map<int, int> mp;
+  for (int i = 1; i <= n; i++) {
+    mp[sumDigit(i)]++;
+  }
+  int mx = 0;
+  for (auto m : mp) {
+    mx = max(mx, m.second);
+  }
+  int ans = 0;
+  for (auto m : mp) {
+    if (m.second == mx) ans++;
+  }
+  return ans;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
   int n;
   cin >> n;
+  cout << countLargestGroup(n) << endl;
 
   return 0;
 }
