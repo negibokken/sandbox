@@ -62,7 +62,7 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 int dominantIndex(vector<int>& nums) {
   if (nums.size() < 1) return -1;
   int idx = -1;
-  long first = INT_MIN, second = INT_MIN;
+  int first = -1, second = -1;
   for (int i = 0; i < nums.size(); i++) {
     if (nums[i] >= first) {
       second = first;
@@ -72,11 +72,7 @@ int dominantIndex(vector<int>& nums) {
       second = nums[i];
     }
   }
-  if (first >= (2 * second)) {
-    return idx;
-  } else {
-    return -1;
-  }
+  return first >= (2 * second) ? idx : -1;
 }
 
 int main(void) {
