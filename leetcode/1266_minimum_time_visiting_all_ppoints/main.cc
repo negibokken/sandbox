@@ -65,10 +65,12 @@ int minTimeToVisitAllPoints(vector<vector<int>>& points) {
   vector<int> cur = points[0];
   for (int i = 1; i < points.size(); ++i) {
     vector<int> next = points[i];
-    int dx = abs(next[0] - cur[0]), dy = abs(next[1] - next[0]);
-
+    int dx = abs(next[0] - cur[0]), dy = abs(next[1] - cur[1]);
+    int d = min(dx, dy) + dx + dy - 2 * min(dx, dy);
+    ans += d;
     cur = next;
   }
+  return ans;
 }
 
 int main(void) {
@@ -83,6 +85,8 @@ int main(void) {
     REP(j, 2) cin >> a[j];
     arr[i] = a;
   }
+
+  cout << minTimeToVisitAllPoints(arr) << endl;
 
   return 0;
 }
