@@ -71,6 +71,7 @@ bool exist(vector<vector<char>>& board, string word) {
     }
   }
   vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size()));
+  return false;
 }
 
 int main(void) {
