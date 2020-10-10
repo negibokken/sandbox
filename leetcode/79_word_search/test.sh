@@ -21,7 +21,7 @@ try() {
 
 ## test case 1
 cat << EOF | try true true false
-4
+3 4
 A B C E
 S F C S
 A D E E
@@ -29,4 +29,12 @@ A D E E
 ABCCED
 SEE
 ABCB
+EOF
+
+## test case 1
+cat << EOF | try true
+1 1
+a
+1
+a
 EOF

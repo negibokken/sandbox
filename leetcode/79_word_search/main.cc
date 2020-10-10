@@ -24,8 +24,6 @@ typedef pair<int, int> P;
 typedef pair<int, char> Pc;
 typedef pair<int, string> Ps;
 
-const int dx[4] = {-1, 0, 0, 1};
-const int dy[4] = {0, -1, 1, 0};
 const int dx8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 const int dy8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
 const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
@@ -59,18 +57,74 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-bool exist(vector<vector<char>>& board, string word) {
-  if (board.size() == 0) return false;
-  map<char, vector<pair<int, int>>> chars;
-  for (int i = 0; i < board.size(); i++) {
-    for (int j = 0; j < board.size(); j++) {
+int dx[4] = {0, 1, 0, -1};
+int dy[4] = {-1, 0, 1, 0};
+bool rec(vector<vector<char>>& board, vector<vector<bool>> visited, string word,
+         int idx, int x, int y) {
+  if (idx == word.size() - 1) return true;
+  // cout << word[idx] << ", " << board[y][x] << endl;
+  if (word[idx] != board[y][x]) return false;
+  visited[y][x] = true;
+  bool f = false;
+  for (int i = 0; i < 4; i++) {
+    int ny = y + dy[i], nx = x + dx[i];
+    if (nx < 0 || nx >= board[0].size()) continue;
+    if (ny < 0 || ny >= board.size()) continue;
+    if (visited[ny][nx]) continue;
+    if (idx + 1 < word.size() && word[idx + 1] != board[ny][nx]) continue;
+    f |= rec(board, visited, word, idx + 1, nx, ny);
+    if (f) return true;
+  }
+  return f;
+}
+
+bool initCompleted = false;
+map<char, vector<pair<int, int>>> chars;
+
+void init(vector<vector<char>>& board,
+          map<char, vector<pair<int, int>>>& chars) {
+  if (initCompleted) return;
+  int height = board.size();
+  int width = board[0].size();
+  for (int i = 0; i < height; i++) {
+    for (int j = 0; j < width; j++) {
       if (chars.count(board[i][j]) == 0) {
         chars[board[i][j]] = vector<pair<int, int>>();
       }
       chars[board[i][j]].push_back({i, j});
     }
   }
-  vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size()));
+  initCompleted = true;
+}
+
+bool exist(vector<vector<char>>& board, string word) {
+  if (board.size() == 0) return false;
+  init(board, chars);
+  // for (auto p : chars) {
+  //   cout << p.first << endl;
+  //   for (int i = 0; i < p.second.size(); i++) {
+  //     cout << p.second[i].first << ", " << p.second[i].second << " ";
+  //   }
+  //   cout << endl;
+  // }
+
+  bool found = false;
+  char start = word[0];
+  // cout << "start: " << start << endl;
+  // for (int i = 0; i < chars[start].size(); i++) {
+  //   pair<int, int> s = chars[start][i];
+  //   cout << s.first << ", " << s.second << endl;
+  // }
+  // cout << "====" << endl;
+  for (int i = 0; i < chars[start].size(); i++) {
+    pair<int, int> s = chars[start][i];
+    // cout << s.first << ", " << s.second << endl;
+    vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size()));
+    found = rec(board, visited, word, 0, s.second, s.first);
+    if (found) {
+      return true;
+    }
+  }
   return false;
 }
 
@@ -78,19 +132,19 @@ int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  int n, m;
-  cin >> n;
-  vector<vector<char>> board(n, vector<char>(n));
-  REP(i, n) {
+  int l, n, m;
+  cin >> l >> n;
+  vector<vector<char>> board(l, vector<char>(n));
+  REP(i, l) {
     REP(j, n) { cin >> board[i][j]; }
   }
-  cin >> m;
 
+  cin >> m;
   string s;
   REP(i, m) {
     if (i) cout << " ";
     cin >> s;
-    cout << (exist(board, s) ? "true" : "false") << endl;
+    cout << (exist(board, s) ? "true" : "false");
   }
   cout << endl;
 
