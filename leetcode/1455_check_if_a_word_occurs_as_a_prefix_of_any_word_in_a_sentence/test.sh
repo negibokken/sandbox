@@ -20,31 +20,13 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try 4
-4 burg
-i love eating burger
+cat << EOF | try 1 3 3 3 4 5 6
+7
+6 5 3 1 3 4 3
 EOF
 
 ## test case 2
-cat << EOF | try 2
-6 pro
-this problem is an easy problem
-EOF
-
-## test case 2
-cat << EOF | try -1
-3 you
-i am tired
-EOF
-
-## test case 2
-cat << EOF | try 4
-4 pill
-i use triple pillow
-EOF
-
-## test case 2
-cat << EOF | try -1
-5 they
-hello from the other side
+cat << EOF | try 2 3 3 4
+4
+3 4 3 2
 EOF

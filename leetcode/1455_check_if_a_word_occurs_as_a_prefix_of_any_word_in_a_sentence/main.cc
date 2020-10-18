@@ -59,39 +59,10 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-int isPrefixOfWord(string sentence, string searchWord) {
-  string sent = " " + sentence, word = " " + searchWord;
-  auto pos = sent.find(word);
-  if (pos != string::npos) {
-    return count(sent.begin(), sent.begin() + pos + 1, ' ');
-  }
-  return -1;
-}
-
-string join(vector<string>& strs) {
-  string s;
-  int i = 0;
-  for (const string& str : strs) {
-    if (i++) s += " ";
-    s += str;
-  }
-  return s;
-}
-
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-
-  int n;
-  string searchWord;
-  cin >> n >> searchWord;
-  vector<string> strs(n);
-  arrin(strs, n);
-
-  string sentence = join(strs);
-
-  cout << isPrefixOfWord(sentence, searchWord);
 
   return 0;
 }
