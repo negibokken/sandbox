@@ -12,6 +12,7 @@
 #include <set>
 #include <stack>
 #include <string>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
@@ -54,55 +55,39 @@ struct Segment { Point p1, p2; };
 typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
-bool detectCapitalUse(string word) {
-  enum State { S, Cc, Mc, l, C, NG };
-  State s = S;
-  for (int i = 0; i < word.size(); i++) {
-    switch (s) {
-      case S:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Cc;
-        } else {
-          s = l;
-        }
-        break;
-      case Cc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          s = C;
-        }
-        break;
-      case Mc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          return false;
-        }
-        break;
-      case l:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      case C:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      default:
-        break;
+
+int singleNumber(vector<int>& nums) {
+  int ans = 0;
+  for (int i = 0; i < 32; i++) {
+    int sum = 0;
+    for (int j = 0; j < nums.size(); j++) {
+      if (nums[j] & (1 << i)) {
+        sum++;
+      }
     }
+    ans |= (sum %= 3) << i;
   }
-  return s != NG;
+  return ans;
 }
+
+// int singleNumber(vector<int>& nums) {
+//   unordered_map<int, int> mp;
+//   for (auto n : nums) mp[n]++;
+//   for (auto m : mp) {
+//     if (m.second == 1) return m.first;
+//   }
+//   return -1;
+// }
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  string s;
-  cin >> s;
-  cout << (detectCapitalUse(s) ? "True" : "False") << endl;
+  int n;
+  cin >> n;
+  vector<int> arr(n);
+  arrin(arr, n);
+  cout << singleNumber(arr) << endl;
 
   return 0;
 }

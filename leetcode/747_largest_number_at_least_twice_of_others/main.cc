@@ -60,7 +60,6 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int dominantIndex(vector<int>& nums) {
-  if (nums.size() < 1) return -1;
   int idx = -1;
   int first = -1, second = -1;
   for (int i = 0; i < nums.size(); i++) {

@@ -60,17 +60,6 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 using namespace bokken;
 
-// vector<int> postorderTraversal(TreeNode* root) {
-//   vector<int> ans;
-//   stack<TreeNode*> st;
-//   st.push(root);
-//   while (!st.empty()) {
-//     TreeNode* cur = st.top();
-//     st.pop();
-//     if (cur->left) st.push(cur->left);
-//     if (cur->right) st.push(cur->right);
-//   }
-// }
 vector<int> postorderTraversal(TreeNode* root) {
   if (!root) return {};
   vector<int> v, v2;

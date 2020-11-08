@@ -20,31 +20,25 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try True
-USA
+cat << EOF | try 110
+6
+1 2 3 4 5 6
 EOF
 
 ## test case 2
-cat << EOF | try False
-FlaG
+cat << EOF | try 90
+9
+1 -1 2 3 4 -1 -1 5 6
+EOF
+exit
+## test case 2
+cat << EOF | try 1025
+11
+2 3 9 10 7 8 6 5 4 11 1
 EOF
 
 ## test case 2
-cat << EOF | try True
-flag
-EOF
-
-## test case 2
-cat << EOF | try False
-FFFFFFFFFFFFFFFFFFFFf
-EOF
-
-## test case 2
-cat << EOF | try True
-Google
-EOF
-
-## test case 2
-cat << EOF | try False
-ffffffffffffffffffffF
+cat << EOF | try 1
+2
+1 1
 EOF

@@ -56,9 +56,9 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 vector<string> stringMatching(vector<string>& words) {
   vector<string> res;
-  sort(words.begin(), words.end(), [&words](string_view s1, string_view s2) {
-    return s1.size() < s2.size();
-  });
+  sort(words.begin(), words.end(),
+       [](string s1, string s2) { return s1.size() < s2.size(); });
+
   for (int i = 0; i < words.size(); i++) {
     string tmp = words[i];
     for (int j = i + 1; j < words.size(); j++) {

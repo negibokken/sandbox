@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <functional>
-#include <iomanip>
 #include <iostream>
 #include <map>
 #include <queue>
@@ -17,8 +16,6 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> P;
-typedef pair<int, char> Pc;
-typedef pair<int, string> Ps;
 
 const int dx[4] = {-1, 0, 0, 1};
 const int dy[4] = {0, -1, 1, 0};
@@ -33,10 +30,8 @@ const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
 #define INFTY (1<<30)
 #define EPS (1e-10)
 #define equals(a, b) (fabs((a) - (b)) < EPS)
-#define FOR(i,a,b) for(int i=(a);i<(b);++i)
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 #define SLN(i,N) (i == N-1 ? "\n" : " ")
-#define arrin(arr,N) REP(i,(N)) { cin >> arr[i]; }
 ll fact(ll n) { ll res = 1; for(ll i=2;i<=n;++i) res = res * i; return res;}
 ll nCr(ll n, ll r) {return (fact(n)/fact(n-r)*fact(r)) ;}
 ll gcd(ll a,ll b){if(b==0)return a;return gcd(b,a%b);}
@@ -52,57 +47,11 @@ double dot(Vector a, Vector b) { return a.x * b.x + a.y * b.y; }
 double cross(Vector a, Vector b) { return a.x * b.y - a.y * b.x; }
 struct Segment { Point p1, p2; };
 typedef Segment Line;
-struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
-bool detectCapitalUse(string word) {
-  enum State { S, Cc, Mc, l, C, NG };
-  State s = S;
-  for (int i = 0; i < word.size(); i++) {
-    switch (s) {
-      case S:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Cc;
-        } else {
-          s = l;
-        }
-        break;
-      case Cc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          s = C;
-        }
-        break;
-      case Mc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          return false;
-        }
-        break;
-      case l:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      case C:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      default:
-        break;
-    }
-  }
-  return s != NG;
-}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
-  std::cout << std::fixed << std::setprecision(15);
-  string s;
-  cin >> s;
-  cout << (detectCapitalUse(s) ? "True" : "False") << endl;
 
   return 0;
 }

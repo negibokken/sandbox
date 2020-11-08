@@ -55,7 +55,6 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 enum State { initial, one_bit, two_bit_first, two_bit };
-const string st[] = {"initial", "one_bit", "two_bit_first", "two_bit"};
 
 class StateMachine {
  private:

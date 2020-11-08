@@ -20,31 +20,13 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try True
-USA
+cat << EOF | try [[1,1,2],[1,2,1],[2,1,1]]
+3
+1 1 2
 EOF
 
 ## test case 2
-cat << EOF | try False
-FlaG
-EOF
-
-## test case 2
-cat << EOF | try True
-flag
-EOF
-
-## test case 2
-cat << EOF | try False
-FFFFFFFFFFFFFFFFFFFFf
-EOF
-
-## test case 2
-cat << EOF | try True
-Google
-EOF
-
-## test case 2
-cat << EOF | try False
-ffffffffffffffffffffF
+cat << EOF | try [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+3
+1 2 3
 EOF

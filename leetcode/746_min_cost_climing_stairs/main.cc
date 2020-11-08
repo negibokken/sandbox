@@ -36,7 +36,6 @@ const string dir8[8] = {"U", "RU", "R", "RD", "D", "LD", "L", "LU"};
 #define FOR(i,a,b) for(int i=(a);i<(b);++i)
 #define REP(i, N) for (int i = 0; i < (int)(N); ++i)
 #define SLN(i,N) (i == N-1 ? "\n" : " ")
-#define arrin(arr,N) REP(i,(N)) { cin >> arr[i]; }
 ll fact(ll n) { ll res = 1; for(ll i=2;i<=n;++i) res = res * i; return res;}
 ll nCr(ll n, ll r) {return (fact(n)/fact(n-r)*fact(r)) ;}
 ll gcd(ll a,ll b){if(b==0)return a;return gcd(b,a%b);}
@@ -54,55 +53,27 @@ struct Segment { Point p1, p2; };
 typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
-bool detectCapitalUse(string word) {
-  enum State { S, Cc, Mc, l, C, NG };
-  State s = S;
-  for (int i = 0; i < word.size(); i++) {
-    switch (s) {
-      case S:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Cc;
-        } else {
-          s = l;
-        }
-        break;
-      case Cc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          s = C;
-        }
-        break;
-      case Mc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          return false;
-        }
-        break;
-      case l:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      case C:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      default:
-        break;
-    }
+
+int minCostClimbingStairs(vector<int>& cost) {
+  int n = cost.size();
+  vector<int> dp(n + 1, INT_MAX);
+  for (int i = 0; i < n; ++i) {
+    int c = i >= n ? 0 : cost[i];
+    int dd = min(dp[i], dp[i - 1]);
+    dp[i + 1] = c + min(dp[i], dp[i - 1]);
   }
-  return s != NG;
+  return dp[n + 1];
 }
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  string s;
-  cin >> s;
-  cout << (detectCapitalUse(s) ? "True" : "False") << endl;
+  int n;
+  cin >> n;
+  vector<int> arr(n);
+  REP(i, n) cin >> arr[i];
+  cout << minCostClimbingStairs(arr) << endl;
 
   return 0;
 }

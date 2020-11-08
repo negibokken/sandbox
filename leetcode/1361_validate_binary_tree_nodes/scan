@@ -1,0 +1,3 @@
+2020-09-13T15:56:53.102Z	[33mWARN[0m	You should avoid using the :latest tag as it is cached. You need to specify '--clear-cache' option when :latest image is changed
+2020-09-13T15:56:53.107Z	[34mINFO[0m	Need to update DB
+2020-09-13T15:56:53.107Z	[34mINFO[0m	Downloading DB...

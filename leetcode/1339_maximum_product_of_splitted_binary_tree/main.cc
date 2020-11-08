@@ -52,57 +52,95 @@ double dot(Vector a, Vector b) { return a.x * b.x + a.y * b.y; }
 double cross(Vector a, Vector b) { return a.x * b.y - a.y * b.x; }
 struct Segment { Point p1, p2; };
 typedef Segment Line;
-struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
 // clang-format on
-bool detectCapitalUse(string word) {
-  enum State { S, Cc, Mc, l, C, NG };
-  State s = S;
-  for (int i = 0; i < word.size(); i++) {
-    switch (s) {
-      case S:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Cc;
-        } else {
-          s = l;
-        }
-        break;
-      case Cc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          s = C;
-        }
-        break;
-      case Mc:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          s = Mc;
-        } else {
-          return false;
-        }
-        break;
-      case l:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      case C:
-        if ('A' <= word[i] && word[i] <= 'Z') {
-          return false;
-        }
-        break;
-      default:
-        break;
+
+// long long res = 0;
+// int totalSum(TreeNode *root) {
+//   if (root == nullptr) return 0;
+//   return root->val + totalSum(root->left) + totalSum(root->right);
+// }
+//
+// void maxProduct(TreeNode *root, int total) {
+//   if (root == nullptr) return;
+//   int sub = totalSum(root);
+//   res = max<long long>(res, (total - sub) * sub);
+//   maxProduct(root->left, total);
+//   maxProduct(root->right, total);
+// }
+//
+// int maxProduct(TreeNode *root) {
+//   int total = totalSum(root);
+//   maxProduct(root, total);
+//   return res % (int)(1e9 + 7);
+// }
+
+long res = 0, total = 0, sub;
+int s(TreeNode *root) {
+  if (!root) return 0;
+  sub = root->val + s(root->left) + s(root->right);
+  res = max(res, sub * (total - sub));
+  return sub;
+}
+int maxProduct(TreeNode *root) {
+  total = s(root), s(root);
+  return res % (int)(1e9 + 7);
+}
+
+void bfs(TreeNode *root) {
+  if (root == nullptr) return;
+  cout << "val: " << root->val << endl;
+  if (root->left)
+    cout << "left: " << root->left->val << endl;
+  else
+    cout << "left: null" << endl;
+  if (root->right)
+    cout << "right: " << root->right->val << endl;
+  else
+    cout << "right: null" << endl;
+  cout << endl;
+  bfs(root->left);
+  bfs(root->right);
+}
+
+TreeNode *buildTree(TreeNode *root, vector<int> arr) {
+  root = new TreeNode(arr[0]);
+  queue<TreeNode *> q;
+  q.push(root);
+  for (int i = 1; i < arr.size(); i++) {
+    TreeNode *node = q.front();
+    if (node->left == nullptr && arr[i - 1] != -1) {
+      if (arr[i] != -1) {
+        node->left = new TreeNode(arr[i]);
+        q.push(node->left);
+      }
+    } else if (node->right == nullptr && arr[i - 1] != -1) {
+      node->right = new TreeNode(arr[i]);
+      if (arr[i] != -1) q.push(node->right);
+      q.pop();
     }
   }
-  return s != NG;
+  return root;
 }
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
-  string s;
-  cin >> s;
-  cout << (detectCapitalUse(s) ? "True" : "False") << endl;
+  int n;
+  cin >> n;
+  vector<int> arr(n);
+  REP(i, n) cin >> arr[i];
+  TreeNode *root = buildTree(root, arr);
+  bfs(root);
+  cout << maxProduct(root) << endl;
 
   return 0;
 }
