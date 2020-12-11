@@ -69,7 +69,7 @@ vector<vector<int>> generate(int numRows) {
       if (j == 0 || j == i) {
         row.push_back(1);
       } else {
-        row.push_back(ans[i - 1][j] + ans[i - 1][j + 1]);
+        row.push_back(ans[i - 1][j - 1] + ans[i - 1][j]);
       }
     }
     ans.push_back(row);
