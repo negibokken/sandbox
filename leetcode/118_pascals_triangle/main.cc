@@ -60,7 +60,7 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 vector<vector<int>> generate(int numRows) {
-  if (numRows <= 0) return {{}};
+  if (numRows <= 0) return {};
 
   vector<vector<int>> ans;
   for (int i = 0; i < numRows; i++) {
