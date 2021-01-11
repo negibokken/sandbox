@@ -59,13 +59,27 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-bool isToeplitzMatrix(vector<vector<int>>& matrix) {
-  if(matrix.size() == 0) return true;
-  if(matrix[0].size() == 0) return true;
-  for(int i = 0; i < matrix.size(); i++)
-  for(int j = 0; j < matrix[0].size(); j++) {
-    matrix[i][j]
+bool helper(vector<vector<int>>& matrix, int i, int j) {
+  int m = matrix[i][j];
+  while (i < matrix.size() && j < matrix[0].size()) {
+    if (m != matrix[i][j]) {
+      return false;
+    }
+    i++, j++;
   }
+  return true;
+}
+
+bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+  if (matrix.size() == 0) return true;
+  if (matrix[0].size() == 0) return true;
+  for (int i = 0; i < matrix[0].size(); i++) {
+    if (!helper(matrix, 0, i)) return false;
+  }
+  for (int i = 1; i < matrix.size(); i++) {
+    if (!helper(matrix, i, 0)) return false;
+  }
+  return true;
 }
 
 int main(void) {
@@ -76,14 +90,20 @@ int main(void) {
   cin >> n >> m;
   vector<vector<int>> arr(n, vector<int>(m));
 
-  REP(i,n) {
-    REP(j,m) {
-      cin >> arr[i][j];
-    }
+  REP(i, n) {
+    REP(j, m) { cin >> arr[i][j]; }
   }
 
-  std::cout << (isToeplitzMatrix(arr)) << std::endl;
+  // for (int i = 0; i < arr.size(); i++) {
+  //   for (int j = 0; j < arr[0].size(); j++) {
+  //     if (j) cout << ", ";
+  //     cout << arr[i][j];
+  //   }
+  //   cout << endl;
+  // }
+  // cout << "---" << endl;
 
+  std::cout << (isToeplitzMatrix(arr) ? "true" : "false") << std::endl;
 
   return 0;
 }
