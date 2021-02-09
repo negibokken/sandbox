@@ -92,11 +92,25 @@ TreeNode* walk(TreeNode* head, vector<char> order) {
   return head;
 }
 
+TreeNode* ggetTargetCopy(TreeNode* orig, TreeNode* clone, TreeNode* targ) {
+  return orig == nullptr
+             ? nullptr
+             : orig == targ
+                   ? clone
+                   : ggetTargetCopy(orig->left, clone->left, targ)
+                         ?: ggetTargetCopy(orig->right, clone->right, targ);
+}
+
 TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned,
                         TreeNode* target) {
-  vector<char> order = search(original, target, {});
-  TreeNode* p = walk(cloned, order);
-  return p;
+  if (original == nullptr) return nullptr;
+  if (original == target) return cloned;
+  return getTargetCopy(original->left, cloned->left, target)
+             ?: getTargetCopy(original->right, cloned->right, target);
+
+  // vector<char> order = search(original, target, {});
+  // TreeNode* p = walk(cloned, order);
+  // return p;
 }
 
 TreeNode* findNode(TreeNode* head, int val) {
