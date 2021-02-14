@@ -1,11 +1,13 @@
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <functional>
 #include <iomanip>
+#include <ios>
 #include <iostream>
 #include <map>
 #include <queue>
@@ -59,10 +61,56 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+int leastBricks(vector<vector<int>>& wall) {
+  if (wall.size() == 0) {
+    return 0;
+  }
+  int width = 0;
+  for (auto& a : wall[0]) width += a;
+  map<int, int> mp;
+  for (int i = 1; i < width; i++) mp[i] = 0;
+
+  for (const auto& w : wall) {
+    int sum = 0;
+    for (const auto& ww : w) {
+      sum += ww;
+      if (sum == width) break;
+      mp[sum]++;
+    }
+  }
+  if (mp.size() == 0) return wall.size();
+  int minv = INT_MAX;
+  for (const auto& m : mp) {
+    cout << m.first << "," << m.second << endl;
+    minv = std::min(minv, width - m.second);
+  }
+  return minv;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
+  vector<vector<int>> arr;
+
+  int ln = 0;
+  string line;
+  while (getline(std::cin, line)) {
+    char str[line.length() + 1];
+    for (int i = 0; i < line.length(); i++) {
+      str[i] = line[i];
+    }
+    str[line.length() + 1] = '\0';
+    vector<int> a;
+    char* pch = strtok(str, " ");
+    while (pch != NULL) {
+      a.push_back(atoi(pch));
+      pch = strtok(NULL, " ");
+    }
+    arr.push_back(a);
+  }
+
+  cout << leastBricks(arr) << endl;
 
   return 0;
 }
