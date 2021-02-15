@@ -62,27 +62,17 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int leastBricks(vector<vector<int>>& wall) {
-  if (wall.size() == 0) {
-    return 0;
-  }
-  int width = 0;
-  for (auto& a : wall[0]) width += a;
-  map<int, int> mp;
-  for (int i = 1; i < width; i++) mp[i] = 0;
+  int minv = wall.size();
+  unordered_map<int, int> mp;
 
   for (const auto& w : wall) {
-    int sum = 0;
-    for (const auto& ww : w) {
-      sum += ww;
-      if (sum == width) break;
+    for (int i = 0, sum = 0; i < w.size() - 1; i++) {
+      sum += w[i];
       mp[sum]++;
     }
   }
-  if (mp.size() == 0) return wall.size();
-  int minv = INT_MAX;
   for (const auto& m : mp) {
-    cout << m.first << "," << m.second << endl;
-    minv = std::min(minv, width - m.second);
+    minv = min<int>(minv, (int)wall.size() - m.second);
   }
   return minv;
 }
