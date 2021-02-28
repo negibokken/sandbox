@@ -59,7 +59,21 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
-int maximumUniqueSubarray(vector<int>& nums) { return 1; }
+int maximumUniqueSubarray(vector<int>& nums) {
+  int result = 0;
+  unordered_set<int> hset;
+  for (int i = 0, j = 0, win = 0; j < nums.size(); j++) {
+    while (hset.find(nums[j]) != hset.end()) {
+      hset.erase(nums[i]);
+      win -= nums[i];
+      i++;
+    }
+    hset.insert(nums[j]);
+    win += nums[j];
+    result = max(result, win);
+  }
+  return result;
+}
 
 int main(void) {
   cin.tie(0);
@@ -69,6 +83,8 @@ int main(void) {
   cin >> n;
   vector<int> arr(n);
   REP(i, n) cin >> arr[i];
+
+  cout << maximumUniqueSubarray(arr) << endl;
 
   return 0;
 }
