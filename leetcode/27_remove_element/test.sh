@@ -26,7 +26,7 @@ cat << EOF | try "2,2 2"
 EOF
 
 ## test case 2
-cat << EOF | try "5,0 1 4 0 3"
+cat << EOF | try "5,0 1 3 0 4"
 8 2
 0 1 2 2 3 0 4 2
 EOF

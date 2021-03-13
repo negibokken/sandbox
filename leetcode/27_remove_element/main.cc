@@ -59,11 +59,20 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+void printArray(vector<int>& arr) {
+  for (int i = 0; i < arr.size(); i++) {
+    if (i) cout << " ";
+    cout << arr[i];
+  }
+  cout << endl;
+}
+
 int removeElement(vector<int>& nums, int val) {
-  for (auto it = nums.begin(); it != nums.end(); it++) {
-    cout << *(it) << endl;
+  for (auto it = nums.begin(); it != nums.end();) {
     if (*it == val) {
       nums.erase(it);
+    } else {
+      it++;
     }
   }
   return nums.size();
