@@ -61,26 +61,20 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 using namespace bokken;
 
-int maxDepth(TreeNode* root) {
+int maxDepth(TreeNode* root, int& mx) {
   if (root == nullptr) {
     return 0;
   }
-  return max(maxDepth(root->left), maxDepth(root->right)) + 1;
+  int left = maxDepth(root->left, mx);
+  int right = maxDepth(root->right, mx);
+  mx = max(mx, left + right);
+  return max(left, right) + 1;
 }
 
 int diameterOfBinaryTree(TreeNode* root) {
-  return maxDepth(root->left) + maxDepth(root->right);
-}
-
-void print(TreeNode* root, int d = 0) {
-  vector<vector<int>> res;
-  if (root == nullptr) return;
-
-  queue<TreeNode*> q;
-  q.push(root);
-  while (!q.empty()) {
-    TreeNode* node = q.front();
-  }
+  int mx = 0;
+  maxDepth(root, mx);
+  return mx;
 }
 
 int main(void) {
@@ -94,6 +88,8 @@ int main(void) {
   REP(i, n) cin >> arr[i];
 
   TreeNode* root = buildTree(arr);
+  // cout << endl;
+  // print(nullptr, root);
 
   cout << diameterOfBinaryTree(root) << endl;
 

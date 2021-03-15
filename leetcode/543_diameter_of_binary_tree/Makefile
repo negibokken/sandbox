@@ -4,3 +4,5 @@ main: main.cc
 test: main
 	./test.sh
 
+clean:
+	rm main
