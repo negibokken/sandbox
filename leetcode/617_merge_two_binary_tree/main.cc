@@ -62,21 +62,16 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 using namespace bokken;
 
 TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
-  int v1 = root1 ? root1->val : 0;
-  int v2 = root2 ? root2->val : 0;
-  TreeNode* node = new TreeNode(v1 + v2);
   if (root1 == nullptr && root2 == nullptr) {
     return nullptr;
-  } else if (root1 == nullptr) {
-    node->left = mergeTrees(nullptr, root2->left);
-    node->right = mergeTrees(nullptr, root2->right);
-  } else if (root2 == nullptr) {
-    node->left = mergeTrees(root1->left, nullptr);
-    node->right = mergeTrees(root1->right, nullptr);
-  } else {
-    node->left = mergeTrees(root1->left, root2->left);
-    node->right = mergeTrees(root1->right, root2->right);
   }
+  auto val = [](TreeNode* node) { return node ? node->val : 0; };
+  auto left = [](TreeNode* node) { return node ? node->left : nullptr; };
+  auto right = [](TreeNode* node) { return node ? node->right : nullptr; };
+  TreeNode* node = root1 ? root1 : root2;
+  node->val += (node == root1 ? val(root2) : val(root1));
+  node->left = mergeTrees(left(root1), left(root2));
+  node->right = mergeTrees(right(root1), right(root2));
   return node;
 }
 
