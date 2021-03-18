@@ -61,24 +61,27 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 class Logger {
  private:
-  unordered_map<string, int> mp;
+  typedef pair<int, string> Pp;
+  deque<Pp> q;
 
  public:
   /** Initialize your data structure here. */
-  Logger() { mp = unordered_map<string, int>(); }
+  Logger() { q = deque<Pp>(); }
 
   /** Returns true if the message should be printed in the given timestamp,
      otherwise returns false. If this method returns false, the message will not
      be printed. The timestamp is in seconds granularity. */
   bool shouldPrintMessage(int timestamp, string message) {
-    if (!mp.count(message)) {
-      mp[message] = timestamp;
-      return true;
-    } else if (mp.count(message) && mp[message] + 10 <= timestamp) {
-      mp[message] = timestamp;
-      return true;
+    while (!q.empty() && q.front().first + 10 <= timestamp) {
+      q.pop_front();
     }
-    return false;
+    for (auto p : q) {
+      if (p.second == message) {
+        return false;
+      }
+    }
+    q.push_back({timestamp, message});
+    return true;
   }
 };
 
