@@ -90,6 +90,7 @@ int main(void) {
   int E;
   cin >> V >> E;
   int u, v, c;
+  REP(i, V) { REP(j, V) cost[i][j] = INFTY; }
   REP(i, E) {
     cin >> u >> v >> c;
     cost[u][v] = c;
@@ -97,7 +98,7 @@ int main(void) {
   }
 
   dijkstra(0);
-  cout << cost[0][6] << endl;
+  cout << d[6] << endl;
 
   return 0;
 }
