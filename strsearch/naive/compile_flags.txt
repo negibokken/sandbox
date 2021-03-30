@@ -1,0 +1,5 @@
+-o main
+-std=c++14
+-I/Users/bokken/blib/include
+-L/Users/bokken/blib/lib
+-lbokken
