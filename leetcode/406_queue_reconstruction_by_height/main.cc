@@ -59,10 +59,84 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+struct comp {
+  inline bool operator()(const vector<int>& a, const vector<int>& b) {
+    if (a[1] < b[1])
+      return true;
+    else if (a[1] == b[1] && a[0] < b[0])
+      return true;
+    else
+      return false;
+  }
+};
+
+class ListNode {
+ public:
+  vector<int> val;
+  ListNode* next;
+  ListNode(vector<int> a) : val(a), next(nullptr) {}
+};
+
+vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+  vector<vector<int>> ans(people.size());
+  if (people.size() == 0) return ans;
+
+  sort(people.begin(), people.end(), comp());
+
+  ListNode* root = new ListNode(people[0]);
+  for (int i = 1; i < people.size(); i++) {
+    ListNode* cur = root;
+    ListNode* previous;
+    int moreThanNumCnt = 0;
+    while (cur != nullptr) {
+      if (cur->val[0] >= people[i][0] && moreThanNumCnt >= people[i][1]) break;
+      if (cur->val[0] >= people[i][0]) moreThanNumCnt++;
+      previous = cur;
+      cur = cur->next;
+    };
+    // previous become target point
+    ListNode* node = new ListNode(people[i]);
+    node->next = previous->next;
+    previous->next = node;
+  }
+
+  int idx = 0;
+  ListNode* cur = root;
+  while (cur != nullptr) {
+    ans[idx++] = cur->val;
+    cur = cur->next;
+  }
+
+  return ans;
+}
+
 int main(void) {
   cin.tie(0);
   ios::sync_with_stdio(false);
   std::cout << std::fixed << std::setprecision(15);
+  int n;
+  cin >> n;
+  vector<vector<int>> arr(n);
+
+  int u, v;
+  REP(i, n) {
+    cin >> u >> v;
+    arr[i] = {u, v};
+  }
+
+  auto ans = reconstructQueue(arr);
+
+  cout << "[";
+  for (int i = 0; i < ans.size(); i++) {
+    if (i) cout << ",";
+    cout << "[";
+    for (int j = 0; j < ans[i].size(); j++) {
+      if (j) cout << ",";
+      cout << ans[i][j];
+    }
+    cout << "]";
+  }
+  cout << "]";
 
   return 0;
 }
