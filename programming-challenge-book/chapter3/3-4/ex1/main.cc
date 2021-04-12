@@ -68,9 +68,9 @@ int rec(int S, int v) {
   if (dp[S][v] >= 0) {
     return dp[S][v];
   }
-  if (S == (1 << n) - 1 && v == 0) {
-    return dp[S][v] = 0;
-  }
+  // if (S == (1 << n) - 1 && v == 0) {
+  //   return dp[S][v] = 0;
+  // }
   int res = inf;
   for (int u = 0; u < n; u++) {
     if (!(S >> u & 1)) {
@@ -82,7 +82,9 @@ int rec(int S, int v) {
 
 void solve() {
   memset(dp, -1, sizeof(dp));
-  printf("%d\n", rec(0, 0));
+  dp[(1 << n) - 1][0] = 0;
+  int res = rec(0, 0);
+  printf("%d\n", res == inf ? -1 : res);
 }
 
 int main(void) {

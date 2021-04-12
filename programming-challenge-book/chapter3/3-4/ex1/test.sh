@@ -33,3 +33,23 @@ cat << EOF | try 22
 4 1 6
 EOF
 
+
+## test case 1
+cat << EOF | try 16
+4 6
+0 1 2
+1 2 3
+1 3 9
+2 0 1
+2 3 6
+3 2 4
+EOF
+
+## test case 1
+cat << EOF | try -1
+3 3
+0 1 1
+1 2 1
+0 2 1
+EOF
+
