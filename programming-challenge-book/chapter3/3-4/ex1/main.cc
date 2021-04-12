@@ -68,9 +68,6 @@ int rec(int S, int v) {
   if (dp[S][v] >= 0) {
     return dp[S][v];
   }
-  // if (S == (1 << n) - 1 && v == 0) {
-  //   return dp[S][v] = 0;
-  // }
   int res = inf;
   for (int u = 0; u < n; u++) {
     if (!(S >> u & 1)) {
