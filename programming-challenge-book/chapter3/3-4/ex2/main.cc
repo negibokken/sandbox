@@ -66,6 +66,20 @@ int d[MAX_M][MAX_M];
 
 double dp[1 << MAX_M][MAX_M];
 
+string printb(int n, int x) {
+  string s = "";
+  while (n > 0) {
+    int b = n % 2;
+    s += to_string(b);
+    n /= 2;
+  }
+  while (s.size() < x) {
+    s += "0";
+  }
+  reverse(s.begin(), s.end());
+  return s;
+}
+
 void solve() {
   for (int i = 0; i <= 1 << n; i++) {
     fill(dp[i], dp[i] + m, inf);
@@ -100,6 +114,13 @@ int main(void) {
   std::cout << std::fixed << std::setprecision(15);
   cin >> n >> m >> a >> b;
   REP(i, n) cin >> t[i];
+  int u, v, c;
+  REP(i, m) REP(j, m) d[i][j] = inf;
+  REP(i, m) {
+    cin >> u >> v >> c;
+    d[u][v] = c;
+    d[v][u] = c;
+  }
   solve();
 
   return 0;
