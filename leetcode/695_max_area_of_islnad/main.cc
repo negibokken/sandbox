@@ -59,6 +59,7 @@ typedef Segment Line;
 struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NULL), right(NULL) {} };
 // clang-format on
 
+// rec
 int rec(int r, int c, vector<vector<int>>& grid,
         vector<vector<bool>>& visited) {
   if (visited[r][c]) return 0;
