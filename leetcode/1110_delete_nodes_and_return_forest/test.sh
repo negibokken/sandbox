@@ -50,7 +50,7 @@ cat << EOF | try "[[1],[4]]"
 2 3
 EOF
 
-cat << EOF | try "[[1],[4]]"
+cat << EOF | try "[[3,null,4]]"
 7
 1 2 3 null null null 4
 2
