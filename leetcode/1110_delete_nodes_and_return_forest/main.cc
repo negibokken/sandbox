@@ -60,33 +60,28 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 using namespace bokken;
 
-bool isDeleted(TreeNode* node, vector<int>& to_delete) {
-  if (!node) return true;
-  auto it = find(to_delete.begin(), to_delete.end(), node->val);
-  return it != to_delete.end();
-}
+vector<TreeNode*> res;
+set<int> dp;
 
-void rec(TreeNode* root, TreeNode* prev, vector<int>& to_delete,
-         vector<TreeNode*>& ans) {
-  if (ans.size() == 0 && !isDeleted(root, to_delete)) ans.push_back(root);
-  if (!root) return;
-  if (isDeleted(root, to_delete)) {
-    if (prev && prev->left == root) prev->left = nullptr;
-    if (prev && prev->right == root) prev->right = nullptr;
-    if (root->left && !isDeleted(root->left, to_delete))
-      ans.push_back(root->left);
-    if (root->right && !isDeleted(root->right, to_delete))
-      ans.push_back(root->right);
+void util(TreeNode*& root) {
+  if (root != NULL) {
+    util(root->left);
+    util(root->right);
+    if (dp.find(root->val) != dp.end()) {
+      if (root->left) res.push_back(root->left);
+      if (root->right) res.push_back(root->right);
+      root = NULL;
+      delete root;
+    }
   }
-  rec(root->left, root, to_delete, ans);
-  rec(root->right, root, to_delete, ans);
 }
 
 vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-  sort(to_delete.begin(), to_delete.end());
-  vector<TreeNode*> ans;
-  rec(root, nullptr, to_delete, ans);
-  return ans;
+  for (auto t : to_delete) dp.insert(t);
+  util(root);
+  if (root) res.push_back(root);
+  reverse(res.begin(), res.end());
+  return res;
 }
 
 vector<string> to_array(TreeNode* root) {

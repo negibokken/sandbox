@@ -21,7 +21,7 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "[[1,2,null,4],[6],[7]]"
+cat << EOF | try "[[1,2,null,4],[7],[6]]"
 7
 1 2 3 4 5 6 7
 2
