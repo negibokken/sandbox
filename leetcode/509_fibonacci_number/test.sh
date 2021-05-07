@@ -34,3 +34,8 @@ EOF
 cat << EOF | try 3
 4
 EOF
+
+## test case 2
+cat << EOF | try 0
+0
+EOF
