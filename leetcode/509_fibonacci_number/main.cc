@@ -60,14 +60,12 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int fib(int n) {
-  vector<int> dp(n + 2);
-
-  dp[0] = 0, dp[1] = 1;
+  int arr[2];
+  arr[0] = 0, arr[1] = 1;
   for (int i = 2; i <= n; i++) {
-    dp[i] = dp[i - 2] + dp[i - 1];
+    arr[i % 2] = arr[1] + arr[0];
   }
-
-  return dp[n];
+  return arr[n % 2];
 }
 
 int main(void) {
