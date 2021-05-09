@@ -60,26 +60,14 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 
 int numSplits(string s) {
-  int cl[26], cr[26];
-  memset(cl, 0, sizeof cl);
-  memset(cr, 0, sizeof cr);
+  int cl[26] = {}, cr[26] = {};
 
   int ans = 0;
   int n = s.length();
 
-  string left = s.substr(0, 1);
-  string right = s.substr(1, n - 1);
-
   int cntl = 0, cntr = 0;
-  for (auto c : left) cl[c - 'a']++;
-  for (auto c : right) cr[c - 'a']++;
-  for (int i = 0; i < 26; i++) {
-    if (cl[i] > 0) cntl++;
-    if (cr[i] > 0) cntr++;
-  }
-  if (cntl == cntr) ans++;
-
-  for (int i = 1; i < n; i++) {
+  for (auto c : s) cr[c - 'a']++;
+  for (int i = 0; i < n; i++) {
     cntl = 0, cntr = 0;
     cl[s[i] - 'a']++, cr[s[i] - 'a']--;
     for (int i = 0; i < 26; i++) {
