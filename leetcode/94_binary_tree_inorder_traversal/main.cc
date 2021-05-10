@@ -61,16 +61,20 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 
 using namespace bokken;
 
-void rec(TreeNode* node, vector<int>& ans) {
-  if (!node) return;
-  rec(node->left, ans);
-  ans.push_back(node->val);
-  rec(node->right, ans);
-}
-
 vector<int> inorderTraversal(TreeNode* root) {
   vector<int> ans;
-  rec(root, ans);
+
+  stack<TreeNode*> q;
+  while (root || !q.empty()) {
+    while (root) {
+      q.push(root);
+      root = root->left;
+    }
+    root = q.top();
+    q.pop();
+    ans.push_back(root->val);
+    root = root->right;
+  }
   return ans;
 }
 
