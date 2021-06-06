@@ -60,64 +60,33 @@ struct Node { int data; Node *left, *right; Node(int data) : data(data), left(NU
 // clang-format on
 using namespace bokken;
 
-void preprocess(int n, int cur, set<int> st, vector<set<int>>& pattern) {
-  if (n < st.size()) {
-    return;
-  }
-  st.insert(2 * cur + 1);
-  st.insert(2 * cur + 2);
-  if (n == st.size()) {
-    pattern.push_back(st);
-    return;
-  }
-  preprocess(n, 2 * cur + 1, st, pattern);
-  preprocess(n, 2 * cur + 2, st, pattern);
-}
-
-void rec(TreeNode* node, int cur, set<int>& pattern) {
-  if (pattern.empty()) {
-    return;
-  }
-  if (pattern.find(2 * cur + 1) != pattern.end()) {
-    pattern.erase(2 * cur + 1);
-    node->left = new TreeNode(0);
-    rec(node->left, 2 * cur + 1, pattern);
-  }
-  if (pattern.find(2 * cur + 2) != pattern.end()) {
-    pattern.erase(2 * cur + 2);
-    node->right = new TreeNode(0);
-    rec(node->right, 2 * cur + 2, pattern);
-  }
+TreeNode* clone(TreeNode* root) {
+  TreeNode* new_root = new TreeNode(0);
+  new_root->left = (root->left) ? clone(root->left) : nullptr;
+  new_root->right = (root->right) ? clone(root->right) : nullptr;
+  return new_root;
 }
 
 vector<TreeNode*> allPossibleFBT(int n) {
-  vector<set<int>> patterns;
-  set<int> st;
-  st.insert(0);
-  preprocess(n, 0, st, patterns);
-
-  cout << "patterns.size(): " << patterns.size() << endl;
-
-  vector<TreeNode*> ans;
-  for (auto p : patterns) {
-    int i = 0;
-    for (auto pp : p) {
-      if (i++) cout << ", ";
-      cout << pp;
+  std::vector<TreeNode*> ret;
+  if (n == 1) {
+    ret.emplace_back(new TreeNode(0));
+  } else if (n % 2) {
+    for (int i = 2; i <= n; i += 2) {
+      auto left = allPossibleFBT(i - 1);
+      auto right = allPossibleFBT(n - i);
+      for (int l_idx = 0; l_idx < left.size(); ++l_idx) {
+        for (int r_idx = 0; r_idx < right.size(); ++r_idx) {
+          ret.emplace_back(new TreeNode(0));
+          ret.back()->left =
+              (r_idx == right.size() - 1) ? left[l_idx] : clone(left[l_idx]);
+          ret.back()->right =
+              (l_idx == left.size() - 1) ? right[r_idx] : clone(right[r_idx]);
+        }
+      }
     }
-    cout << endl;
-    TreeNode* root = new TreeNode(0);
-    ans.push_back(root);
-    rec(root, 0, p);
   }
-  return ans;
-}
-
-void print(TreeNode* node) {
-  if (!node) return;
-  print(node->left);
-  cout << node->val << endl;
-  print(node->right);
+  return ret;
 }
 
 int main(void) {
@@ -128,10 +97,6 @@ int main(void) {
   cin >> n;
 
   vector<TreeNode*> ans = allPossibleFBT(n);
-
-  for (auto a : ans) {
-    // print(a);
-  }
 
   return 0;
 }

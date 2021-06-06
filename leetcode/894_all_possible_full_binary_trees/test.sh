@@ -29,3 +29,13 @@ EOF
 cat << EOF | try "[[0,0,0]]"
 3
 EOF
+
+## test case 2
+cat << EOF | try "[[0]]"
+1
+EOF
+
+## test case 2
+cat << EOF | try "[[0]]"
+16
+EOF
