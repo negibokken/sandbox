@@ -29,3 +29,8 @@ EOF
 cat << EOF | try ""
 dog racecar car
 EOF
+
+## test case 2
+cat << EOF | try "a"
+a
+EOF

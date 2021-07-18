@@ -8,20 +8,18 @@ class Solution:
         m = 500
         for str in strs:
             m  = min(m, len(str))
+
         for i in range(m):
             t = "*"
-            for s in str:
-                print(s[i])
+            for s in strs:
                 if s[i] != t and t != "*":
-                    print(">{}<".format(s[:i]))
                     return s[:i]
                 t = s[i]
-        return ""
-        
+        return strs[0][:m]
 
 st = []
 for line in sys.stdin:
     st = line.rstrip("\n ").split(" ")
 
 s = Solution()
-s.longestCommonPrefix(st)
+print(s.longestCommonPrefix(st))
