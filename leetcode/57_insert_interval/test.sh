@@ -21,13 +21,43 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try 1 3 3 3 4 5 6
-7
-6 5 3 1 3 4 3
+cat << EOF | try "[[1, 5], [6, 9]]"
+2
+1 3
+6 9
+2 5
 EOF
 
 ## test case 2
-cat << EOF | try 2 3 3 4
-4
-3 4 3 2
+cat << EOF | try "[[1, 2], [3, 10], [12, 16]]"
+5
+1 2
+3 5
+6 7
+8 10
+12 16
+4 8
+EOF
+
+cat << EOF | try "[[5, 7]]"
+0
+5 7
+EOF
+
+cat << EOF | try "[[1, 5]]"
+1
+1 5
+2 3
+EOF
+
+cat << EOF | try "[[1, 7]]"
+1
+1 5
+2 7
+EOF
+
+cat << EOF | try "[[1, 5]]"
+1
+2 5
+1 3
 EOF
