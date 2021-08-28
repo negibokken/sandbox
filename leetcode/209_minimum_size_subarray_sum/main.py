@@ -12,7 +12,7 @@ class Solution:
         i, j = 0, 0
         while i < len(nums):
             while sum >= target:
-                sum -= nums[i]
+                sum += nums[i]
                 i += 1
             j = i
             while sum < target and j < len(nums):
