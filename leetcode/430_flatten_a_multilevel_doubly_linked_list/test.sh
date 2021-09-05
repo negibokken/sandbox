@@ -29,3 +29,8 @@ EOF
 cat << EOF | try "[1,3,2]"
 [1,2,null,3]
 EOF
+
+## test case 3
+cat << EOF | try "[]"
+[]
+EOF
