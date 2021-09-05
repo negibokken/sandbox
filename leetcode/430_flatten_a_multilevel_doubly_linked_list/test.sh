@@ -21,12 +21,12 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "[1,2,3,7,8,11,12,9,10,4,5,6]"
+cat << EOF | try "[1, 2, 3, 7, 8, 11, 12, 9, 10, 4, 5, 6]"
 [1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]
 EOF
 
 ## test case 2
-cat << EOF | try "[1,3,2]"
+cat << EOF | try "[1, 3, 2]"
 [1,2,null,3]
 EOF
 
