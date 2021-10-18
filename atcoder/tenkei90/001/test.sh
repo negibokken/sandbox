@@ -7,7 +7,7 @@ try() {
   actual=`echo "$input" | python3 ./main.py`
 
   actual=`echo "$actual"`
-  actual=`echo $actual | sed 's/\n/ /g'`
+  #actual=`echo $actual | sed 's/\n/ /g'`
   expected=`echo "$expected"`
 
   if [ "$actual" = "$expected" ]; then
