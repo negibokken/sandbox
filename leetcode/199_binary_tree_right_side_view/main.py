@@ -2,6 +2,7 @@
 
 from typing import List, Optional
 import json
+from collections import deque
 from bplib.butil import TreeNode, arr2TreeNode, btreeconnect
 
 
@@ -12,20 +13,23 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect
 #         self.left = left
 #         self.right = right
 class Solution:
-    ans = {}
-
-    def dfs(self, node, depth):
-        if not node:
-            return
-        if not node.left:
-            self.dfs(node.left, depth + 1)
-        if not node.right:
-            self.dfs(node.right, depth + 1)
-
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
-        return None
+        next_level = deque([root, ])
+        right_side = []
+
+        while next_level:
+            cur_level = next_level
+            next_level = deque()
+            while cur_level:
+                node = cur_level.popleft()
+                if node.left:
+                    next_level.append(node.left)
+                if node.right:
+                    next_level.append(node.right)
+            right_side.append(node.val)
+        return right_side
 
 
 arr = json.loads(input())
