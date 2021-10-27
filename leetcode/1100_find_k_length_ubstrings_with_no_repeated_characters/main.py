@@ -9,6 +9,8 @@ class Solution:
         for i in range(len(s)):
             f = True
             mp = {}
+            if i + k > len(s):
+                continue
             for j in range(i, min(i + k, len(s))):
                 if s[j] in mp:
                     f = False
