@@ -31,7 +31,7 @@ cat << EOF | try 6
 3 -1 0 2
 EOF
 
-## test case 2
+## test case 3
 cat << EOF | try 13
 5 2
 2 -3 -1 5 -4
