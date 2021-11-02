@@ -7,12 +7,15 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect
 
 class Solution:
     def smallestRangeI(self, nums: List[int], k: int) -> int:
-        return 11
+        diff = abs(max(nums) - min(nums))
+        if diff == 0:
+            return 0
+        else:
+            return max(diff - 2 * k, 0)
 
 
 arr = json.loads(input())
 k = int(input())
-print(arr, k)
 
 sol = Solution()
 print(sol.smallestRangeI(arr, k))
