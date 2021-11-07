@@ -32,3 +32,21 @@ cat << EOF | try "[2, 0, 1]"
 [0,1,2]
 4
 EOF
+
+## test case 2
+cat << EOF | try "[]"
+[]
+1
+EOF
+
+## test case 2
+cat << EOF | try "[1]"
+[1]
+0
+EOF
+
+## test case 2
+cat << EOF | try "[1]"
+[1]
+1
+EOF
