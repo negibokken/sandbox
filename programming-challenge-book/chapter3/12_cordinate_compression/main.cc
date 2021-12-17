@@ -43,17 +43,36 @@ int compress(int *x1, int *x2, int w) {
     }
     sort(xs.begin(), xs.end());
     xs.erase(unique(xs.begin(), xs.end()), xs.end());
+    for (auto a : xs) {
+        cout << a << " ";
+    }
+    cout << endl;
 
     for (int i = 0; i < N; i++) {
+        cout << "x1[" << i << "]"
+             << "=" << x1[i] << " ";
+        cout << "x2[" << i << "]"
+             << "=" << x2[i] << " ";
         x1[i] = find(xs.begin(), xs.end(), x1[i]) - xs.begin();
         x2[i] = find(xs.begin(), xs.end(), x2[i]) - xs.begin();
     }
+    cout << endl;
+    for (int i = 0; i < xs.size(); i++) {
+        cout << x1[i] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < xs.size(); i++) {
+        cout << x2[i] << " ";
+    }
+    cout << endl;
     return xs.size();
 }
 
 void solve() {
     W = compress(X1, X2, W);
+    cout << "W: " << W << endl;
     H = compress(Y1, Y2, H);
+    cout << "H: " << H << endl;
 
     memset(fld, 0, sizeof(fld));
     for (int i = 0; i < N; i++) {
