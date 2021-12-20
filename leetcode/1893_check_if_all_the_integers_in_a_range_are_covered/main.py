@@ -2,21 +2,18 @@
 
 from typing import List
 import json
-from bplib.butil import TreeNode, arr2TreeNode, btreeconnect
 
 
 class Solution:
-    segments = []
 
     def isCovered(self, ranges: List[List[int]], left: int, right: int) -> bool:
-        cur = None
+        segments = [False] * 51
         for r in ranges:
-            if not cur:
-                cur = r
-                continue
-            if cur[1] >= r[0]:
-                if cur[0] >= r[0]:
-                    cur[0]
+            for i in range(r[0], r[1]+1):
+                segments[i] = True
+        for i in range(left, right+1):
+            if not segments[i]:
+                return False
         return True
 
 

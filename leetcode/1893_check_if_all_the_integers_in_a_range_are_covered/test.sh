@@ -33,3 +33,11 @@ cat << EOF | try False
 21
 21
 EOF
+
+
+## test case 3
+cat << EOF | try False
+[[1,1]]
+1
+50
+EOF
