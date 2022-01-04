@@ -6,7 +6,7 @@ import json
 
 class Solution:
     def findJudge(self, n: int, trust: List[List[int]]) -> int:
-        return 1
+        return 0
 
 
 n = int(input())
