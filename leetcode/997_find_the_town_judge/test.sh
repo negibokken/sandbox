@@ -20,7 +20,7 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try 3
+cat << EOF | try 2
 2
 [[1,2]]
 EOF
