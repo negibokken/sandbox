@@ -4,7 +4,7 @@ try() {
   expected="$@"
   input=`cat -`
 
-  actual=`echo "$input" | ./main`
+  actual=`echo "$input" | python3 ./main.py`
 
   actual=`echo "$actual"`
   actual=`echo $actual | sed 's/\n/ /g'`
@@ -25,17 +25,7 @@ cat << EOF | try 2
 38
 EOF
 
-## test case 1
-cat << EOF | try 2
-2
-EOF
-
 ## test case 2
 cat << EOF | try 0
 0
-EOF
-
-## test case 2
-cat << EOF | try 1
-1000000000
 EOF
