@@ -7,7 +7,7 @@ try() {
   actual=`echo "$input" | python3 ./main.py`
 
   actual=`echo "$actual"`
-  actual=`echo $actual | sed 's/\n/ /g'`
+  # actual=`echo $actual | sed 's/\n/ /g'`
   expected=`echo "$expected"`
 
   if [ "$actual" = "$expected" ]; then
@@ -21,7 +21,7 @@ try() {
 }
 
 ## test case 1
-cat << EOF | try "[0]"
+cat << EOF | try "[2]"
 [1,null,2,2]
 EOF
 
