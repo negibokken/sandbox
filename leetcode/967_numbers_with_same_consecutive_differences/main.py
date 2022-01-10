@@ -30,4 +30,4 @@ n = int(input())
 k = int(input())
 
 sol = Solution()
-print(sol.numsSameConsecDiff(n, k))
+print("{}".format(sol.numsSameConsecDiff(n, k)).replace(" ", ""))
