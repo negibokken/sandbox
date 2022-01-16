@@ -18,15 +18,18 @@ class Node:
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
-            return
+            return None
         q = deque()
+        q.append(root)
+        nextlevel = None
         while q:
             node = q.pop()
             if not node:
                 continue
-            nextlevel = deque()
+            print(node.val)
             q.append(node.left)
             q.append(node.right)
+        return None
 
 
 arr = json.loads(input())
@@ -35,11 +38,3 @@ root = btreeconnect(nodes)
 
 sol = Solution()
 ans = sol.connect(root)
-
-
-def visit(node):
-    ans = []
-    q = deque()
-    q.append(node)
-    while q:
-        node = q.pop()
