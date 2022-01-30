@@ -16,22 +16,14 @@ class ListNode:
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         dummy = ListNode()
-        dummy .next = head
-        num = 0
-        cur = dummy.next
-        while cur:
-            cur = cur.next
-            num += 1
-        i = 0
-        prev = dummy
-        cur = dummy.next
-        while cur:
-            if i == num-n:
-                prev.next = cur.next
-                break
-            prev = cur
-            cur = cur.next
-            i += 1
+        dummy.next = head
+        fast, slow = dummy, dummy
+        for i in range(n+1):
+            fast = fast.next
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
         return dummy.next
 
 
