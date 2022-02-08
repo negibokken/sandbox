@@ -30,12 +30,12 @@ cat << EOF | try 4
 "   fly me   to   the moon    "
 EOF
 
-## test case 2
+## test case 3
 cat << EOF | try 6
 "luffy is still joyboy"
 EOF
 
-## test case 2
+## test case 4
 cat << EOF | try 1
 "a"
 EOF
