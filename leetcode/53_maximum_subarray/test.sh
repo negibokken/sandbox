@@ -22,15 +22,15 @@ try() {
 
 ## test case 1
 cat << EOF | try 6
--2 1 -3 4 -1 2 1 -5 4
+[-2,1,-3,4,-1,2,1,-5,4]
 EOF
 
 ## test case 2
 cat << EOF | try 1
-1
+[1]
 EOF
 
 ## test case 2
 cat << EOF | try 23
-5 4 -1 7 8
+[5,4,-1,7,8]
 EOF
