@@ -6,12 +6,21 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect
 
 
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        return 1
+    def thousandSeparator(self, n: int) -> str:
+        i = 0
+        s = ""
+        while n > 0:
+            print(n % 10)
+            s = chr(n % 10) + s
+            n //= 10
+            i += 1
+            if i % 2 == 0 and n != 0:
+                s = '.' + s
+
+        return s
 
 
-arr = json.loads(input())
-nodes = list(map(arr2TreeNode, arr))
-root = btreeconnect(nodes)
+n = int(input())
 
 sol = Solution()
+print(sol.thousandSeparator(n))
