@@ -32,17 +32,5 @@ arr = json.loads(input())
 nodes = list(map(arr2TreeNode, arr))
 root = btreeconnect(nodes)
 
-
-def walk(root):
-    if not root:
-        return
-    print(root.val)
-    walk(root.left)
-    walk(root.right)
-
-
-walk(root)
-
-
 sol = Solution()
 print(sol.equalToDescendants(root))
