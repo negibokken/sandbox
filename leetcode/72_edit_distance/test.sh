@@ -36,4 +36,9 @@ intention
 execution
 EOF
 
+cat << EOF | try $file 10
+zoologicoarchaeologist
+zoogeologist
+EOF
+
 done
