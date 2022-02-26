@@ -1,13 +1,14 @@
 #!/bin/bash
 
 try() {
-  expected="$@"
+  file=$1
+  expected="${@:2:($#-1)}"
   input=`cat -`
 
-  actual=`echo "$input" | python3 ./main.py`
+  actual=`echo "$input" | python3 ./$file`
 
   actual=`echo "$actual"`
-  #actual=`echo $actual | sed 's/\n/ /g'`
+  actual=`echo $actual | sed 's/\n/ /g'`
   expected=`echo "$expected"`
 
   if [ "$actual" = "$expected" ]; then
@@ -20,14 +21,19 @@ try() {
   fi
 }
 
+for file in `ls *.py`; do
+echo $file "==="
+
 ## test case 1
-cat << EOF | try 3
+cat << EOF | try $file 3
 horse
 ros
 EOF
 
 ## test case 2
-cat << EOF | try 5
+cat << EOF | try $file 5
 intention
 execution
 EOF
+
+done
