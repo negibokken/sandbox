@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from typing import List
+from typing import List, Optional
 import json
 from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
@@ -19,29 +19,49 @@ class Solution:
         dummy = ListNode(0, head)
         i = 1
         prev = dummy
-        while head:
-            while left <= i and i < right:
-                self.q.append(head)
+        nxt = None
+        while head and i <= right:
+            if i < left:
                 prev = head
                 head = head.next
                 i += 1
-            prev = head
+                continue
+            self.q.append(head)
             head = head.next
             i += 1
+        while self.q:
+            node = self.q.pop()
+            prev.next = node
+            prev = node
+        prev.next = head
 
-        return None
+        return dummy.next
 
 
 arr = json.loads(input())
 prev = None
+nodes = []
 for a in arr:
     node = ListNode(a)
-    if not prev:
+    nodes.append(node)
+    if prev:
         prev.next = node
     prev = node
 
 
-left = int(inputo)
-right = int(inputo)
+left = int(input())
+right = int(input())
 
 sol = Solution()
+
+
+def d(head):
+    arr = []
+    while head:
+        arr.append(head.val)
+        head = head.next
+    return arr
+
+
+aprint(d(sol.reverseBetween(nodes[0] if len(
+    nodes) > 0 else None, left, right)))
