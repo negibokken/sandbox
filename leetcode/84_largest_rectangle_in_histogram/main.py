@@ -7,6 +7,7 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
+        # create stack
         stack = [-1]
         max_area = 0
         for i in range(len(heights)):
