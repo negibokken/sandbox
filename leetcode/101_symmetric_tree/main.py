@@ -11,10 +11,6 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 #         self.val = val
 #         self.left = left
 #         self.right = right
-def prin(a):
-    if a:
-        return a.val
-
 
 class Solution:
     def isSame(self, left, right):
