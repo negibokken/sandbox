@@ -6,12 +6,19 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
 
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        return 1
+    def majorityElement(self, nums: List[int]) -> int:
+        n = len(nums)
+        mp = {}
+        for num in nums:
+            if num not in mp:
+                mp[num] = 0
+            mp[num] += 1
+            if mp[num] > (n//2):
+                return num
+        return 0
 
 
 arr = json.loads(input())
-nodes = list(map(arr2TreeNode, arr))
-root = btreeconnect(nodes)
 
 sol = Solution()
+print(sol.majorityElement(arr))

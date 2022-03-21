@@ -24,13 +24,13 @@ for file in `ls *.py`; do
 echo $file "==="
 
 ## test case 1
-cat << EOF | try $file 1
-1
+cat << EOF | try $file 3
+[3,2,3]
 EOF
 
 ## test case 2
 cat << EOF | try $file 2
-1
+[2,2,1,1,1,2,2]
 EOF
 
 done
