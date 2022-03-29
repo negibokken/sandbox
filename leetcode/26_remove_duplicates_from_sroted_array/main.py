@@ -6,12 +6,10 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
 
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
+    def removeDuplicates(self, nums: List[int]) -> int:
         return 1
 
 
 arr = json.loads(input())
-nodes = list(map(arr2TreeNode, arr))
-root = btreeconnect(nodes)
 
 sol = Solution()
