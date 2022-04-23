@@ -12,15 +12,15 @@ class Solution:
         if num == 1:
             return True
         left, right = 0, num//2,
-        while left < right:
-            mid = (left+right)//2
+        while left <= right:
+            mid = left + (right-left)//2
             m = mid*mid
             if m == num:
                 return True
-            elif m < num:
-                left = mid + 1
+            elif m > num:
+                right = mid - 1
             else:
-                right = mid
+                left = mid + 1
 
         return False
 
