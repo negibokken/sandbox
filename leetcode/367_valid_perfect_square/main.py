@@ -11,7 +11,7 @@ class Solution:
     def isPerfectSquare(self, num: int) -> bool:
         if num == 1:
             return True
-        left, right = 0, 2**31 - 1
+        left, right = 0, num//2,
         while left < right:
             mid = (left+right)//2
             m = mid*mid
