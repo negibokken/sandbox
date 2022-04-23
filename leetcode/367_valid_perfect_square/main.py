@@ -3,18 +3,25 @@
 from typing import List
 import json
 from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
+import sys
 
 
 class Solution:
+
     def isPerfectSquare(self, num: int) -> bool:
         if num == 1:
             return True
-        i = 1
-        n = num//2
-        while i <= n:
-            if i*i == num:
+        left, right = 0, 2**31 - 1
+        while left < right:
+            mid = (left+right)//2
+            m = mid*mid
+            if m == num:
                 return True
-            i += 1
+            elif m < num:
+                left = mid + 1
+            else:
+                right = mid
+
         return False
 
 

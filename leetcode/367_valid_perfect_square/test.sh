@@ -40,7 +40,7 @@ EOF
 
 ## test case 2
 cat << EOF | try $file False
-2
+2000105819
 EOF
 
 ## test case 2
