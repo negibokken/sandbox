@@ -10,7 +10,8 @@ class Solution:
         if num == 1:
             return True
         i = 1
-        while i < num//2:
+        n = num//2
+        while i <= n:
             if i*i == num:
                 return True
             i += 1

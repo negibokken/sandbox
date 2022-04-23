@@ -44,7 +44,7 @@ cat << EOF | try $file False
 EOF
 
 ## test case 2
-cat << EOF | try $file False
+cat << EOF | try $file True
 4
 EOF
 
