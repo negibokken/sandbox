@@ -3,15 +3,23 @@
 from typing import List
 import json
 from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
+import sys
 
 
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        return 1
+    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+        arr = sorted(arr)
+        mindiff = sys.maxsize
+        for i in range(len(arr)-1):
+            mindiff = min(arr[i+1]-arr[i], mindiff)
+        ans = []
+        for i in range(len(arr)-1):
+            if arr[i+1] - arr[i] == mindiff:
+                ans.append([arr[i], arr[i+1]])
+        return ans
 
 
 arr = json.loads(input())
-nodes = list(map(arr2TreeNode, arr))
-root = btreeconnect(nodes)
 
 sol = Solution()
+aprint(sol.minimumAbsDifference(arr))
