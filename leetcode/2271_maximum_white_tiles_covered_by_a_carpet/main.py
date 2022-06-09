@@ -9,7 +9,6 @@ from operator import itemgetter
 class Solution:
     def maximumWhiteTiles(self, tiles: List[List[int]], carpetLen: int) -> int:
         tiles = sorted(tiles, key=lambda tile: tile[0])
-        print(tiles)
         temp = []
         i, j, ans, current, N = 0, 0, 0, 0, len(tiles)
         prev = None
