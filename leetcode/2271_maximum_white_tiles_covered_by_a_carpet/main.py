@@ -11,6 +11,7 @@ class Solution:
         tiles = sorted(tiles, key=lambda tile: tile[0])
         temp = []
         i, j, ans, current, N = 0, 0, 0, 0, len(tiles)
+        print(temp)
         prev = None
         while i < N:
             tile = tiles[i]
