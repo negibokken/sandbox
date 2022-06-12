@@ -24,9 +24,7 @@ class Solution:
         m, n = len(grid[0]), len(grid)
 
         def bfs(curx, cury):
-            for i in range(4):
-                x, y = dir[i]
-                nextx, nexty = curx + x, cury + y
+            for nextx, nexty in ((curx+1, cury), (curx, cury+1), (curx-1, cury), (curx, cury-1)):
                 if not (0 <= nextx < m) or not (0 <= nexty < n):
                     continue
                 offset = 0
@@ -38,7 +36,7 @@ class Solution:
                     if i - offset < 0:
                         continue
                     cur = dp[i-offset][nexty][nextx]
-                    dp[i-offset][nexty][nextx] = min(dp[i-1]
+                    dp[i-offset][nexty][nextx] = min(dp[i-offset]
                                                      [nexty][nextx], dp[i][cury][curx] + 1)
                     if cur != dp[i-offset][nexty][nextx]:
                         updated = True
