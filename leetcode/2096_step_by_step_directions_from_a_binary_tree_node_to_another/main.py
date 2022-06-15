@@ -7,6 +7,7 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
 class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        return ''
 
 
 arr = json.loads(input())
