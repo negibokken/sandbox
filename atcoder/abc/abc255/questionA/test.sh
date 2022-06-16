@@ -33,3 +33,10 @@ cat << EOF | try 4
 1 2
 3 4
 EOF
+
+## test case 2
+cat << EOF | try 70
+2 1
+90 80
+70 60
+EOF
