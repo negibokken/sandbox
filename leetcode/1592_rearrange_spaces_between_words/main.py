@@ -6,12 +6,16 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 
 
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        return 1
+    def reorderSpaces(self, text: str) -> str:
+        words = text.split()
+        word_num = len(words)
+        space_num = text.count(' ')
+        gap = 0 if word_num == 1 else space_num // (word_num-1)
+        trailing_space = space_num - gap * (word_num-1)
+        return (' ' * gap).join(words) + ' ' * trailing_space
 
 
-arr = json.loads(input())
-nodes = list(map(arr2TreeNode, arr))
-root = btreeconnect(nodes)
+text = json.loads(input())
 
 sol = Solution()
+print(sol.reorderSpaces(text))

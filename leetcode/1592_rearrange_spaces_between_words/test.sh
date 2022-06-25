@@ -8,7 +8,7 @@ try() {
   actual=`echo "$input" | python3 ./$file`
 
   actual=`echo "$actual"`
-  actual=`echo $actual | sed 's/\n/ /g'`
+  # actual=`echo $actual | sed 's/\n/ /g'`
   expected=`echo "$expected"`
 
   if [ "$actual" = "$expected" ]; then
@@ -24,13 +24,13 @@ for file in `ls *.py`; do
 echo $file "==="
 
 ## test case 1
-cat << EOF | try $file 1
-1
+cat << EOF | try $file "this   is   a   sentence"
+"  this   is  a sentence "
 EOF
 
 ## test case 2
-cat << EOF | try $file 2
-1
+cat << EOF | try $file "practice   makes   perfect "
+" practice   makes   perfect"
 EOF
 
 done
