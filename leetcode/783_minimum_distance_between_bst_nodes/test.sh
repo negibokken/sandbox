@@ -25,12 +25,12 @@ echo $file "==="
 
 ## test case 1
 cat << EOF | try $file 1
-1
+[4,2,6,1,3]
 EOF
 
 ## test case 2
-cat << EOF | try $file 2
-1
+cat << EOF | try $file 1
+[1,0,48,null,null,12,49]
 EOF
 
 done
