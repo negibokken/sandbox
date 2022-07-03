@@ -8,14 +8,18 @@ from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 class Solution:
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         arr = []
-
-        def dfs(node):
-            if not node:
-                return
+        stack = []
+        if not root:
+            return arr
+        stack.append(root)
+        while stack:
+            node = stack.pop()
             arr.append(node.val)
-            dfs(node.left)
-            dfs(node.right)
-        dfs(root)
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+
         return arr
 
 
