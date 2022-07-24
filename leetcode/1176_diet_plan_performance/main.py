@@ -9,6 +9,7 @@ class Solution:
     def dietPlanPerformance(self, calories: List[int], k: int, lower: int, upper: int) -> int:
         seq = []
         t = 0
+        # summarize
         for i in range(k-1):
             t += calories[i]
         for i in range(k-1, len(calories)):
