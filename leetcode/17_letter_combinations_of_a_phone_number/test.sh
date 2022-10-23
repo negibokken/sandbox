@@ -8,7 +8,7 @@ try() {
   actual=`echo "$input" | python3 ./$file`
 
   actual=`echo "$actual"`
-  actual=`echo $actual | sed 's/\n/ /g'`
+  # actual=`echo $actual | sed 's/\n/ /g'`
   expected=`echo "$expected"`
 
   if [ "$actual" = "$expected" ]; then
@@ -29,7 +29,7 @@ cat << EOF | try $file "['ad','ae','af','bd','bf','cd','ce','cf']"
 EOF
 
 ## test case 2
-cat << EOF | try $file ""
+cat << EOF | try $file "[]"
 ""
 EOF
 

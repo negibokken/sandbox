@@ -13,14 +13,18 @@ chars = [
 
 
 class Solution:
-    def helper(self, digits, i) -> [str]:
-        arr = []
+    def helper(self, digits, i, s) -> [str]:
+        if len(digits) == 0:
+            return []
+        if i == len(digits) or i == -1:
+            return [s]
+        ans = []
         for n in chars[int(digits[i])]:
-            arr.append(n)
-        return arr
+            ans = ans + self.helper(digits, i+1, s + n)
+        return ans
 
     def letterCombinations(self, digits) -> [str]:
-        self.helper(digits, 0)
+        return self.helper(digits, 0, '')
 
 
 str = json.loads(input())
