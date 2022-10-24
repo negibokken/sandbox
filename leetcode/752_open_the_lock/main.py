@@ -4,34 +4,32 @@ from typing import List
 import json
 from bplib.butil import TreeNode, arr2TreeNode, btreeconnect, aprint
 import sys
+import collections
 
-inf = sys.maxsize
 
+class Solution(object):
+    def openLock(self, deadends, target):
+        def neighbors(node):
+            for i in range(4):
+                x = int(node[i])
+                for d in (-1, 1):
+                    y = (x + d) % 10
+                    yield node[:i] + str(y) + node[i+1:]
 
-class Solution:
-    def helper(self, deadendSet, target, current, n) -> int:
-        if current in deadendSet:
-            return inf
-        if (n != 0) and (current == "0000"):
-            return inf
-        if current == target:
-            return n
-        ans = inf
-        for i in [-1, 1]:
-            for j in [0, 1, 2, 3]:
-                num = int(current[j])
-                nextlock = current
-                nx = (num + 10 + i) % 10
-                nextlock = nextlock[:j] + chr(nx + 48) + nextlock[j+1:]
-                ans = min(ans, self.helper(deadendSet, target, nextlock, n+1))
-        return ans
-
-    def openLock(self, deadends: List[str], target: str) -> int:
-        s = set(deadends)
-        ans = self.helper(s, target, "0000", 0)
-        if ans == inf:
-            return -1
-        return ans
+        dead = set(deadends)
+        queue = collections.deque([('0000', 0)])
+        seen = {'0000'}
+        while queue:
+            node, depth = queue.popleft()
+            if node == target:
+                return depth
+            if node in dead:
+                continue
+            for nei in neighbors(node):
+                if nei not in seen:
+                    seen.add(nei)
+                    queue.append((nei, depth+1))
+        return -1
 
 
 arr = json.loads(input())

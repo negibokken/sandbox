@@ -29,16 +29,16 @@ cat << EOF | try $file 6
 "0202"
 EOF
 
-# ## test case 2
-# cat << EOF | try $file 1
-# ["8888"]
-# "0009"
-# EOF
-# 
-# ## test case 3
-# cat << EOF | try $file -1
-# ["8887","8889","8878","8898","8788","8988","7888","9888"]
-# "8888"
-# EOF
+## test case 2
+cat << EOF | try $file 1
+["8888"]
+"0009"
+EOF
+
+## test case 3
+cat << EOF | try $file -1
+["8887","8889","8878","8898","8788","8988","7888","9888"]
+"8888"
+EOF
 
 done
