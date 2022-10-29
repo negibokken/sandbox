@@ -18,6 +18,7 @@ class Solution(object):
                 return depth
             if node in dead:
                 continue
+            # 4
             for i in range(4):
                 x = int(node[i])
                 for d in (-1, 1):
