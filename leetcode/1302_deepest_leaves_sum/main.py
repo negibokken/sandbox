@@ -16,12 +16,12 @@ class Solution:
         self.maximumDepth = 0
         self.sum = 0
 
-    def bfs(self, root: Optional[TreeNode], depth: int):
+    def dfs(self, root: Optional[TreeNode], depth: int):
         if not root:
             return
         self.maximumDepth = max(self.maximumDepth, depth)
-        self.bfs(root.left, depth+1)
-        self.bfs(root.right, depth+1)
+        self.dfs(root.left, depth+1)
+        self.dfs(root.right, depth+1)
 
     def sumDeepestLeaves(self, root: Optional[TreeNode], depth: int):
         if not root:
@@ -32,7 +32,7 @@ class Solution:
         self.sumDeepestLeaves(root.right, depth+1)
 
     def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
-        self.bfs(root, 0)
+        self.dfs(root, 0)
         self.sumDeepestLeaves(root, 0)
         return self.sum
 
