@@ -49,7 +49,6 @@ for e in list1:
     if prev:
         prev.next = e
     prev = e
-# printListNode(list1[0])
 a = json.loads(input())
 b = json.loads(input())
 list2_raw = json.loads(input())
@@ -59,8 +58,6 @@ for e in list2:
     if prev:
         prev.next = e
     prev = e
-# printListNode(list2[0])
-# printListNode(list2[0])
 sol = Solution()
 ans = sol.mergeInBetween(list1[0], a, b, list2[1])
 arr = []
