@@ -13,6 +13,8 @@ class Solution:
         ans = 0
         for y in range(m):
             for x in range(n):
+                if visited[y][x] or grid[y][x] == 0:
+                    continue
                 cnt = 0
                 q = deque()
                 q.append((y, x))
