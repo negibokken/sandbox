@@ -13,24 +13,24 @@ class Solution:
         ans = 0
         for y in range(m):
             for x in range(n):
-                if visited[y][x] or grid[y][x] == 0:
-                    continue
                 cnt = 0
                 q = deque()
                 q.append((y, x))
                 while q:
-                    y, x = q.pop()
-                    if y < 0 or x < 0 or y >= m or x >= n:
+                    _y, _x = q.pop()
+                    if _y < 0 or _x < 0 or _y >= m or _x >= n:
                         continue
-                    if visited[y][x] or grid[y][x] == 0:
+                    if visited[_y][_x]:
                         continue
-                    visited[y][x] = True
-                    if grid[y][x] == 1:
+                    visited[_y][_x] = True
+                    if grid[_y][_x] == 0:
+                        continue
+                    if grid[_y][_x] == 1:
                         cnt += 1
-                        q.append((y-1, x))
-                        q.append((y+1, x))
-                        q.append((y, x+1))
-                        q.append((y, x-1))
+                        q.append((_y-1, _x))
+                        q.append((_y+1, _x))
+                        q.append((_y, _x+1))
+                        q.append((_y, _x-1))
                 ans = max(ans, cnt)
         return ans
 
